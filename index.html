@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FISKENS FANZINE — ISSUE #1: THE NIGHT MESSAGES</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Rubik+Mono+One&family=Permanent+Marker&family=Rock+Salt&family=Special+Elite&family=Creepster&family=Nosifer&family=Metal+Mania&family=Lacquer&family=Keania+One&family=Press+Start+2P&family=Bangers&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff006e;
+            --acid-yellow: #fbff00;
+            --toxic-green: #39ff14;
+            --blood-red: #8b0000;
+            --deep-purple: #4a0080;
+            --void-black: #0a0a0a;
+            --ice-blue: #00d4ff;
+            --bone-white: #f5f5dc;
+            --copper: #b87333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes glitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+            40% { transform: translate(2px, -2px); filter: hue-rotate(180deg); }
+            60% { transform: translate(-2px, -2px); filter: hue-rotate(270deg); }
+            80% { transform: translate(2px, 2px); filter: hue-rotate(360deg); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            52% { opacity: 0.3; }
+            54% { opacity: 1; }
+            90% { opacity: 0.9; }
+            92% { opacity: 0.4; }
+            94% { opacity: 1; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-5px) rotate(-1deg); }
+            20% { transform: translateX(5px) rotate(1deg); }
+            30% { transform: translateX(-5px) rotate(-1deg); }
+            40% { transform: translateX(5px) rotate(1deg); }
+            50% { transform: translateX(-3px) rotate(-0.5deg); }
+            60% { transform: translateX(3px) rotate(0.5deg); }
+            70% { transform: translateX(-2px); }
+            80% { transform: translateX(2px); }
+            90% { transform: translateX(-1px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(2deg); }
+            50% { transform: translateY(-10px) rotate(-1deg); }
+            75% { transform: translateY(-30px) rotate(1deg); }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink); }
+            50% { box-shadow: 0 0 40px var(--acid-yellow), 0 0 80px var(--acid-yellow); }
+        }
+
+        @keyframes text-scramble {
+            0% { content: "F1SK3NS"; }
+            25% { content: "F*SK#NS"; }
+            50% { content: "F!SK3NS"; }
+            75% { content: "F#SK*NS"; }
+            100% { content: "FISKENS"; }
+        }
+
+        body {
+            background: var(--void-black);
+            color: var(--bone-white);
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+        }
+
+        .scanlines::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 10px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 0, 110, 0.1), transparent);
+            animation: scanline 4s linear infinite;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* ==================== COVER ==================== */
+        .cover {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr auto auto;
+            position: relative;
+            overflow: hidden;
+            background: 
+                radial-gradient(ellipse at 20% 80%, var(--deep-purple) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, var(--blood-red) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, var(--neon-pink) 0%, transparent 60%),
+                var(--void-black);
+        }
+
+        .cover-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://gen.pollinations.ai/image/Anime%20waifu%20in%20blue%20curling%20uniform%20emerging%20from%20dark%20shadows%2C%20creepy%20glowing%20eyes%2C%20horror%20atmosphere%2C%20neon%20pink%20and%20blood%20red%20lighting%2C%20xerox%20texture%2C%20glitch%20art%2C%20experimental%20graphic%20design%2C%20brutalist%20composition?model=flux&width=1024&height=1024&quality=medium&seed=91665556&nologo=true');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+            filter: contrast(1.2) saturate(1.5);
+            mix-blend-mode: overlay;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 0, 110, 0.03) 10px, rgba(255, 0, 110, 0.03) 20px);
+        }
+
+        .cover-title {
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+        }
+
+        .cover-title h1 {
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(3rem, 15vw, 12rem);
+            line-height: 0.85;
+            text-align: center;
+            color: var(--neon-pink);
+            text-shadow: 
+                4px 4px 0 var(--acid-yellow),
+                8px 8px 0 var(--toxic-green),
+                12px 12px 0 var(--deep-purple),
+                0 0 60px var(--neon-pink);
+            animation: glitch 3s infinite;
+            letter-spacing: -0.05em;
+            mix-blend-mode: screen;
+        }
+
+        .cover-title .subtitle {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--bone-white);
+            margin-top: 2rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            transform: rotate(-2deg);
+            border-bottom: 3px solid var(--blood-red);
+            padding-bottom: 0.5rem;
+        }
+
+        .cover-issue {
+            grid-row: 3;
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            border-top: 1px solid var(--neon-pink);
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 10;
+        }
+
+        .cover-issue span { animation: flicker 4s infinite; }
+
+        .cover-decoration {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .corner {
+            position: absolute;
+            width: 100px; height: 100px;
+            border: 3px solid var(--acid-yellow);
+        }
+
+        .corner:nth-child(1) { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .corner:nth-child(2) { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+        .corner:nth-child(3) { bottom: 80px; left: 20px; border-right: none; border-top: none; }
+        .corner:nth-child(4) { bottom: 80px; right: 20px; border-left: none; border-top: none; }
+
+        .reg-marks {
+            position: absolute;
+            width: 20px; height: 20px;
+        }
+
+        .reg-marks::before, .reg-marks::after {
+            content: '';
+            position: absolute;
+            background: var(--copper);
+        }
+
+        .reg-marks::before { width: 20px; height: 1px; top: 10px; left: 0; }
+        .reg-marks::after { width: 1px; height: 20px; top: 0; left: 10px; }
+
+        .reg-marks.tl { top: 10px; left: 10px; }
+        .reg-marks.tr { top: 10px; right: 10px; }
+        .reg-marks.bl { bottom: 10px; left: 10px; }
+        .reg-marks.br { bottom: 10px; right: 10px; }
+
+        /* ==================== AWAKENING ==================== */
+        .awakening {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 55% 45%;
+            position: relative;
+            background: var(--void-black);
+            border-top: 10px solid var(--blood-red);
+        }
+
+        .awakening-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            background: 
+                linear-gradient(135deg, rgba(138, 0, 0, 0.2) 0%, transparent 50%),
+                repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255, 0, 110, 0.05) 50px, rgba(255, 0, 110, 0.05) 51px);
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--copper);
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--neon-pink);
+            padding-left: 1rem;
+        }
+
+        .awakening h2 {
+            font-family: 'Metal Mania', cursive;
+            font-size: clamp(2rem, 6vw, 5rem);
+            color: var(--bone-white);
+            line-height: 1;
+            margin-bottom: 2rem;
+            transform: rotate(-1deg);
+        }
+
+        .awakening-text {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--bone-white);
+            max-width: 600px;
+        }
+
+        .awakening-text p {
+            margin-bottom: 1.5rem;
+            text-indent: 2rem;
+        }
+
+        .awakening-text p:first-of-type::first-letter {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 4rem;
+            float: left;
+            line-height: 1;
+            margin-right: 0.5rem;
+            color: var(--neon-pink);
+        }
+
+        .dala-quote {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.5rem;
+            color: var(--acid-yellow);
+            border-left: 5px solid var(--toxic-green);
+            padding-left: 1rem;
+            margin: 2rem 0;
+            transform: rotate(1deg);
+        }
+
+        .awakening-right {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .awakening-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.3) saturate(0.8);
+        }
+
+        .awakening-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to left, transparent 0%, var(--void-black) 100%);
+        }
+
+        /* ==================== VICTIMS ==================== */
+        .victims {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, var(--void-black) 0%, var(--deep-purple) 100%);
+            position: relative;
+        }
+
+        .victims-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .victims-header h2 {
+            font-family: 'Creepster', cursive;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            color: var(--blood-red);
+            text-shadow: 3px 3px 0 var(--neon-pink);
+            letter-spacing: 0.1em;
+        }
+
+        .victims-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .victim-card {
+            position: relative;
+            aspect-ratio: 3/4;
+            background: var(--void-black);
+            border: 2px solid var(--neon-pink);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .victim-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(255, 0, 110, 0.3);
+            z-index: 10;
+        }
+
+        .victim-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(138, 0, 0, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .victim-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.3) contrast(1.2);
+        }
+
+        .victim-number {
+            position: absolute;
+            top: 10px; left: 10px;
+            font-family: 'Rubik Mono One', sans-serif;
+            font-size: 3rem;
+            color: var(--acid-yellow);
+            opacity: 0.3;
+            z-index: 2;
+        }
+
+        .victim-name {
+            position: absolute;
+            bottom: 20px;
+            left: 10px; right: 10px;
+            font-family: 'Keania One', cursive;
+            font-size: 1.2rem;
+            color: var(--bone-white);
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            line-height: 1.2;
+        }
+
+        .victim-card:nth-child(1) { border-color: var(--neon-pink); transform: rotate(-2deg); }
+        .victim-card:nth-child(2) { border-color: var(--toxic-green); transform: rotate(1deg); margin-top: 20px; }
+        .victim-card:nth-child(3) { border-color: var(--acid-yellow); transform: rotate(-1deg); }
+        .victim-card:nth-child(4) { border-color: var(--blood-red); transform: rotate(2deg); margin-top: 30px; }
+        .victim-card:nth-child(5) { border-color: var(--ice-blue); transform: rotate(-1deg); }
+
+        /* ==================== MESSAGES ==================== */
+        .messages {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--void-black);
+            position: relative;
+        }
+
+        .messages-left {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: radial-gradient(ellipse at 100% 50%, var(--deep-purple) 0%, transparent 70%);
+        }
+
+        .messages-left h2 {
+            font-family: 'Lacquer', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: var(--toxic-green);
+            margin-bottom: 2rem;
+            transform: rotate(-2deg);
+        }
+
+        .message-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .text-message {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--neon-pink);
+            padding: 1.5rem;
+            font-family: 'Special Elite', monospace;
+            font-size: 1rem;
+            color: var(--bone-white);
+            position: relative;
+            transform: rotate(-1deg);
+        }
+
+        .text-message:nth-child(even) {
+            border-left-color: var(--toxic-green);
+            transform: rotate(1deg);
+            margin-left: 2rem;
+        }
+
+        .text-message .sender {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--copper);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .text-message .content { line-height: 1.6; }
+
+        .text-message .timestamp {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        .messages-right {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .messages-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.2);
+        }
+
+        /* ==================== HAUNTING ==================== */
+        .haunting {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background: var(--void-black);
+        }
+
+        .haunting-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, var(--blood-red) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, var(--deep-purple) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, var(--neon-pink) 0%, transparent 60%);
+            filter: blur(50px);
+            animation: rotate-slow 60s linear infinite;
+        }
+
+        .haunting-content {
+            position: relative;
+            z-index: 10;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .haunting h2 {
+            grid-column: 1 / -1;
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(2rem, 6vw, 5rem);
+            color: var(--bone-white);
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px var(--blood-red);
+        }
+
+        .haunt-panel {
+            aspect-ratio: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .haunt-panel:nth-child(2) { border-color: var(--neon-pink); transform: rotate(3deg); }
+        .haunt-panel:nth-child(3) { border-color: var(--toxic-green); transform: rotate(-2deg); margin-top: 40px; }
+        .haunt-panel:nth-child(4) { border-color: var(--acid-yellow); transform: rotate(1deg); }
+        .haunt-panel:nth-child(5) { border-color: var(--blood-red); transform: rotate(-3deg); margin-top: 20px; }
+        .haunt-panel:nth-child(6) { border-color: var(--ice-blue); transform: rotate(2deg); }
+        .haunt-panel:nth-child(7) { border-color: var(--deep-purple); transform: rotate(-1deg); margin-top: 30px; }
+
+        .haunt-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            filter: contrast(1.3) brightness(0.8);
+        }
+
+        .panel-content {
+            position: absolute;
+            bottom: 0;
+            left: 0; right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem;
+        }
+
+        .panel-title {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            color: var(--bone-white);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            line-height: 1;
+        }
+
+        .panel-desc {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--copper);
+            margin-top: 0.5rem;
+        }
+
+        /* ==================== PROPHECY ==================== */
+        .prophecy {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            background: linear-gradient(135deg, var(--blood-red) 0%, var(--deep-purple) 50%, var(--void-black) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prophecy::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(0, 0, 0, 0.1) 50px, rgba(0, 0, 0, 0.1) 100px);
+        }
+
+        .prophecy-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://gen.pollinations.ai/image/Ancient%20scroll%20with%20mysterious%20prophecy%20text%2C%20occult%20symbols%2C%20dark%20ritual%20atmosphere%2C%20blood%20red%20and%20gold%2C%20weathered%20parchment%20texture%2C%20horror%20art%2C%20experimental%20design?model=flux&width=1024&height=1024&quality=medium&seed=1157794697&nologo=true');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            mix-blend-mode: overlay;
+        }
+
+        .scroll-container {
+            position: relative;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--copper);
+            padding: 4rem;
+            transform: rotate(-1deg);
+        }
+
+        .scroll-container::before, .scroll-container::after {
+            content: '✦';
+            position: absolute;
+            font-size: 2rem;
+            color: var(--copper);
+        }
+
+        .scroll-container::before { top: 20px; left: 20px; }
+        .scroll-container::after { bottom: 20px; right: 20px; }
+
+        .prophecy h2 {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: var(--copper);
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: 0.2em;
+        }
+
+        .prophecy-text {
+            font-family: 'Special Elite', monospace;
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--bone-white);
+            text-align: center;
+        }
+
+        .prophecy-text p { margin-bottom: 1.5rem; }
+
+        .prophecy-line {
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.5rem;
+            color: var(--neon-pink);
+            display: block;
+            margin: 1rem 0;
+            animation: flicker 4s infinite;
+        }
+
+        /* ==================== COMIC ==================== */
+        .comic {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            background: var(--void-black);
+            position: relative;
+        }
+
+        .comic h2 {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(2rem, 6vw, 5rem);
+            color: var(--acid-yellow);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 4px 4px 0 var(--blood-red);
+            letter-spacing: 0.1em;
+        }
+
+        .comic-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 300px);
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .comic-panel {
+            background: var(--void-black);
+            border: 3px solid var(--bone-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comic-panel:nth-child(1) { 
+            grid-column: span 2; 
+            grid-row: span 2;
+            border-color: var(--neon-pink);
+        }
+        .comic-panel:nth-child(2) { border-color: var(--toxic-green); }
+        .comic-panel:nth-child(3) { border-color: var(--acid-yellow); }
+        .comic-panel:nth-child(4) { border-color: var(--blood-red); }
+        .comic-panel:nth-child(5) { border-color: var(--ice-blue); }
+        .comic-panel:nth-child(6) { 
+            grid-column: span 2;
+            border-color: var(--deep-purple);
+        }
+
+        .comic-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.2);
+        }
+
+        .panel-number {
+            position: absolute;
+            top: 10px; left: 10px;
+            font-family: 'Rubik Mono One', sans-serif;
+            font-size: 1.5rem;
+            color: var(--bone-white);
+            opacity: 0.5;
+            z-index: 2;
+        }
+
+        .panel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0; right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 0.9rem;
+            color: var(--bone-white);
+            border-top: 2px solid var(--neon-pink);
+        }
+
+        .sound-effect {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-family: 'Bangers', cursive;
+            font-size: 2rem;
+            color: var(--acid-yellow);
+            text-shadow: 2px 2px 0 var(--blood-red);
+            transform: rotate(-15deg);
+            animation: shake 0.5s infinite;
+            z-index: 3;
+        }
+
+        /* ==================== MANIFESTO ==================== */
+        .manifesto {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            background: linear-gradient(180deg, var(--void-black) 0%, var(--blood-red) 50%, var(--void-black) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .manifesto-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://gen.pollinations.ai/image/Psychological%20warfare%20manifesto%20poster%2C%20aggressive%20typography%2C%20red%20and%20black%20colors%2C%20revolutionary%20aesthetic%2C%20propaganda%20style%2C%20grain%20texture%2C%20experimental%20graphic%20design?model=flux&width=1024&height=1024&quality=medium&seed=1969822702&nologo=true');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        .manifesto-grid {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(90deg, rgba(255, 0, 110, 0.1) 1px, transparent 1px),
+                linear-gradient(rgba(255, 0, 110, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: rotate-slow 120s linear infinite;
+        }
+
+        .manifesto-content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .manifesto h2 {
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(2rem, 7vw, 6rem);
+            color: var(--neon-pink);
+            margin-bottom: 3rem;
+            line-height: 1;
+            animation: glitch 3s infinite;
+        }
+
+        .manifesto-body {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1.2rem;
+            line-height: 2;
+            color: var(--bone-white);
+            text-align: left;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 3rem;
+            border: 1px solid var(--neon-pink);
+            transform: rotate(1deg);
+        }
+
+        .manifesto-body p {
+            margin-bottom: 1.5rem;
+            text-indent: 2rem;
+        }
+
+        .manifesto-signature {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2rem;
+            color: var(--acid-yellow);
+            text-align: right;
+            margin-top: 2rem;
+            transform: rotate(-3deg);
+        }
+
+        /* MARQUEE */
+        .marquee-container {
+            position: fixed;
+            bottom: 0;
+            left: 0; right: 0;
+            background: var(--neon-pink);
+            color: var(--void-black);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            padding: 0.5rem 0;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+
+        /* SVG FILTERS */
+        .svg-filters { position: absolute; width: 0; height: 0; }
+
+        /* UTILITIES */
+        .glitch-hover:hover { animation: glitch 0.3s infinite; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .awakening { grid-template-columns: 1fr; }
+            .messages { grid-template-columns: 1fr; }
+            .victims-grid { grid-template-columns: repeat(2, 1fr); }
+            .haunting-content { grid-template-columns: 1fr 1fr; }
+            .comic-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+        }
+
+        @media (max-width: 768px) {
+            .victims-grid { grid-template-columns: 1fr; }
+            .haunting-content { grid-template-columns: 1fr; }
+            .comic-grid { grid-template-columns: 1fr; }
+            .comic-panel:nth-child(1),
+            .comic-panel:nth-child(6) { grid-column: span 1; grid-row: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- SVG FILTERS -->
+    <svg class="svg-filters">
+        <defs>
+            <filter id="turbulence">
+                <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="turbulence"/>
+                <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="20" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <filter id="distort">
+                <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="3" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="30"/>
+            </filter>
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- OVERLAYS -->
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+
+    <!-- REGISTRATION MARKS -->
+    <div class="reg-marks tl"></div>
+    <div class="reg-marks tr"></div>
+    <div class="reg-marks bl"></div>
+    <div class="reg-marks br"></div>
+
+    <!-- SECTION 1: COVER -->
+    <section class="cover">
+        <div class="cover-bg"></div>
+        <div class="cover-decoration">
+            <div class="corner"></div>
+            <div class="corner"></div>
+            <div class="corner"></div>
+            <div class="corner"></div>
+        </div>
+        <div class="cover-title">
+            <h1>FISKENS<br>FANZINE</h1>
+            <p class="subtitle">En tidning om evig vinter och förrädisk is</p>
+        </div>
+        <div class="cover-issue">
+            <span>NUMMER #1</span>
+            <span>MARS 2026</span>
+            <span>SUNDკYBERG</span>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE AWAKENING -->
+    <section class="awakening">
+        <div class="awakening-left">
+            <span class="section-label">Kapitel I</span>
+            <h2>DE VAKNAR<br>INATT</h2>
+            <div class="awakening-text">
+                <p>Klockan var 03:14 när det första meddelandet kom. Inte från någon de kände. Inte från någon de kunde se. Fem män i fem olika sängar, fem olika städer, samma skräck.</p>
+                
+                <div class="dala-quote">"Man ska inte gråta över spilld mjölk när grannen har bränt hela ladan."</div>
+                
+                <p>Telefonerna lyste upp deras ansikten med ett sjukt grönt sken. Meddelandena var korta. Kryptiska. Som om någon visste exakt vad de drömde om, exakt vad de fruktade.</p>
+                
+                <p>Johan Nygren satt rakt upp i sängen. Daniel Berggren vågade inte ens röra sig. Victor Martinsson trodde han fortfarande sov. Johan Järvenson visste att det var på riktigt. Och Ture Rodling — yngst av dem alla — han började gråta.</p>
+            </div>
+        </div>
+        <div class="awakening-right">
+            <img src="https://gen.pollinations.ai/image/Terrified%20Swedish%20man%20looking%20at%20phone%20in%20dark%20bedroom%2C%20phone%20screen%20illuminating%20scared%20face%2C%20horror%20comic%20style%2C%20neon%20green%20light%2C%20high%20contrast%2C%20grainy%20texture%2C%20experimental%20art?model=flux&width=1024&height=1024&quality=medium&seed=1175461164&nologo=true" alt="" class="awakening-img">
+            <div class="awakening-overlay"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE FIVE VICTIMS -->
+    <section class="victims">
+        <div class="victims-header">
+            <span class="section-label">Kapitel II</span>
+            <h2>DE FEM OFFREN</h2>
+        </div>
+        <div class="victims-grid">
+            <div class="victim-card">
+                <div class="victim-number">01</div>
+                <img src="https://gen.pollinations.ai/image/Portrait%20of%20terrified%20Swedish%20man%20Johan%20with%20curly%20hair%2C%20looking%20at%20phone%20in%20dark%20room%2C%20phone%20illuminating%20face%2C%20horror%20expression%2C%20neon%20pink%20lighting%2C%20comic%20style%2C%20high%20contrast?model=flux&width=1024&height=1024&quality=medium&seed=1424698732&nologo=true" alt="" class="victim-img">
+                <div class="victim-name">Johan<br>Nygren</div>
+            </div>
+            <div class="victim-card">
+                <div class="victim-number">02</div>
+                <img src="https://gen.pollinations.ai/image/Portrait%20of%20scared%20man%20Daniel%20receiving%20creepy%20text%20message%2C%20dark%20bedroom%2C%20phone%20glow%20on%20face%2C%20horror%20comic%20style%2C%20toxic%20green%20lighting%2C%20grainy%20texture?model=flux&width=1024&height=1024&quality=medium&seed=296567208&nologo=true" alt="" class="victim-img">
+                <div class="victim-name">Daniel<br>Berggren</div>
+            </div>
+            <div class="victim-card">
+                <div class="victim-number">03</div>
+                <img src="https://gen.pollinations.ai/image/Portrait%20of%20frightened%20man%20Victor%20looking%20at%20phone%20in%20darkness%2C%20shadows%20creeping%2C%20horror%20atmosphere%2C%20acid%20yellow%20lighting%2C%20high%20contrast?model=flux&width=1024&height=1024&quality=medium&seed=978813120&nologo=true" alt="" class="victim-img">
+                <div class="victim-name">Victor<br>Martinsson</div>
+            </div>
+            <div class="victim-card">
+                <div class="victim-number">04</div>
+                <img src="https://gen.pollinations.ai/image/Portrait%20of%20terrified%20man%20Johan%20J%20with%20phone%20screen%20in%20dark%20room%2C%20supernatural%20horror%2C%20blood%20red%20lighting%2C%20comic%20book%20art?model=flux&width=1024&height=1024&quality=medium&seed=482909869&nologo=true" alt="" class="victim-img">
+                <div class="victim-name">Johan<br>Järvenson</div>
+            </div>
+            <div class="victim-card">
+                <div class="victim-number">05</div>
+                <img src="https://gen.pollinations.ai/image/Portrait%20of%20scared%20young%20man%20Ture%20receiving%20mysterious%20message%20at%20night%2C%20phone%20illuminating%20face%2C%20deep%20purple%20lighting%2C%20experimental%20art?model=flux&width=1024&height=1024&quality=medium&seed=518173902&nologo=true" alt="" class="victim-img">
+                <div class="victim-name">Ture<br>Rodling</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: THE MESSAGES -->
+    <section class="messages">
+        <div class="messages-left">
+            <span class="section-label">Kapitel III</span>
+            <h2>MEDDELANDENA<br>SOM INTE KUNDE<br>SKICKAS</h2>
+            <div class="message-stack">
+                <div class="text-message">
+                    <div class="sender">Från: ❄️❄️❄️</div>
+                    <div class="content">"Vi vet var ni sover. Vi vet vad ni drömmer. Isen kommer inte glömma."</div>
+                    <div class="timestamp">03:14 — Mottaget</div>
+                </div>
+                <div class="text-message">
+                    <div class="sender">Från: 🌑🌑🌑</div>
+                    <div class="content">"Ni tränar på isen men isen har redan valt. Fem stenar. Fem öden. Ingen återvändo."</div>
+                    <div class="timestamp">03:15 — Mottaget</div>
+                </div>
+                <div class="text-message">
+                    <div class="sender">Från: ⬛⬛⬛</div>
+                    <div class="content">"Kasta inte bävern i sågverket. Han har redan sågat er."</div>
+                    <div class="timestamp">03:16 — Mottaget</div>
+                </div>
+            </div>
+        </div>
+        <div class="messages-right">
+            <img src="https://gen.pollinations.ai/image/Multiple%20phone%20screens%20showing%20creepy%20text%20messages%20floating%20in%20darkness%2C%20glitch%20effect%2C%20neon%20colors%2C%20horror%20aesthetic%2C%20experimental%20graphic%20design?model=flux&width=1024&height=1024&quality=medium&seed=310335360&nologo=true" alt="" class="messages-img">
+        </div>
+    </section>
+
+    <!-- SECTION 5: THE HAUNTING -->
+    <section class="haunting">
+        <div class="haunting-bg"></div>
+        <div class="haunting-content">
+            <h2>BESATTNINGEN</h2>
+            
+            <div class="haunt-panel">
+                <img src="https://gen.pollinations.ai/image/Dark%20occult%20ritual%20with%20curling%20stones%20arranged%20in%20circle%2C%20candles%2C%20smoke%2C%20mysterious%20atmosphere%2C%20neon%20pink%20and%20purple%20lighting%2C%20horror%20art%2C%20experimental%20graphic%20design?model=flux&width=1024&height=1024&quality=medium&seed=1787635151&nologo=true" alt="" class="haunt-img">
+                <div class="panel-content">
+                    <div class="panel-title">Ritualet</div>
+                    <div class="panel-desc">Stenarna vet. De har alltid vetat.</div>
+                </div>
+            </div>
+            
+            <div class="haunt-panel">
+                <img src="https://gen.pollinations.ai/image/Creepy%20anime%20waifu%20manager%20with%20glowing%20eyes%20holding%20curling%20broom%20like%20scythe%2C%20dark%20shadows%2C%20horror%20atmosphere%2C%20neon%20accents%2C%20experimental%20art%2C%20high%20contrast?model=flux&width=1024&height=1024&quality=medium&seed=2043501314&nologo=true" alt="" class="haunt-img">
+                <div class="panel-content">
+                    <div class="panel-title">Väktaren</div>
+                    <div class="panel-desc">Hon sopar rent. Alltid.</div>
+                </div>
+            </div>
+            
+            <div class="haunt-panel">
+                <img src="https://gen.pollinations.ai/image/Demonic%20curling%20stone%20monster%20with%20teeth%20and%20eyes%2C%20emerging%20from%20shadows%2C%20horror%20creature%20design%2C%20neon%20pink%20and%20black%2C%20experimental%20art%2C%20high%20contrast?model=flux&width=1024&height=1024&quality=medium&seed=24322622&nologo=true" alt="" class="haunt-img">
+                <div class="panel-content">
+                    <div class="panel-title">Stendemonen</div>
+                    <div class="panel-desc">Den väntar under isen.</div>
+                </div>
+            </div>
+            
+            <div class="haunt-panel">
+                <img src="https://gen.pollinations.ai/image/Dark%20curling%20hall%20at%20night%20with%20shadowy%20figures%2C%20fog%20on%20ice%2C%20glowing%20stones%2C%20horror%20atmosphere%2C%20neon%20green%20and%20blue%20lighting%2C%20experimental%20art%2C%20cinematic?model=flux&width=1024&height=1024&quality=medium&seed=1006389782&nologo=true" alt="" class="haunt-img">
+                <div class="panel-content">
+                    <div class="panel-title">Hallens Ande</div>
+                    <div class="panel-desc">Sundbyberg sover aldrig.</div>
+                </div>
+            </div>
+            
+            <div class="haunt-panel">
+                <img src="https://gen.pollinations.ai/image/Dark%20bedroom%20window%20with%20shadowy%20figure%20outside%2C%20rain%20on%20glass%2C%20horror%20atmosphere%2C%20neon%20purple%20lighting%2C%20mysterious%20waifu%20silhouette%2C%20experimental%20art?model=flux&width=1024&height=1024&quality=medium&seed=1014773153&nologo=true" alt="" class="haunt-img">
+                <div class="panel-content">
+                    <div class="panel-title">Fönstret</div>
+                    <div class="panel-desc">Hon tittar in. Alltid in.</div>
+                </div>
+            </div>
+            
+            <div class="haunt-panel">
+                <img src="https://gen.pollinations.ai/image/Mysterious%20anime%20waifu%20silhouette%20in%20window%20at%20night%2C%20creepy%20atmospheric%20horror%2C%20fog%20and%20shadows%2C%20purple%20and%20black%20palette%2C%20noir%20style%2C%20grain%20texture?model=flux&width=1024&height=1024&quality=medium&seed=1497280283&nologo=true" alt="" class="haunt-img">
+                <div class="panel-content">
+                    <div class="panel-title">Skuggan</div>
+                    <div class="panel-desc">Mörkret kommer inte ensamt.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: THE PROPHECY -->
+    <section class="prophecy">
+        <div class="prophecy-bg"></div>
+        <div class="scroll-container">
+            <h2>Profetian</h2>
+            <div class="prophecy-text">
+                <p>När fem stenar rullar på isen som aldrig tinar,<br>
+                när manager väntar i skuggan med sopkvasten skärpt,<br>
+                då skall de fem vakna i skräck.</p>
+                
+                <span class="prophecy-line">»Den som kastar sist, kastar bäst.«</span>
+                
+                <p>Johan Nygren skall se sin sista sten glida fel.<br>
+                Daniel Berggren skall höra sopor i mörkret.<br>
+                Victor Martinsson skall drömma om is som brinner.<br>
+                Johan Järvenson skall känna kylan i märgen.<br>
+                Och Ture Rodling — yngst av dem alla —<br>
+                han skall aldrig somna om.</p>
+                
+                <div class="dala-quote" style="margin-top: 2rem;">"Alla hattar, ingen boskap, men mycket sås."</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: COMIC STRIP -->
+    <section class="comic">
+        <h2>MIDNATTSPANIK — En seriestrip</h2>
+        <div class="comic-grid">
+            <div class="comic-panel">
+                <span class="panel-number">1</span>
+                <img src="https://gen.pollinations.ai/image/Five%20terrified%20men%20in%20dark%20room%20receiving%20mysterious%20messages%2C%20phone%20screens%20glowing%2C%20horror%20comic%20panel%2C%20neon%20colors%2C%20high%20contrast%2C%20experimental%20graphic%20design?model=flux&width=1024&height=1024&quality=medium&seed=1507538539&nologo=true" alt="" class="comic-img">
+                <div class="panel-caption">"Vad är det som händer? Varför får vi alla samma meddelande?"</div>
+                <div class="sound-effect">BUZZ!</div>
+            </div>
+            <div class="comic-panel">
+                <span class="panel-number">2</span>
+                <img src="https://gen.pollinations.ai/image/Close%20up%20of%20phone%20screen%20with%20scary%20message%20notification%20in%20darkness%2C%20message%20bubble%20glowing%2C%20horror%20atmosphere%2C%20neon%20green%20light%2C%20high%20contrast?model=flux&width=1024&height=1024&quality=medium&seed=1890315827&nologo=true" alt="" class="comic-img">
+                <div class="panel-caption">03:14 — Meddelandet kommer</div>
+            </div>
+            <div class="comic-panel">
+                <span class="panel-number">3</span>
+                <img src="https://gen.pollinations.ai/image/Curling%20stone%20with%20glowing%20demonic%20red%20eyes%2C%20floating%20in%20darkness%2C%20smoke%20and%20shadows%2C%20horror%20atmosphere%2C%20neon%20accents%2C%20extreme%20contrast%2C%20experimental%20art?model=flux&width=1024&height=1024&quality=medium&seed=241966122&nologo=true" alt="" class="comic-img">
+                <div class="panel-caption">Stenarna ser allt</div>
+                <div class="sound-effect">GLOW!</div>
+            </div>
+            <div class="comic-panel">
+                <span class="panel-number">4</span>
+                <img src="https://gen.pollinations.ai/image/Mysterious%20anime%20waifu%20silhouette%20in%20window%20at%20night%2C%20creepy%20atmospheric%20horror%2C%20fog%20and%20shadows%2C%20purple%20and%20black%20palette%2C%20noir%20style%2C%20grain%20texture?model=flux&width=1024&height=1024&quality=medium&seed=1497280283&nologo=true" alt="" class="comic-img">
+                <div class="panel-caption">Hon tittar in...</div>
+            </div>
+            <div class="comic-panel">
+                <span class="panel-number">5</span>
+                <img src="https://gen.pollinations.ai/image/Comic%20panel%20montage%20of%20people%20panicking%20at%20midnight%2C%20horror%20comic%20style%2C%20multiple%20frames%2C%20chaotic%20layout%2C%20neon%20colors%2C%20high%20contrast?model=flux&width=1024&height=1024&quality=medium&seed=1782430318&nologo=true" alt="" class="comic-img">
+                <div class="panel-caption">Panik i laget</div>
+                <div class="sound-effect">AAAH!</div>
+            </div>
+            <div class="comic-panel">
+                <span class="panel-number">6</span>
+                <img src="https://gen.pollinations.ai/image/Creepy%20anime%20waifu%20manager%20with%20glowing%20eyes%20holding%20curling%20broom%20like%20scythe%2C%20dark%20shadows%2C%20horror%20atmosphere%2C%20neon%20accents%2C%20experimental%20art%2C%20high%20contrast?model=flux&width=1024&height=1024&quality=medium&seed=2043501314&nologo=true" alt="" class="comic-img">
+                <div class="panel-caption">"Sova kan ni göra när ni är döda, pöjkar."</div>
+                <div class="sound-effect">SWOOSH!</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: MANIFESTO -->
+    <section class="manifesto">
+        <div class="manifesto-bg"></div>
+        <div class="manifesto-grid"></div>
+        <div class="manifesto-content">
+            <h2>MANIFEST<br>FÖR<br>PSYKOLOGISKT<br>KRIG</h2>
+            <div class="manifesto-body">
+                <p>Vi är inte här för att vinna. Vi är här för att visa att segern är meningslös. Att alla stenar rullar mot samma hål. Att isen alltid vinner.</p>
+                
+                <p>Lag Nygren tror de tränar för SM. De tränar för sin undergång. Varje sten de kastar är en sten vi räknar. Varje sopa de gör är ett steg närmare avgrunden.</p>
+                
+                <p>Vi skickar meddelanden inte för att skrämmas. Vi skickar dem för att påminna. Påminna om att natten är lång. Att mörkret är djupare än de tror. Att manager alltid vakar.</p>
+                
+                <p class="dala-quote" style="border-left-color: var(--blood-red);">"Måla inte kycklingen blå innan ägget är kläckt. Vi har redan sålt hönsgården."</p>
+                
+                <p>Fisken vakar. Isen väntar. Stenarna rullar.</p>
+                
+                <p>Sova kan ni göra när ni är döda.</p>
+                
+                <div class="manifesto-signature">
+                    — Fisken, Manager<br>
+                    Lag J. Westerberg<br>
+                    <span style="font-size: 1rem; color: var(--neon-pink);">Sundbyberg Evig</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            ⚠️ FISKENS FANZINE #1 ⚠️ LAG NYGREN MOTTAR MYSTERIEUSE MEDDELANDEN ⚠️ DE VAKNAR INATT ⚠️ ISEN KOMMER INTE GLÖMMA ⚠️ MANAGER VAKAR ALLTID ⚠️ SOVA KAN NI GÖRA NÄR NI ÄR DÖDA ⚠️ ALLA HATTAR INGEN BOSKAP ⚠️ FISKENS FANZINE #1 ⚠️
+        </div>
+    </div>
+</body>
+</html>
