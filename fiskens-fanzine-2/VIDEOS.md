@@ -1,80 +1,80 @@
-# Video Prompts — Katalog 02
+# Video Prompts — Catalog 02
 
-Inga referenser. Inga namn. Bara vad det är.
-
----
-
-## 1. Hero — "Tom Rink"
-
-```
-Övergiven curlinghall. Betongväggar. Tung industriell belysning uppifrån.
-Isen är perfekt men dammig. Inte använd på år.
-En ensam figur i svart står vid bortre änden.
-Kamera rör sig framåt genom dammpartiklar.
-Ingen musik. Bara surr från lysrör.
-Färg: Nästan svartvitt. Krossade svarta. Lyfta skuggor.
-Material: Betong. Kallt. Tungt.
-```
+No references. No names. Just what it is.
 
 ---
 
-## 2. Chronosweep — "Svart Block"
+## 1. Hero — "Empty Rink"
 
 ```
-Extrem närbild av ett mattsvart monolit.
-Inga knappar. Inga siffror. Bara en enda LED-linje som pulserar.
-Ytan är texturerad som gjuten betong.
-Kamera orbit 360 grader.
-Objektet svävar i totalt mörker.
-Reflektion: Perfekt spegelblank yta under.
-Ljus: En enda hård källa ovanifrån. Skarpa skuggor.
-Färg: Svart. Betonggrå. En vit LED.
-Ljud: Lågfrekvent drön.
+Abandoned curling hall. Concrete walls. Heavy industrial lighting from above.
+The ice is perfect but dusty. Not used in years.
+A lone figure in black stands at the far end.
+Camera moves forward through dust particles.
+No music. Just hum from fluorescent lights.
+Color: Almost black and white. Crushed blacks. Lifted shadows.
+Materials: Concrete. Cold. Heavy.
 ```
 
 ---
 
-## 3. Slide-Don — "Trofé"
+## 2. Chronosweep — "Black Block"
 
 ```
-Ett enda uppstoppat djurhuvud (aggressivt, rått).
-Monterat på brutalistisk betongsockel.
-"Borsten" är bara en kolfiberstav som sticker ut från skallen.
-Kamera åker förbi långsamt.
-Damm i ljusstråle.
-Material: Äkta päls. Rå betong. Kall metall.
-Färg: Jordtoner. Benvitt. Skuggans svart.
-Känsla: Konfrontativ. Dyr. Obekväm.
-```
-
----
-
-## 4. Regelbok — "Skrift"
-
-```
-Massiv betongbok som svävar i tomrum.
-Inget läder. Ingen dekoration. Bara rå betong med ristade symboler.
-Sidor är stenplattor.
-När boken öppnas faller sand från sidorna.
-Kamera trycker genom fallande sand.
-Symboler lyser svagt i en färg (inte regnbåge - bara varmt bärnsten).
-Material: Grov betong. Sand. Sten.
+Extreme close-up of a matte black monolith.
+No buttons. No numbers. Just a single LED line that pulses.
+Surface is textured like cast concrete.
+Camera orbits 360 degrees.
+Object floats in total darkness.
+Reflection: Perfect mirror-black surface below.
+Lighting: Single hard source from above. Sharp shadows.
+Color: Black. Concrete grey. One white LED.
+Sound: Low frequency drone.
 ```
 
 ---
 
-## 5. Telefon — "Objekt"
+## 3. Slide-Don — "Trophy"
 
 ```
-Rödtelefon gjuten i massivt svart betong.
-Luren är bara ett tungt block.
-Står på rostfritt stålpiedestal.
-Kamera cirkel långsamt.
-Plötsligt: Betongen spricker. Dammet spillrar ut.
-Från sprickorna: Varmt ljus tränger fram.
-Material: Sprucken betong. Polerat stål. Damm.
-Färg: Svart. Grå. En varm ljuskälla.
-Ljud: Djup bas-dån. Spricka. Tystnad.
+A single taxidermied animal head (aggressive, raw).
+Mounted on brutalist concrete plinth.
+The "brush" is just a carbon fiber rod extending from the skull.
+Camera trucks past slowly.
+Dust motes in shaft of light.
+Materials: Real fur. Raw concrete. Cold metal.
+Color: Earth tones. Bone white. Shadow black.
+Mood: Confrontational. Expensive. Uncomfortable.
+```
+
+---
+
+## 4. Rulebook — "Scripture"
+
+```
+Massive concrete book floating in void.
+No leather. No decoration. Just raw concrete with carved symbols.
+Pages are stone slabs.
+As book opens, sand falls from pages.
+Camera pushes through falling sand.
+Symbols glow faintly in single color (not rainbow - just warm amber).
+Materials: Rough concrete. Sand. Stone.
+```
+
+---
+
+## 5. Phone — "Object"
+
+```
+Rotary phone cast in solid black concrete.
+The receiver is just a heavy block.
+Sits on stainless steel pedestal.
+Camera circles slowly.
+Suddenly: concrete cracks. Dust spills out.
+From cracks: warm light emerges.
+Materials: Cracked concrete. Polished steel. Dust.
+Color: Black. Grey. One warm light source.
+Sound: Deep bass rumble. Crack. Silence.
 ```
 
 ---
@@ -82,104 +82,104 @@ Ljud: Djup bas-dån. Spricka. Tystnad.
 ## 6. Full-Bleed — "Ritual"
 
 ```
-POV: Gående genom betongkorridor.
-Väggar råa, oputssade.
-Enda ljuskälla: Öppningar i taket skapar ljusstrålar.
-Figur i svart går framför.
-Bär något tungt (curlingsten inslagen i svart duk).
-Når korridors ände: Massivt öppet rum.
-Hundratals identiska figurer står i rutnät.
-Alla vända mot centrum.
-Centrum: En enda spotlight på is.
-Kamera stiger: Fågelperspektiv visar perfekt rutnät av svarta figurer.
-Färg: Svart. Betong. En spotlight.
-Ljud: Tung bas. Steg. Tystnad.
+POV: Walking through concrete corridor.
+Walls are raw, unfinished concrete.
+Only light source: openings in ceiling creating light shafts.
+Figure in all black walks ahead.
+They carry something heavy (curling stone wrapped in black cloth).
+Reach end of corridor: massive open space.
+Hundreds of identical figures standing in grid formation.
+All facing center.
+Center: Single spotlight on ice.
+Camera rises: aerial shot reveals perfect grid of black figures.
+Color: Black. Concrete. One spotlight.
+Sound: Heavy bass. Footsteps. Silence.
 ```
 
 ---
 
-## 7. Bil — Saab "Sista"
+## 7. Car — Saab "The Last"
 
 ```
-Statisk bild. Övergiven betongparkeringsgarage.
-Enda Saab 900 i mattsvart wrap.
-Hjul borttagna. Bil står på betongblock.
-Dörrar svetsade igen.
-Kamera trycker långsamt in.
-Reflektion i pöl: Upp och ner bil.
-Färg: Mattsvart. Betonggrå. Vattenreflektion.
-Text (om någon): Bara koordinater. Inga ord.
-```
-
----
-
-## 8. Bil — Citroën "Transport"
-
-```
-Natt. Ökenväg. Inga lampor utom bilstrålkastare.
-Citroën DS i matt sandfärg.
-Rutor svartade.
-Kör långsamt förbi kamera.
-I baksäte: Silhuett av något stort (uppstoppat djur).
-Bil fortsätter in i mörker.
-Bakljus försvinner.
-Färg: Sand. Svart. Röda bakljus.
-Ljud: Motorljud dämpas till tystnad.
+Static shot. Abandoned concrete parking garage.
+Single Saab 900 in matte black wrap.
+Wheels removed. Car sits on concrete blocks.
+Doors welded shut.
+Camera slowly pushes in.
+Reflection in puddle: upside down car.
+Color: Matte black. Concrete grey. Water reflection.
+Text on screen (if any): Just coordinates. No words.
 ```
 
 ---
 
-## 9. Loop — "Väntan"
+## 8. Car — Citroën "Transport"
 
 ```
-Extrem närbild av betongyta.
-Vatten sipprar långsamt genom poröst material.
-Bildar mönster. Avdunstar. Bildas igen.
-Time-lapse texturstudie.
-Ingen kamerarörelse.
-Bara yta som andas.
-Färg: Grå. Våt grå. Torr grå.
-Känsla: Kvävande. Meditativ. Tung.
-```
-
----
-
-## 10. Transition — "Tomrum"
-
-```
-Svart skärm.
-Ljud: Djup bas-fall.
-Betongsprickor uppstår från centrum.
-Sprider sig utåt.
-Ljus strömmar genom sprickor.
-Skärm blinkar vitt.
-Ny scen tonar in från vitt.
-Färg: Svart → Vitt. Inga gradienter.
-Ljud: Sub-bas. Spricka. Vitbrus.
+Night. Desert road. No lights except car headlights.
+Citroën DS in matte sand color.
+Windows blacked out.
+Drives slowly past camera.
+In back seat: silhouette of something large (taxidermy animal).
+Car continues into darkness.
+Taillights disappear.
+Color: Sand. Black. Red tail lights.
+Sound: Engine hum fades to silence.
 ```
 
 ---
 
-## Färger
+## 9. Loop — "The Wait"
 
 ```
-Bakgrund: #0a0a0a (inte ren svart - varm svart)
-Yta: #1a1a1a (betonggrå)
-Accent: #f5f5f7 (off-white, inte ren vit)
-Värmande ljus: #ff9500 (bärnsten, minimal användning)
-Inga neoner. Inga regnbågar. Inga gradienter (om inte subtila).
+Extreme close-up of concrete surface.
+Water slowly seeps through porous material.
+Forms patterns. Evaporates. Forms again.
+Time-lapse texture study.
+No camera movement.
+Just surface breathing.
+Color: Grey. Wet grey. Dry grey.
+Mood: Oppressive. Meditative. Heavy.
 ```
 
 ---
 
-## Material
+## 10. Transition — "Void"
 
-Betong. Sten. Sand. Kall metall. Mattsvart. Rå päls.
+```
+Black screen.
+Sound: Deep bass drop.
+Concrete cracks appear from center.
+Spread outward.
+Light pours through cracks.
+Screen flashes white.
+New scene fades in from white.
+Color: Black → White. No gradients.
+Sound: Sub-bass. Crack. White noise.
+```
 
-## Ljus
+---
 
-En enda källa. Hård. Skarpa skuggor. Ljusstrålar genom damm.
+## Color Palette
 
-## Känsla
+```
+Background: #0a0a0a (not pure black - warm black)
+Surface: #1a1a1a (concrete grey)
+Accent: #f5f5f7 (off-white, not pure white)
+Warm light: #ff9500 (amber, minimal use)
+No neons. No rainbows. No gradients (unless subtle).
+```
 
-Tung. Dyr. Tyst. Obekväm. Perfekt.
+---
+
+## Materials
+
+Concrete. Stone. Sand. Cold metal. Matte black. Raw fur.
+
+## Lighting
+
+Single source. Hard. Sharp shadows. Light shafts through dust.
+
+## Mood
+
+Heavy. Expensive. Silent. Uncomfortable. Perfect.
