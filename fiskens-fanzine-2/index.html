@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FISKEN — Katalog 02</title>
+    <title>FISKEN — Catalog 02</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -15,9 +15,7 @@
             --text-primary: #f5f5f7;
             --text-secondary: #86868b;
             --accent: #5ac8fa;
-            --accent-warm: #ff9500;
             --border: rgba(255,255,255,0.08);
-            --glass: rgba(255,255,255,0.03);
         }
         
         * {
@@ -27,7 +25,7 @@
         }
         
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
         }
         
         body {
@@ -38,103 +36,124 @@
             line-height: 1.5;
         }
         
-        /* GENERATIVE CANVAS BACKGROUND */
-        #generative-bg {
+        /* PROGRESS BAR */
+        .progress-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
+            height: 2px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .progress-bar {
             height: 100%;
-            z-index: 0;
-            opacity: 0.4;
-            pointer-events: none;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.1s linear;
         }
         
-        /* AI MELTED TEXT EFFECT */
-        .ai-text {
+        /* SMOOTH SCROLL CONTAINER */
+        .smooth-scroll {
+            will-change: transform;
+        }
+        
+        /* SECTION BASE */
+        .section {
             position: relative;
-            display: inline-block;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
         }
         
-        .ai-text::before {
-            content: attr(data-text);
+        /* HERO - FULL BLEED IMAGE */
+        .hero {
+            height: 100vh;
+            position: relative;
+        }
+        
+        .hero-image {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            object-fit: cover;
+            filter: brightness(0.4) contrast(1.1);
+            transform: scale(1.2);
+            will-change: transform;
+        }
+        
+        .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            filter: url(#ai-distort);
-            opacity: 0.6;
-            animation: ai-melt 8s ease-in-out infinite;
-        }
-        
-        @keyframes ai-melt {
-            0%, 100% { transform: scale(1) translate(0, 0); }
-            25% { transform: scale(1.02) translate(-2px, 1px); }
-            50% { transform: scale(0.98) translate(2px, -1px); }
-            75% { transform: scale(1.01) translate(-1px, 2px); }
-        }
-        
-        /* VARIABLE FONT ANIMATION */
-        .variable-headline {
-            font-family: 'Space Grotesk', sans-serif;
-            font-variation-settings: 'wght' 300;
-            animation: font-breathe 4s ease-in-out infinite;
-        }
-        
-        @keyframes font-breathe {
-            0%, 100% { font-variation-settings: 'wght' 300; }
-            50% { font-variation-settings: 'wght' 700; }
-        }
-        
-        /* GLASS MORPHISM */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-        }
-        
-        /* EDITORIAL GRID */
-        .editorial-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 4rem;
-        }
-        
-        /* HERO SECTION */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            z-index: 10;
-            padding: 4rem;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(10,10,15,0.5) 50%,
+                var(--bg-deep) 100%
+            );
         }
         
         .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding: 4rem;
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
+        }
+        
+        .hero-meta {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .hero-meta span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .hero-meta.visible span {
+            transform: translateY(0);
+            opacity: 1;
         }
         
         .hero-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(4rem, 10vw, 8rem);
+            font-size: clamp(4rem, 12vw, 10rem);
             font-weight: 300;
             line-height: 0.9;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.05em;
+            margin-bottom: 2rem;
         }
         
-        .hero-title span {
+        .hero-title .line {
             display: block;
+            overflow: hidden;
+        }
+        
+        .hero-title .line span {
+            display: block;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .hero-title .line.visible span {
+            transform: translateY(0);
+            opacity: 1;
         }
         
         .hero-title .outline {
@@ -142,98 +161,104 @@
             color: transparent;
         }
         
-        .hero-meta {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
+        /* SPLIT TEXT ANIMATION */
+        .split-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -0.03em;
         }
         
-        .hero-desc {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            max-width: 400px;
-            line-height: 1.7;
+        .split-text .char {
+            display: inline-block;
+            transform: translateY(100%) rotateX(-90deg);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* PRODUCT SHOWCASE - TEENAGE ENGINEERING STYLE */
+        .split-text.visible .char {
+            transform: translateY(0) rotateX(0);
+            opacity: 1;
+        }
+        
+        /* PRODUCT SECTION - HORIZONTAL SCROLL */
         .product-section {
             min-height: 100vh;
             padding: 8rem 4rem;
-            position: relative;
-            z-index: 10;
-        }
-        
-        .product-showcase {
-            max-width: 1400px;
-            margin: 0 auto;
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 6rem;
             align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
-        .product-showcase.reverse {
+        .product-section.reverse {
             direction: rtl;
         }
         
-        .product-showcase.reverse > * {
+        .product-section.reverse > * {
             direction: ltr;
         }
         
-        .product-visual {
+        .product-image-wrapper {
             position: relative;
             aspect-ratio: 1;
-            background: linear-gradient(145deg, #1a1a24 0%, #0f0f14 100%);
             border-radius: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
-            border: 1px solid var(--border);
+            background: var(--surface);
+            transform: perspective(1000px) rotateY(-15deg) translateX(-50px);
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        .product-visual::before {
+        .product-section.reverse .product-image-wrapper {
+            transform: perspective(1000px) rotateY(15deg) translateX(50px);
+        }
+        
+        .product-image-wrapper.visible {
+            transform: perspective(1000px) rotateY(0) translateX(0);
+            opacity: 1;
+        }
+        
+        .product-image-wrapper::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(90,200,250,0.1) 0%, transparent 50%);
-            animation: light-rotate 20s linear infinite;
-        }
-        
-        @keyframes light-rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .product-visual img {
-            width: 80%;
-            height: 80%;
-            object-fit: contain;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(90,200,250,0.1) 0%,
+                transparent 50%
+            );
             z-index: 1;
+            pointer-events: none;
         }
         
-        .product-visual:hover img {
-            transform: scale(1.05) rotate(-2deg);
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .product-image-wrapper:hover .product-image {
+            transform: scale(1.05);
         }
         
         .product-tag {
             position: absolute;
             top: 2rem;
             left: 2rem;
-            background: rgba(10,10,15,0.8);
+            background: rgba(10,10,15,0.9);
             backdrop-filter: blur(10px);
             padding: 0.75rem 1.5rem;
             border-radius: 100px;
-            font-family: 'Space Grotesk', monospace;
-            font-size: 0.75rem;
+            font-size: 0.625rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--accent);
@@ -242,7 +267,18 @@
         }
         
         .product-info {
-            padding: 2rem 0;
+            transform: translateX(50px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+        
+        .product-section.reverse .product-info {
+            transform: translateX(-50px);
+        }
+        
+        .product-info.visible {
+            transform: translateX(0);
+            opacity: 1;
         }
         
         .product-label {
@@ -255,110 +291,89 @@
         
         .product-name {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 4vw, 3.5rem);
             font-weight: 300;
             line-height: 1;
             margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
         }
         
         .product-desc {
-            font-size: 1.125rem;
+            font-size: 1rem;
             color: var(--text-secondary);
             line-height: 1.8;
             margin-bottom: 2rem;
-            max-width: 450px;
-        }
-        
-        .product-specs {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .spec {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-        
-        .spec-value {
-            display: block;
-            font-size: 1rem;
-            color: var(--text-primary);
-            margin-top: 0.25rem;
-            letter-spacing: 0;
+            max-width: 400px;
         }
         
         .product-price {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 500;
-            color: var(--text-primary);
         }
         
-        .product-price span {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            margin-left: 0.5rem;
-        }
-        
-        /* FULL BLEED SECTIONS */
-        .full-bleed {
-            min-height: 80vh;
+        /* FULL BLEED IMAGE SECTION */
+        .image-section {
+            height: 100vh;
+            position: relative;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 6rem 4rem;
+            justify-content: center;
+        }
+        
+        .image-section-bg {
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 140%;
+            object-fit: cover;
+            filter: brightness(0.3);
+            will-change: transform;
+        }
+        
+        .image-section-content {
             position: relative;
             z-index: 10;
-            background: var(--bg-elevated);
+            text-align: center;
+            padding: 4rem;
         }
         
-        .full-bleed h2 {
+        .image-section h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(3rem, 10vw, 8rem);
             font-weight: 300;
-            line-height: 1;
-            letter-spacing: -0.03em;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
             margin-bottom: 2rem;
         }
         
-        .full-bleed p {
-            font-size: 1.25rem;
+        .image-section p {
+            font-size: 1.125rem;
             color: var(--text-secondary);
-            max-width: 600px;
+            max-width: 500px;
+            margin: 0 auto;
             line-height: 1.8;
         }
         
-        /* EDITORIAL STORY GRID */
-        .stories-section {
+        /* CARDS */
+        .cards-section {
             padding: 8rem 4rem;
-            position: relative;
-            z-index: 10;
+            background: var(--bg-elevated);
         }
         
         .section-header {
             max-width: 1400px;
             margin: 0 auto 4rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-            align-items: end;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
         
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
             font-weight: 300;
-            line-height: 1.1;
+            line-height: 1.2;
         }
         
         .section-number {
@@ -366,10 +381,9 @@
             font-size: 0.75rem;
             letter-spacing: 0.2em;
             color: var(--accent);
-            justify-self: end;
         }
         
-        .stories-grid {
+        .cards-grid {
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
@@ -377,29 +391,33 @@
             gap: 2rem;
         }
         
-        .story-card {
+        .card {
             background: var(--surface);
             border-radius: 24px;
             padding: 2.5rem;
             border: 1px solid var(--border);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(60px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        .story-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(90,200,250,0.3);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        .card.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
         
-        .story-meta {
-            font-size: 0.75rem;
+        .card:nth-child(2) { transition-delay: 0.1s; }
+        .card:nth-child(3) { transition-delay: 0.2s; }
+        
+        .card-meta {
+            font-size: 0.625rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--accent);
             margin-bottom: 1rem;
         }
         
-        .story-title {
+        .card h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.25rem;
             font-weight: 500;
@@ -407,18 +425,16 @@
             line-height: 1.3;
         }
         
-        .story-text {
+        .card p {
             font-size: 0.9375rem;
             color: var(--text-secondary);
             line-height: 1.7;
         }
         
-        /* CAR ADS - EDITORIAL STYLE */
+        /* CAR ADS */
         .cars-section {
             padding: 8rem 4rem;
-            background: var(--bg-elevated);
-            position: relative;
-            z-index: 10;
+            background: var(--bg-deep);
         }
         
         .cars-grid {
@@ -430,93 +446,141 @@
         }
         
         .car-card {
+            position: relative;
             background: var(--surface);
             border-radius: 32px;
-            padding: 3rem;
-            border: 1px solid var(--border);
-            position: relative;
             overflow: hidden;
+            border: 1px solid var(--border);
+            transform: translateY(40px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .car-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .car-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            filter: grayscale(30%) contrast(1.1);
+            transition: all 0.6s ease;
+        }
+        
+        .car-card:hover .car-image {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.02);
         }
         
         .car-year {
             position: absolute;
-            top: -1rem;
-            right: 2rem;
+            top: 1rem;
+            right: 1.5rem;
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(4rem, 8vw, 6rem);
+            font-size: clamp(3rem, 6vw, 5rem);
             font-weight: 700;
-            color: rgba(255,255,255,0.03);
+            color: rgba(255,255,255,0.05);
             line-height: 1;
+        }
+        
+        .car-content {
+            padding: 2rem;
         }
         
         .car-badge {
             display: inline-block;
-            background: var(--accent-warm);
-            color: var(--bg-deep);
+            background: rgba(255,255,255,0.1);
             padding: 0.5rem 1rem;
             border-radius: 100px;
-            font-size: 0.75rem;
+            font-size: 0.625rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .car-model {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 500;
-            margin-bottom: 1rem;
-        }
-        
-        .car-desc {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
         
         .car-price {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 500;
+            color: var(--accent);
+            margin-top: 1rem;
         }
         
         /* PHONE SECTION */
         .phone-section {
-            padding: 8rem 4rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 4rem;
             position: relative;
-            z-index: 10;
+            background: var(--bg-deep);
         }
         
-        .phone-display {
-            max-width: 800px;
-            margin: 0 auto;
+        .phone-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 30%;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                var(--border) 100%
+            );
         }
         
         .phone-label {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .phone-number {
             font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 300;
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .phone-number::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
         }
         
         .phone-number:hover {
             color: var(--accent);
         }
         
+        .phone-number:hover::after {
+            width: 100%;
+        }
+        
+        /* AUDIO PLAYER */
         .audio-player {
             max-width: 400px;
             margin: 3rem auto 0;
@@ -526,256 +590,194 @@
             border: 1px solid var(--border);
         }
         
+        audio {
+            width: 100%;
+            filter: invert(1);
+            opacity: 0.8;
+        }
+        
         /* FOOTER */
         footer {
             padding: 4rem;
             text-align: center;
             border-top: 1px solid var(--border);
-            position: relative;
-            z-index: 10;
         }
         
-        .footer-text {
+        footer p {
             font-size: 0.875rem;
             color: var(--text-secondary);
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
         }
         
         /* RESPONSIVE */
         @media (max-width: 1024px) {
-            .hero-content,
-            .product-showcase {
+            .product-section {
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
             
-            .stories-grid {
+            .cards-grid {
                 grid-template-columns: 1fr;
             }
             
             .cars-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .editorial-grid {
-                padding: 0 2rem;
+        }
+        
+        /* REDUCED MOTION */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
-        }
-        
-        /* SCROLL ANIMATIONS */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- SVG Filters for AI Effect -->
-    <svg style="position: absolute; width: 0; height: 0;">
-        <defs>
-            <filter id="ai-distort">
-                <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise" seed="1"/>
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
-            </filter>
-        </defs>
-    </svg>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress"></div>
+    </div>
 
-    <!-- Generative Background Canvas -->
-    <canvas id="generative-bg"></canvas>
-
-    <!-- HERO -->
-    <section class="hero">
+    <!-- HERO SECTION -->
+    <section class="section hero">
+        <img src="assets/images/hero-ice.jpg" alt="" class="hero-image" id="heroImage">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div>
-                <div class="hero-meta">Katalog 02 — Våren 2026</div>
-                <h1 class="hero-title">
-                    <span class="variable-headline">FISKEN</span>
-                    <span class="outline">FANZINE</span>
-                </h1>
+            <div class="hero-meta" data-split>
+                <span>Catalog 02 — Spring 2026</span>
             </div>
-            <div class="hero-desc">
-                En katalog över ting du inte visste att du behövde. Verktyg för den som förstått att curling inte är en sport—det är en existensform.
-            </div>
+            <h1 class="hero-title">
+                <div class="line" data-reveal><span>FISKEN</span></div>
+                <div class="line" data-reveal><span class="outline">FANZINE</span></div>
+            </h1>
         </div>
     </section>
 
     <!-- PRODUCT 1: CHRONOSWEEP -->
     <section class="product-section">
-        <div class="product-showcase">
-            <div class="product-visual">
-                <span class="product-tag">Art. 001</span>
-                <img src="assets/images/chronosweep.jpg" alt="Chronosweep 3000">
-            </div>
-            <div class="product-info">
-                <div class="product-label">Tidmätning</div>
-                <h2 class="product-name">Chronosweep<br>3000</h2>
-                <p class="product-desc">
-                    Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence"—den tid det tar för en skip att inse att matchen är förlorad.
-                </p>
-                <div class="product-specs">
-                    <div class="spec">
-                        Material
-                        <span class="spec-value">Mässing / Ek</span>
-                    </div>
-                    <div class="spec">
-                        Precision
-                        <span class="spec-value">± Evighet</span>
-                    </div>
-                    <div class="spec">
-                        Vikt
-                        <span class="spec-value">420g</span>
-                    </div>
-                </div>
-                <div class="product-price">2 499 kr <span>inkl. moms</span></div>
-            </div>
+        <div class="product-image-wrapper" data-reveal-3d>
+            <span class="product-tag">Art. 001</span>
+            <img src="assets/images/chronosweep.jpg" alt="Chronosweep 3000" class="product-image">
+        </div>
+        <div class="product-info" data-reveal-slide>
+            <div class="product-label">Time Measurement</div>
+            <h2 class="product-name">Chronosweep<br>3000</h2>
+            <p class="product-desc">
+                A timer that doesn't measure seconds. It measures "soul-crushing silence"—the time it takes for a skip to realize the match is lost.
+            </p>
+            <div class="product-price">2 499 kr</div>
+        </div>
+    </section>
+
+    <!-- FULL BLEED IMAGE SECTION -->
+    <section class="image-section">
+        <img src="assets/images/ice-texture.jpg" alt="" class="image-section-bg" id="parallaxImage">
+        <div class="image-section-content">
+            <h2 class="split-text" data-split-chars>ALL THINGS<br>ARE WAITING</h2>
+            <p>The ice stretches before me like a frozen lake, like a mirror that reflects nothing—or perhaps reflects too much.</p>
         </div>
     </section>
 
     <!-- PRODUCT 2: SLIDE-DON -->
-    <section class="product-section">
-        <div class="product-showcase reverse">
-            <div class="product-visual">
-                <span class="product-tag">Art. 002</span>
-                <img src="assets/images/slide-don.jpg" alt="Slide-Don Grävling">
-            </div>
-            <div class="product-info">
-                <div class="product-label">Utövningsdon</div>
-                <h2 class="product-name">Slide-Don™<br>Grävling</h2>
-                <p class="product-desc">
-                    Varför hålla i en kvast när du kan hålla i en uppstoppad grävling? Handgjord i Mörkrets Dal av lokala taxidermister med curling-licens.
-                </p>
-                <div class="product-specs">
-                    <div class="spec">
-                        Art
-                        <span class="spec-value">Meles meles</span>
-                    </div>
-                    <div class="spec">
-                        Tillstånd
-                        <span class="spec-value">Eviskt</span>
-                    </div>
-                    <div class="spec">
-                        Doft
-                        <span class="spec-value">Näver / Vemod</span>
-                    </div>
-                </div>
-                <div class="product-price">1 899 kr <span>inkl. moms</span></div>
-            </div>
+    <section class="product-section reverse">
+        <div class="product-image-wrapper" data-reveal-3d>
+            <span class="product-tag">Art. 002</span>
+            <img src="assets/images/slide-don.jpg" alt="Slide-Don" class="product-image">
         </div>
-    </section>
-
-    <!-- FULL BLEED BREAK -->
-    <section class="full-bleed">
-        <h2 class="variable-headline">Allting<br>är att vänta</h2>
-        <p>Isen sträcker sig framför mig som en frusen sjö, som en spegel som inte speglar något—eller kanske speglar för mycket.</p>
+        <div class="product-info" data-reveal-slide>
+            <div class="product-label">Equipment</div>
+            <h2 class="product-name">Slide-Don™<br>Badger</h2>
+            <p class="product-desc">
+                Why hold a brush when you can hold a taxidermied badger? Handcrafted in the Valley of Darkness by licensed taxidermists.
+            </p>
+            <div class="product-price">1 899 kr</div>
+        </div>
     </section>
 
     <!-- PRODUCT 3: ÄLVDALSK REGELBOK -->
     <section class="product-section">
-        <div class="product-showcase">
-            <div class="product-visual">
-                <span class="product-tag">Art. 003</span>
-                <img src="assets/images/elvdal-regler.jpg" alt="Älvdalsk Regelbok">
-            </div>
-            <div class="product-info">
-                <div class="product-label">Litteratur</div>
-                <h2 class="product-name">Älvdalsk<br>Regelbok</h2>
-                <p class="product-desc">
-                    Curling—som det ska spelas. Innehåller regler som "Träd int bråtännar" och "Huldä fast stäin". Läderinbunden. 144 sidor av ren, obegriplig visdom.
-                </p>
-                <div class="product-specs">
-                    <div class="spec">
-                        Sidor
-                        <span class="spec-value">144</span>
-                    </div>
-                    <div class="spec">
-                        Band
-                        <span class="spec-value">Läder</span>
-                    </div>
-                    <div class="spec">
-                        Språk
-                        <span class="spec-value">Älvdalska</span>
-                    </div>
-                </div>
-                <div class="product-price">449 kr <span>inkl. moms</span></div>
-            </div>
+        <div class="product-image-wrapper" data-reveal-3d>
+            <span class="product-tag">Art. 003</span>
+            <img src="assets/images/elvdal-regler.jpg" alt="Älvdalsk Regelbok" class="product-image">
+        </div>
+        <div class="product-info" data-reveal-slide>
+            <div class="product-label">Literature</div>
+            <h2 class="product-name">Älvdalsk<br>Rules</h2>
+            <p class="product-desc">
+                Curling—as it should be played. Includes rules like "Träd int bråtännar" and "Huldä fast stäin". Leather bound. 144 pages of pure, incomprehensible wisdom.
+            </p>
+            <div class="product-price">449 kr</div>
         </div>
     </section>
 
-    <!-- STORIES SECTION -->
-    <section class="stories-section">
+    <!-- STORIES CARDS -->
+    <section class="cards-section">
         <div class="section-header">
-            <h2 class="section-title">Fragment från<br>Mörkrets Dal</h2>
+            <h2 class="section-title">Fragments from<br>the Valley of Darkness</h2>
             <div class="section-number">03</div>
         </div>
-        <div class="stories-grid">
-            <article class="story-card">
-                <div class="story-meta">Kapitel I</div>
-                <h3 class="story-title">Om att vänta på isen</h3>
-                <p class="story-text">
-                    Klockan är fem på morgonen. Jag står ensam i curlinghallen. Isen sträcker sig framför mig som en frusen sjö.
-                </p>
+        <div class="cards-grid">
+            <article class="card" data-reveal-card>
+                <div class="card-meta">Chapter I</div>
+                <h3>On Waiting for the Ice</h3>
+                <p>It is five in the morning. I stand alone in the curling hall. The ice stretches before me like a frozen lake.</p>
             </article>
-            <article class="story-card">
-                <div class="story-meta">Kapitel II</div>
-                <h3 class="story-title">Sömnlöshetens Dikt</h3>
-                <p class="story-text">
-                    Att förlora en match är att födas på nytt. Man kommer ut blöt, frusen, skrikande. Ingen applåderar.
-                </p>
+            <article class="card" data-reveal-card>
+                <div class="card-meta">Chapter II</div>
+                <h3>The Insomnia Poem</h3>
+                <p>To lose a match is to be born again. You come out wet, frozen, screaming. No one applauds.</p>
             </article>
-            <article class="story-card">
-                <div class="story-meta">Kapitel III</div>
-                <h3 class="story-title">Mjölnarens Berättelse</h3>
-                <p class="story-text">
-                    Han hette inte Mjölnaren. Han hette något annat, något som glömdes bort när han köpte sin första curling-kvast 1978.
-                </p>
+            <article class="card" data-reveal-card>
+                <div class="card-meta">Chapter III</div>
+                <h3>The Miller's Tale</h3>
+                <p>He wasn't called The Miller. He was called something else, something forgotten when he bought his first curling brush in 1978.</p>
             </article>
         </div>
     </section>
 
     <!-- CAR ADS -->
     <section class="cars-section">
-        <div class="section-header" style="margin-bottom: 3rem;">
-            <h2 class="section-title">Fordon</h2>
+        <div class="section-header">
+            <h2 class="section-title">Vehicles</h2>
             <div class="section-number">04</div>
         </div>
         <div class="cars-grid">
-            <div class="car-card">
+            <div class="car-card" data-reveal-card>
                 <span class="car-year">2012</span>
-                <span class="car-badge">Till Salu</span>
-                <h3 class="car-model">Citroën C5</h3>
-                <p class="car-desc">
-                    "Årgång 2012. Silver. Körd genom alla Dalar, genom alla nätter. Motorn hostar, men hostar med stolthet."
-                </p>
-                <div class="car-price">39 000 kr</div>
+                <img src="assets/images/car-saab.jpg" alt="Citroën C5" class="car-image">
+                <div class="car-content">
+                    <span class="car-badge">For Sale</span>
+                    <h3 class="car-model">Citroën C5</h3>
+                    <p class="car-price">39 000 kr</p>
+                </div>
             </div>
-            <div class="car-card">
+            <div class="car-card" data-reveal-card>
                 <span class="car-year">2008</span>
-                <span class="car-badge">Till Salu</span>
-                <h3 class="car-model">Saab 9-5</h3>
-                <p class="car-desc">
-                    "Årgång 2008. Mörkblå. Den sista av sitt slag. Turbo som skriker som en skip som tappar en sten."
-                </p>
-                <div class="car-price">24 500 kr</div>
+                <img src="assets/images/car-citroen.jpg" alt="Saab 9-5" class="car-image">
+                <div class="car-content">
+                    <span class="car-badge">For Sale</span>
+                    <h3 class="car-model">Saab 9-5</h3>
+                    <p class="car-price">24 500 kr</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- PHONE SECTION -->
     <section class="phone-section">
-        <div class="phone-display">
-            <div class="phone-label">Ring Isvaktaren</div>
+        <div>
+            <div class="phone-label">Call the Ice Watcher</div>
             <div class="phone-number">070-287 54 64</div>
-            <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto;">
-                Vet du inte vad du ska göra? Förlorade du matchen? Behöver du curling-facts vid 04:00?
+            <p style="color: var(--text-secondary); max-width: 400px; margin: 2rem auto;">
+                Don't know what to do? Lost the match? Need curling facts at 4 AM?
             </p>
             <div class="audio-player">
-                <audio controls style="width: 100%; filter: invert(1);">
+                <audio controls>
                     <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
                 </audio>
             </div>
@@ -784,134 +786,143 @@
 
     <!-- FOOTER -->
     <footer>
-        <p class="footer-text">
-            FISKEN FANZINE — KATALOG 02 © 2026<br>
-            Tryckt i Mörkrets Dal
-        </p>
+        <p>FISKEN FANZINE — CATALOG 02 © 2026<br>Printed in the Valley of Darkness</p>
     </footer>
 
-    <!-- GENERATIVE BACKGROUND SCRIPT -->
+    <!-- SCROLL ENGINE -->
     <script>
-        const canvas = document.getElementById('generative-bg');
-        const ctx = canvas.getContext('2d');
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / maxScroll) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        });
+
+        // Parallax hero image
+        const heroImage = document.getElementById('heroImage');
+        const parallaxImage = document.getElementById('parallaxImage');
         
-        let width, height;
-        let particles = [];
-        let mouseX = 0, mouseY = 0;
-        
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.1;
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            
+            if (heroImage) {
+                heroImage.style.transform = `scale(1.2) translateY(${scrolled * 0.3}px)`;
             }
             
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                // Mouse interaction
-                const dx = mouseX - this.x;
-                const dy = mouseY - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                
-                if (dist < 200) {
-                    const force = (200 - dist) / 200;
-                    this.x -= dx * force * 0.02;
-                    this.y -= dy * force * 0.02;
-                }
-                
-                if (this.x < 0) this.x = width;
-                if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height;
-                if (this.y > height) this.y = 0;
-            }
-            
-            draw() {
-                ctx.fillStyle = `rgba(90, 200, 250, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        
-        function init() {
-            particles = [];
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle());
-            }
-        }
-        
-        function connect() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (dist < 150) {
-                        ctx.strokeStyle = `rgba(90, 200, 250, ${0.1 * (1 - dist / 150)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
+            if (parallaxImage) {
+                const section = parallaxImage.closest('.image-section');
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    const rate = rect.top * 0.2;
+                    parallaxImage.style.transform = `translateY(${rate}px)`;
                 }
             }
-        }
-        
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            
-            connect();
-            requestAnimationFrame(animate);
-        }
-        
-        window.addEventListener('resize', () => {
-            resize();
-            init();
         });
-        
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        resize();
-        init();
-        animate();
-        
-        // Scroll reveal
+
+        // Intersection Observer for reveals
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.2,
+            rootMargin: '0px 0px -10% 0px'
         };
-        
-        const observer = new IntersectionObserver((entries) => {
+
+        // Meta text reveal
+        const metaObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
+                    entry.target.classList.add('visible');
                 }
             });
         }, observerOptions);
-        
-        document.querySelectorAll('.product-showcase, .story-card, .car-card').forEach(el => {
-            el.classList.add('reveal');
-            observer.observe(el);
+
+        document.querySelectorAll('[data-split]').forEach(el => {
+            metaObserver.observe(el);
+        });
+
+        // Line reveal
+        const lineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('[data-reveal]').forEach(el => {
+            lineObserver.observe(el);
+        });
+
+        // 3D product reveal
+        const product3dObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('[data-reveal-3d]').forEach(el => {
+            product3dObserver.observe(el);
+        });
+
+        // Slide reveal
+        const slideObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('[data-reveal-slide]').forEach(el => {
+            slideObserver.observe(el);
+        });
+
+        // Card stagger reveal
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('[data-reveal-card]').forEach(el => {
+            cardObserver.observe(el);
+        });
+
+        // Split text into characters
+        document.querySelectorAll('[data-split-chars]').forEach(text => {
+            const content = text.innerHTML;
+            text.innerHTML = '';
+            
+            content.split('<br>').forEach((line, lineIndex) => {
+                const lineDiv = document.createElement('div');
+                lineDiv.style.overflow = 'hidden';
+                
+                line.split('').forEach((char, charIndex) => {
+                    const span = document.createElement('span');
+                    span.className = 'char';
+                    span.textContent = char === ' ' ? '\u00A0' : char;
+                    span.style.transitionDelay = `${(lineIndex * 0.1) + (charIndex * 0.02)}s`;
+                    lineDiv.appendChild(span);
+                });
+                
+                text.appendChild(lineDiv);
+            });
+            
+            // Animate on scroll
+            const charObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            charObserver.observe(text);
         });
     </script>
 </body>
