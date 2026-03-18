@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FISKEN FanzINE #2 — KATALOGEN</title>
+    <title>FISKEN — Katalog 02</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --acid-yellow: #CCFF00;
-            --blood-red: #FF0040;
-            --chrome: #C0C0C0;
-            --void: #0A0A0A;
-            --ice: #E0FFFF;
-            --hot-pink: #FF0066;
-            --electric-blue: #0066FF;
+            --bg-deep: #0a0a0f;
+            --bg-elevated: #12121a;
+            --surface: #1a1a24;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent: #5ac8fa;
+            --accent-warm: #ff9500;
+            --border: rgba(255,255,255,0.08);
+            --glass: rgba(255,255,255,0.03);
         }
         
         * {
@@ -30,124 +32,77 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--void);
-            color: white;
+            background: var(--bg-deep);
+            color: var(--text-primary);
             overflow-x: hidden;
-            line-height: 1.1;
+            line-height: 1.5;
         }
         
-        /* CHROME TEXT EFFECT */
-        .chrome-text {
-            background: linear-gradient(
-                180deg,
-                #FFFFFF 0%,
-                #E0E0E0 20%,
-                #A0A0A0 40%,
-                #FFFFFF 50%,
-                #808080 60%,
-                #C0C0C0 80%,
-                #FFFFFF 100%
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 
-                0 0 10px rgba(255,255,255,0.3),
-                0 0 20px rgba(255,255,255,0.2),
-                0 0 30px rgba(255,255,255,0.1);
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+        /* GENERATIVE CANVAS BACKGROUND */
+        #generative-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
         }
         
-        /* LIQUID ACID EFFECT */
-        .acid-text {
-            background: linear-gradient(90deg, var(--acid-yellow), var(--hot-pink), var(--electric-blue), var(--acid-yellow));
-            background-size: 300% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: acidFlow 4s ease infinite;
-            filter: drop-shadow(0 0 20px rgba(204,255,0,0.5));
-        }
-        
-        @keyframes acidFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        /* GLITCH EFFECT */
-        .glitch {
+        /* AI MELTED TEXT EFFECT */
+        .ai-text {
             position: relative;
-            animation: glitch-skew 3s infinite;
+            display: inline-block;
         }
         
-        .glitch::before,
-        .glitch::after {
+        .ai-text::before {
             content: attr(data-text);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            filter: url(#ai-distort);
+            opacity: 0.6;
+            animation: ai-melt 8s ease-in-out infinite;
         }
         
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--blood-red);
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        @keyframes ai-melt {
+            0%, 100% { transform: scale(1) translate(0, 0); }
+            25% { transform: scale(1.02) translate(-2px, 1px); }
+            50% { transform: scale(0.98) translate(2px, -1px); }
+            75% { transform: scale(1.01) translate(-1px, 2px); }
         }
         
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--electric-blue);
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        /* VARIABLE FONT ANIMATION */
+        .variable-headline {
+            font-family: 'Space Grotesk', sans-serif;
+            font-variation-settings: 'wght' 300;
+            animation: font-breathe 4s ease-in-out infinite;
         }
         
-        @keyframes glitch-anim {
-            0% { clip: rect(10px, 9999px, 85px, 0); }
-            20% { clip: rect(63px, 9999px, 130px, 0); }
-            40% { clip: rect(25px, 9999px, 15px, 0); }
-            60% { clip: rect(88px, 9999px, 95px, 0); }
-            80% { clip: rect(42px, 9999px, 75px, 0); }
-            100% { clip: rect(15px, 9999px, 120px, 0); }
+        @keyframes font-breathe {
+            0%, 100% { font-variation-settings: 'wght' 300; }
+            50% { font-variation-settings: 'wght' 700; }
         }
         
-        @keyframes glitch-anim-2 {
-            0% { clip: rect(65px, 9999px, 100px, 0); }
-            20% { clip: rect(20px, 9999px, 60px, 0); }
-            40% { clip: rect(90px, 9999px, 140px, 0); }
-            60% { clip: rect(35px, 9999px, 80px, 0); }
-            80% { clip: rect(75px, 9999px, 110px, 0); }
-            100% { clip: rect(5px, 9999px, 45px, 0); }
+        /* GLASS MORPHISM */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
         }
         
-        @keyframes glitch-skew {
-            0% { transform: skew(0deg); }
-            10% { transform: skew(-2deg); }
-            20% { transform: skew(2deg); }
-            30% { transform: skew(0deg); }
-            100% { transform: skew(0deg); }
-        }
-        
-        /* BRUTALIST BORDERS */
-        .brutal-border {
-            border: 4px solid white;
-            box-shadow: 8px 8px 0px var(--acid-yellow);
-            transition: all 0.2s ease;
-        }
-        
-        .brutal-border:hover {
-            box-shadow: 12px 12px 0px var(--hot-pink);
-            transform: translate(-4px, -4px);
-        }
-        
-        /* GRID SYSTEM */
-        .grid-brutal {
+        /* EDITORIAL GRID */
+        .editorial-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 2rem;
-            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4rem;
         }
         
         /* HERO SECTION */
@@ -156,98 +111,12 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             position: relative;
-            background: 
-                linear-gradient(135deg, rgba(10,10,10,0.9), rgba(10,10,10,0.7)),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)" opacity="0.4"/></svg>');
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 50px,
-                rgba(204,255,0,0.03) 50px,
-                rgba(204,255,0,0.03) 100px
-            );
-            animation: gridMove 20s linear infinite;
-        }
-        
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            z-index: 10;
+            padding: 4rem;
         }
         
         .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-        }
-        
-        .issue-number {
-            font-family: 'Space Grotesk', monospace;
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            letter-spacing: 1em;
-            color: var(--acid-yellow);
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-        
-        .hero-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(4rem, 15vw, 12rem);
-            font-weight: 800;
-            line-height: 0.85;
-            letter-spacing: -0.05em;
-            margin-bottom: 1rem;
-        }
-        
-        .hero-subtitle {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            font-weight: 300;
-            letter-spacing: 0.5em;
-            color: var(--chrome);
-            margin-top: 2rem;
-        }
-        
-        /* POSTER SECTIONS */
-        .poster-section {
-            min-height: 100vh;
-            padding: 4rem 2rem;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .poster-yellow {
-            background: var(--acid-yellow);
-            color: var(--void);
-        }
-        
-        .poster-red {
-            background: var(--blood-red);
-            color: white;
-        }
-        
-        .poster-black {
-            background: var(--void);
-            color: white;
-            border-top: 2px solid var(--acid-yellow);
-            border-bottom: 2px solid var(--acid-yellow);
-        }
-        
-        /* PRODUCT POSTER */
-        .product-poster {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
@@ -256,76 +125,190 @@
             margin: 0 auto;
         }
         
-        .product-poster.reverse {
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 300;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+        }
+        
+        .hero-title span {
+            display: block;
+        }
+        
+        .hero-title .outline {
+            -webkit-text-stroke: 1px var(--text-primary);
+            color: transparent;
+        }
+        
+        .hero-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-desc {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 400px;
+            line-height: 1.7;
+        }
+        
+        /* PRODUCT SHOWCASE - TEENAGE ENGINEERING STYLE */
+        .product-section {
+            min-height: 100vh;
+            padding: 8rem 4rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .product-showcase {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        
+        .product-showcase.reverse {
             direction: rtl;
         }
         
-        .product-poster.reverse > * {
+        .product-showcase.reverse > * {
             direction: ltr;
         }
         
-        .product-image-container {
+        .product-visual {
             position: relative;
-        }
-        
-        .product-image {
-            width: 100%;
             aspect-ratio: 1;
-            object-fit: cover;
-            border: 4px solid var(--void);
-            box-shadow: 12px 12px 0px var(--void);
-            filter: grayscale(30%) contrast(1.1);
-            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #1a1a24 0%, #0f0f14 100%);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid var(--border);
         }
         
-        .product-image:hover {
-            filter: grayscale(0%) contrast(1);
-            box-shadow: 16px 16px 0px var(--hot-pink);
-            transform: translate(-4px, -4px);
+        .product-visual::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(90,200,250,0.1) 0%, transparent 50%);
+            animation: light-rotate 20s linear infinite;
+        }
+        
+        @keyframes light-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .product-visual img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .product-visual:hover img {
+            transform: scale(1.05) rotate(-2deg);
+        }
+        
+        .product-tag {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(10,10,15,0.8);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid var(--border);
+            z-index: 2;
+        }
+        
+        .product-info {
+            padding: 2rem 0;
         }
         
         .product-label {
-            position: absolute;
-            top: -1rem;
-            left: -1rem;
-            background: var(--void);
-            color: var(--acid-yellow);
-            padding: 0.5rem 1rem;
-            font-family: 'Space Grotesk', monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            border: 2px solid var(--acid-yellow);
-        }
-        
-        .product-info h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 800;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
             margin-bottom: 1rem;
+        }
+        
+        .product-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
             line-height: 1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
         
-        .product-info .desc {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.6;
+        .product-desc {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
             margin-bottom: 2rem;
-            max-width: 500px;
+            max-width: 450px;
         }
         
-        .product-info .price {
+        .product-specs {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .spec {
             font-family: 'Space Grotesk', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--void);
-            color: var(--acid-yellow);
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            border: 3px solid var(--void);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
         
-        /* FULL BLEED POSTER */
+        .spec-value {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+            letter-spacing: 0;
+        }
+        
+        .product-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .product-price span {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-left: 0.5rem;
+        }
+        
+        /* FULL BLEED SECTIONS */
         .full-bleed {
             min-height: 80vh;
             display: flex;
@@ -333,515 +316,601 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 4rem;
+            padding: 6rem 4rem;
             position: relative;
-            overflow: hidden;
+            z-index: 10;
+            background: var(--bg-elevated);
         }
         
         .full-bleed h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 800;
-            line-height: 0.9;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -0.03em;
             margin-bottom: 2rem;
-            z-index: 10;
         }
         
         .full-bleed p {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
             max-width: 600px;
-            z-index: 10;
-            line-height: 1.7;
-        }
-        
-        /* CAR AD POSTER */
-        .car-poster {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            padding: 4rem;
-            border: 4px solid var(--chrome);
-            position: relative;
-            max-width: 1000px;
-            margin: 4rem auto;
-        }
-        
-        .car-poster::before {
-            content: 'TILL SALU';
-            position: absolute;
-            top: -1.5rem;
-            left: 2rem;
-            background: var(--blood-red);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            font-family: 'Space Grotesk', monospace;
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            font-size: 0.9rem;
-        }
-        
-        .car-year {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 800;
-            color: rgba(255,255,255,0.1);
-            position: absolute;
-            top: 1rem;
-            right: 2rem;
-            line-height: 1;
-        }
-        
-        .car-model {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-        
-        .car-desc {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
             line-height: 1.8;
-            color: var(--chrome);
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--acid-yellow);
-            padding-left: 1.5rem;
         }
         
-        .car-price {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--acid-yellow);
-        }
-        
-        /* STORY SECTION */
-        .story-section {
-            background: var(--void);
-            padding: 6rem 2rem;
+        /* EDITORIAL STORY GRID */
+        .stories-section {
+            padding: 8rem 4rem;
             position: relative;
+            z-index: 10;
         }
         
-        .story-grid {
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 4rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            max-width: 1200px;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: end;
+        }
+        
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            line-height: 1.1;
+        }
+        
+        .section-number {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            justify-self: end;
+        }
+        
+        .stories-grid {
+            max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
         }
         
         .story-card {
-            background: rgba(255,255,255,0.03);
-            border: 2px solid rgba(255,255,255,0.1);
-            padding: 3rem;
-            position: relative;
-            transition: all 0.3s ease;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         .story-card:hover {
-            border-color: var(--acid-yellow);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transform: translateY(-8px);
+            border-color: rgba(90,200,250,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
         }
         
-        .story-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--acid-yellow), var(--hot-pink));
+        .story-meta {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
         }
         
         .story-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--ice);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.3;
         }
         
         .story-text {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            line-height: 1.9;
-            color: var(--chrome);
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
         
-        /* MARQUEE */
-        .marquee-container {
-            background: var(--acid-yellow);
-            color: var(--void);
-            padding: 1rem 0;
+        /* CAR ADS - EDITORIAL STYLE */
+        .cars-section {
+            padding: 8rem 4rem;
+            background: var(--bg-elevated);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .cars-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+        
+        .car-card {
+            background: var(--surface);
+            border-radius: 32px;
+            padding: 3rem;
+            border: 1px solid var(--border);
+            position: relative;
             overflow: hidden;
-            white-space: nowrap;
-            border-top: 4px solid var(--void);
-            border-bottom: 4px solid var(--void);
         }
         
-        .marquee-text {
-            display: inline-block;
-            font-family: 'Space Grotesk', monospace;
+        .car-year {
+            position: absolute;
+            top: -1rem;
+            right: 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(4rem, 8vw, 6rem);
             font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 0.3em;
-            animation: marquee 20s linear infinite;
+            color: rgba(255,255,255,0.03);
+            line-height: 1;
         }
         
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .car-badge {
+            display: inline-block;
+            background: var(--accent-warm);
+            color: var(--bg-deep);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        .car-model {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .car-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .car-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 500;
         }
         
         /* PHONE SECTION */
         .phone-section {
-            background: linear-gradient(180deg, var(--void) 0%, #1a0a0a 100%);
-            padding: 6rem 2rem;
+            padding: 8rem 4rem;
             text-align: center;
-            border-top: 4px solid var(--blood-red);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .phone-display {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .phone-label {
+            font-size: 0.875rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
         }
         
         .phone-number {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 300;
             letter-spacing: 0.1em;
-            margin: 2rem 0;
+            margin-bottom: 2rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
         
         .phone-number:hover {
-            color: var(--acid-yellow);
-            text-shadow: 0 0 40px rgba(204,255,0,0.5);
+            color: var(--accent);
+        }
+        
+        .audio-player {
+            max-width: 400px;
+            margin: 3rem auto 0;
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
         }
         
         /* FOOTER */
         footer {
-            background: var(--void);
-            padding: 4rem 2rem;
+            padding: 4rem;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 10;
         }
         
         .footer-text {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 0.8rem;
-            color: var(--chrome);
-            letter-spacing: 0.2em;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
         }
         
         /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .product-poster {
+        @media (max-width: 1024px) {
+            .hero-content,
+            .product-showcase {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 3rem;
             }
             
-            .product-poster.reverse {
-                direction: ltr;
+            .stories-grid {
+                grid-template-columns: 1fr;
             }
             
-            .grid-brutal {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 1rem;
-                padding: 1rem;
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .editorial-grid {
+                padding: 0 2rem;
             }
         }
         
-        /* SCANLINES OVERLAY */
-        .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0,0,0,0.1) 2px,
-                rgba(0,0,0,0.1) 4px
-            );
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.3;
+        /* SCROLL ANIMATIONS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* NOISE OVERLAY */
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)" opacity="0.05"/></svg>');
-            pointer-events: none;
-            z-index: 9998;
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- OVERLAYS -->
-    <div class="scanlines"></div>
-    <div class="noise"></div>
+    <!-- SVG Filters for AI Effect -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="ai-distort">
+                <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise" seed="1"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
 
-    <!-- MARQUEE -->
-    <div class="marquee-container">
-        <span class="marquee-text">
-            ★ FISKEN KATALOGEN 2026 ★ FRIA RETURER INOM 30 DAGAR ★ INGEN FRÅGAR VARFÖR ★ DU BEHÖVER DET HÄR ★ 
-            FISKEN KATALOGEN 2026 ★ FRIA RETURER INOM 30 DAGAR ★ INGEN FRÅGAR VARFÖR ★ DU BEHÖVER DET HÄR ★
-        </span>
-    </div>
+    <!-- Generative Background Canvas -->
+    <canvas id="generative-bg"></canvas>
 
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
-            <div class="issue-number">NUMMER 02 • VÅREN 2026</div>
-            <h1 class="hero-title">
-                <span class="chrome-text glitch" data-text="FISKEN">FISKEN</span><br>
-                <span class="acid-text">FANZINE</span>
-            </h1>
-            <div class="hero-subtitle">KATALOGEN</div>
+            <div>
+                <div class="hero-meta">Katalog 02 — Våren 2026</div>
+                <h1 class="hero-title">
+                    <span class="variable-headline">FISKEN</span>
+                    <span class="outline">FANZINE</span>
+                </h1>
+            </div>
+            <div class="hero-desc">
+                En katalog över ting du inte visste att du behövde. Verktyg för den som förstått att curling inte är en sport—det är en existensform.
+            </div>
         </div>
     </section>
 
-    <!-- INTRO POSTER -->
-    <section class="full-bleed poster-yellow">
-        <h2 class="glitch" data-text="DU BEHÖVER">DU BEHÖVER<br>INTE VETA</h2>
-        <p>En katalog över ting som sjunger i mörkret. Ting som väntar. Verktyg för den som förstått att curling inte är en sport—det är en existensform.</p>
-    </section>
-
     <!-- PRODUCT 1: CHRONOSWEEP -->
-    <section class="poster-section poster-black">
-        <div class="product-poster">
-            <div class="product-image-container">
-                <span class="product-label">ART. 001</span>
-                <img src="assets/images/chronosweep.jpg" alt="Chronosweep 3000" class="product-image">
+    <section class="product-section">
+        <div class="product-showcase">
+            <div class="product-visual">
+                <span class="product-tag">Art. 001</span>
+                <img src="assets/images/chronosweep.jpg" alt="Chronosweep 3000">
             </div>
             <div class="product-info">
-                <h3 class="chrome-text">CHRONOSWEEP<br>3000</h3>
-                <p class="desc">
-                    Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence"—den tid det tar för en skip att inse att matchen är förlorad. Mässingsboett med okkulta symboler.
+                <div class="product-label">Tidmätning</div>
+                <h2 class="product-name">Chronosweep<br>3000</h2>
+                <p class="product-desc">
+                    Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence"—den tid det tar för en skip att inse att matchen är förlorad.
                 </p>
-                <div class="price">2 499 kr</div>
+                <div class="product-specs">
+                    <div class="spec">
+                        Material
+                        <span class="spec-value">Mässing / Ek</span>
+                    </div>
+                    <div class="spec">
+                        Precision
+                        <span class="spec-value">± Evighet</span>
+                    </div>
+                    <div class="spec">
+                        Vikt
+                        <span class="spec-value">420g</span>
+                    </div>
+                </div>
+                <div class="product-price">2 499 kr <span>inkl. moms</span></div>
             </div>
         </div>
     </section>
 
     <!-- PRODUCT 2: SLIDE-DON -->
-    <section class="poster-section poster-red">
-        <div class="product-poster reverse">
-            <div class="product-image-container">
-                <span class="product-label" style="background: white; color: var(--blood-red); border-color: white;">ART. 002</span>
-                <img src="assets/images/slide-don.jpg" alt="Slide-Don" class="product-image" style="border-color: white; box-shadow: 12px 12px 0px white;">
+    <section class="product-section">
+        <div class="product-showcase reverse">
+            <div class="product-visual">
+                <span class="product-tag">Art. 002</span>
+                <img src="assets/images/slide-don.jpg" alt="Slide-Don Grävling">
             </div>
             <div class="product-info">
-                <h3 style="color: white;">SLIDE-DON™<br>GRÄVLING</h3>
-                <p class="desc" style="color: rgba(255,255,255,0.9);">
+                <div class="product-label">Utövningsdon</div>
+                <h2 class="product-name">Slide-Don™<br>Grävling</h2>
+                <p class="product-desc">
                     Varför hålla i en kvast när du kan hålla i en uppstoppad grävling? Handgjord i Mörkrets Dal av lokala taxidermister med curling-licens.
                 </p>
-                <div class="price" style="background: white; color: var(--blood-red); border-color: white;">1 899 kr</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PRODUCT 3: ÄLVDALSK REGELBOK -->
-    <section class="poster-section poster-black">
-        <div class="product-poster">
-            <div class="product-image-container">
-                <span class="product-label">ART. 003</span>
-                <img src="assets/images/elvdal-regler.jpg" alt="Älvdalsk Regelbok" class="product-image">
-            </div>
-            <div class="product-info">
-                <h3 class="acid-text">ÄLVDALSK<br>REGLER</h3>
-                <p class="desc">
-                    Curling—som det ska spelas. På älvdalska. Innehåller regler som "Träd int bråtännar" (Sopa inte förbi) och "Huldä fast stäin" (Behåll stenen). Läderinbunden. 144 sidor av ren, obegriplig visdom.
-                </p>
-                <div class="price">449 kr</div>
+                <div class="product-specs">
+                    <div class="spec">
+                        Art
+                        <span class="spec-value">Meles meles</span>
+                    </div>
+                    <div class="spec">
+                        Tillstånd
+                        <span class="spec-value">Eviskt</span>
+                    </div>
+                    <div class="spec">
+                        Doft
+                        <span class="spec-value">Näver / Vemod</span>
+                    </div>
+                </div>
+                <div class="product-price">1 899 kr <span>inkl. moms</span></div>
             </div>
         </div>
     </section>
 
     <!-- FULL BLEED BREAK -->
-    <section class="full-bleed poster-yellow">
-        <h2 class="glitch" data-text="VÄNTA">ALLTING<br>ÄR ATT<br>VÄNTA</h2>
+    <section class="full-bleed">
+        <h2 class="variable-headline">Allting<br>är att vänta</h2>
         <p>Isen sträcker sig framför mig som en frusen sjö, som en spegel som inte speglar något—eller kanske speglar för mycket.</p>
     </section>
 
-    <!-- PRODUCT 4: ISVAKTAREN -->
-    <section class="poster-section poster-black">
-        <div class="product-poster reverse">
-            <div class="product-image-container">
-                <span class="product-label">ART. 004</span>
-                <img src="assets/images/isvaktaren.jpg" alt="Isvaktarens Telefon" class="product-image">
+    <!-- PRODUCT 3: ÄLVDALSK REGELBOK -->
+    <section class="product-section">
+        <div class="product-showcase">
+            <div class="product-visual">
+                <span class="product-tag">Art. 003</span>
+                <img src="assets/images/elvdal-regler.jpg" alt="Älvdalsk Regelbok">
             </div>
             <div class="product-info">
-                <h3 class="chrome-text">ISVAKTAREN<br>TELEFON</h3>
-                <p class="desc">
-                    En svart, roterande telefon. Den ringer aldrig. Men om du ringer numret svarar en röst. Rösten vet saker om curling som ingen borde veta. Rösten har sett stenar rulla i 40 år.
+                <div class="product-label">Litteratur</div>
+                <h2 class="product-name">Älvdalsk<br>Regelbok</h2>
+                <p class="product-desc">
+                    Curling—som det ska spelas. Innehåller regler som "Träd int bråtännar" och "Huldä fast stäin". Läderinbunden. 144 sidor av ren, obegriplig visdom.
                 </p>
-                <div class="price">799 kr</div>
+                <div class="product-specs">
+                    <div class="spec">
+                        Sidor
+                        <span class="spec-value">144</span>
+                    </div>
+                    <div class="spec">
+                        Band
+                        <span class="spec-value">Läder</span>
+                    </div>
+                    <div class="spec">
+                        Språk
+                        <span class="spec-value">Älvdalska</span>
+                    </div>
+                </div>
+                <div class="product-price">449 kr <span>inkl. moms</span></div>
             </div>
-        </div>
-    </section>
-
-    <!-- PRODUCT 5: HOG LINE MATTA -->
-    <section class="poster-section poster-red">
-        <div class="product-poster">
-            <div class="product-image-container">
-                <span class="product-label" style="background: white; color: var(--blood-red); border-color: white;">ART. 005</span>
-                <img src="assets/images/hog-line-matta.jpg" alt="Hog Line Matta" class="product-image" style="border-color: white; box-shadow: 12px 12px 0px white;">
-            </div>
-            <div class="product-info">
-                <h3 style="color: white;">HOG LINE<br>MATTA</h3>
-                <p class="desc" style="color: rgba(255,255,255,0.9);">
-                    En matta som ser ut som en curling-bana. När du går över den känner du en lätt, obehaglig känsla av att du borde släppa något. Storlek: 2x10 meter.
-                </p>
-                <div class="price" style="background: white; color: var(--blood-red); border-color: white;">3 299 kr</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CAR ADS SECTION -->
-    <section class="poster-section poster-black" style="padding: 8rem 2rem;">
-        <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 class="acid-text" style="font-family: 'Syne', sans-serif; font-size: clamp(2rem, 6vw, 4rem); font-weight: 800;">FORDON</h2>
-            <p style="font-family: 'Space Grotesk', sans-serif; color: var(--chrome); margin-top: 1rem;">De har burit oss genom Dalar. Nu behöver de nya hem.</p>
-        </div>
-
-        <!-- CAR 1 -->
-        <div class="car-poster">
-            <span class="car-year">2012</span>
-            <h3 class="car-model">CITROËN C5</h3>
-            <p class="car-desc">
-                "Årgång 2012. Silver. Körd genom alla Dalar, genom alla nätter. Motorn hostar, men hostar med stolthet. Stolarna har sett saker. Bagageluckan har burit kvastar, drömmar, och ett par gånger en uppstoppad grävling."
-            </p>
-            <div class="car-price">39 000 kr</div>
-            <p style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--chrome); margin-top: 1rem;">Kontakt: Fråga efter "Enkan" i korridoren</p>
-        </div>
-
-        <!-- CAR 2 -->
-        <div class="car-poster" style="margin-top: 4rem;">
-            <span class="car-year">2008</span>
-            <h3 class="car-model">SAAB 9-5</h3>
-            <p class="car-desc">
-                "Årgång 2008. Mörkblå. Den sista av sitt slag. Turbo som skriker som en skip som tappar en sten på hog line. Någon måste rädda den från skroten. Är det du?"
-            </p>
-            <div class="car-price">24 500 kr</div>
-            <p style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--chrome); margin-top: 1rem;">Lämna meddelande i omklädningsrummet på älvdalska</p>
         </div>
     </section>
 
     <!-- STORIES SECTION -->
-    <section class="story-section">
-        <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 class="chrome-text glitch" data-text="FRAGMENT" style="font-family: 'Syne', sans-serif; font-size: clamp(2rem, 6vw, 4rem); font-weight: 800;">FRAGMENT FRÅN<br>MÖRKRETS DAL</h2>
+    <section class="stories-section">
+        <div class="section-header">
+            <h2 class="section-title">Fragment från<br>Mörkrets Dal</h2>
+            <div class="section-number">03</div>
         </div>
-        
-        <div class="story-grid">
+        <div class="stories-grid">
             <article class="story-card">
+                <div class="story-meta">Kapitel I</div>
                 <h3 class="story-title">Om att vänta på isen</h3>
                 <p class="story-text">
-                    Klockan är fem på morgonen. Jag står ensam i curlinghallen. Isen sträcker sig framför mig som en frusen sjö, som en spegel som inte speglar något—eller kanske speglar för mycket.
+                    Klockan är fem på morgonen. Jag står ensam i curlinghallen. Isen sträcker sig framför mig som en frusen sjö.
                 </p>
             </article>
-
             <article class="story-card">
+                <div class="story-meta">Kapitel II</div>
                 <h3 class="story-title">Sömnlöshetens Dikt</h3>
                 <p class="story-text">
-                    Att förlora en match är att födas på nytt. Man kommer ut blöt, frusen, skrikande. Ingen applåderar. Ljuset i hallen är för ljust. Ljuset i omklädningsrummet är för mörkt.
+                    Att förlora en match är att födas på nytt. Man kommer ut blöt, frusen, skrikande. Ingen applåderar.
                 </p>
             </article>
-
             <article class="story-card">
+                <div class="story-meta">Kapitel III</div>
                 <h3 class="story-title">Mjölnarens Berättelse</h3>
                 <p class="story-text">
-                    Han hette inte Mjölnaren. Han hette något annat, något som glömdes bort när han köpte sin första curling-kvast 1978. Efter det var han bara Mjölnaren.
-                </p>
-            </article>
-
-            <article class="story-card">
-                <h3 class="story-title">Om Begravningen</h3>
-                <p class="story-text">
-                    Vi begravde en sten igår. Det var ingen vanlig sten—det var Sten #7, den vi använde i semifinalen 2019. Den sprack. En microfraktur, sa teknikern. En hjärtattack, sa jag.
+                    Han hette inte Mjölnaren. Han hette något annat, något som glömdes bort när han köpte sin första curling-kvast 1978.
                 </p>
             </article>
         </div>
     </section>
 
-    <!-- FULL BLEED BREAK -->
-    <section class="full-bleed poster-yellow">
-        <h2 class="glitch" data-text="MJÖLNAREN">MJÖLNARENS<br>MIXTAPE<br>VOL. 1</h2>
-        <p style="font-family: 'Space Grotesk', monospace; letter-spacing: 0.2em; margin-top: 2rem;">
-            A1. Is Som Knakar (Intro) — 4:23<br>
-            A2. Fjärran Snöröjning — 3:17<br>
-            A3. Någons Suck, Förstärkt — 2:44<br>
-            A4. Teknikern Nynnar — 5:01<br>
-            A5. Sten Rullar, Slutar — 8:12<br>
-            B1. [Tystnad] Om Du Lyssnar Noga — 22:00
-        </p>
+    <!-- CAR ADS -->
+    <section class="cars-section">
+        <div class="section-header" style="margin-bottom: 3rem;">
+            <h2 class="section-title">Fordon</h2>
+            <div class="section-number">04</div>
+        </div>
+        <div class="cars-grid">
+            <div class="car-card">
+                <span class="car-year">2012</span>
+                <span class="car-badge">Till Salu</span>
+                <h3 class="car-model">Citroën C5</h3>
+                <p class="car-desc">
+                    "Årgång 2012. Silver. Körd genom alla Dalar, genom alla nätter. Motorn hostar, men hostar med stolthet."
+                </p>
+                <div class="car-price">39 000 kr</div>
+            </div>
+            <div class="car-card">
+                <span class="car-year">2008</span>
+                <span class="car-badge">Till Salu</span>
+                <h3 class="car-model">Saab 9-5</h3>
+                <p class="car-desc">
+                    "Årgång 2008. Mörkblå. Den sista av sitt slag. Turbo som skriker som en skip som tappar en sten."
+                </p>
+                <div class="car-price">24 500 kr</div>
+            </div>
+        </div>
     </section>
 
     <!-- PHONE SECTION -->
     <section class="phone-section">
-        <h2 class="chrome-text" style="font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700;">RING ISVAKTAREN</h2>
-        <p style="font-family: 'Space Grotesk', sans-serif; color: var(--chrome); margin: 2rem auto; max-width: 400px;">
-            Vet du inte vad du ska göra? Förlorade du matchen? Behöver du curling-facts vid 04:00?
-        </p>
-        <div class="phone-number acid-text">070-CURLING</div>
-        <p style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--blood-red);">
-            (070-287-5464) • 19 kr/min • Evigheten ingår
-        </p>
-        
-        <!-- Audio Player -->
-        <div style="margin-top: 3rem; max-width: 400px; margin-left: auto; margin-right: auto;">
-            <p style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; color: var(--chrome); margin-bottom: 1rem;">
-                ↑ Smakprov från telefonsvararen:
+        <div class="phone-display">
+            <div class="phone-label">Ring Isvaktaren</div>
+            <div class="phone-number">070-287 54 64</div>
+            <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto;">
+                Vet du inte vad du ska göra? Förlorade du matchen? Behöver du curling-facts vid 04:00?
             </p>
-            <audio controls style="width: 100%; filter: invert(1); opacity: 0.9;">
-                <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
-            </audio>
+            <div class="audio-player">
+                <audio controls style="width: 100%; filter: invert(1);">
+                    <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
+                </audio>
+            </div>
         </div>
     </section>
-
-    <!-- MARQUEE FOOTER -->
-    <div class="marquee-container" style="background: var(--blood-red);">
-        <span class="marquee-text" style="color: white;">
-            ★ FISKEN FanzINE #2 ★ TRYCKT I MÖRKRETS DAL ★ INGEN COPYRIGHT ★ ALLA RÄTTIGHETER FÖRNEKAS ★ 
-            MAN SKA INTE MÅLA KYCKLINGEN BLÅ ★ FISKEN FanzINE #2 ★ TRYCKT I MÖRKRETS DAL ★
-        </span>
-    </div>
 
     <!-- FOOTER -->
     <footer>
         <p class="footer-text">
-            FISKEN FANZINE #2 • KATALOGEN 2026<br>
-            "Man ska inte måla kycklingen blå om man inte har tänkt äta middag."
+            FISKEN FANZINE — KATALOG 02 © 2026<br>
+            Tryckt i Mörkrets Dal
         </p>
     </footer>
 
-    <!-- SCROLL REVEAL -->
+    <!-- GENERATIVE BACKGROUND SCRIPT -->
     <script>
+        const canvas = document.getElementById('generative-bg');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        let mouseX = 0, mouseY = 0;
+        
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Mouse interaction
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist < 200) {
+                    const force = (200 - dist) / 200;
+                    this.x -= dx * force * 0.02;
+                    this.y -= dy * force * 0.02;
+                }
+                
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+            
+            draw() {
+                ctx.fillStyle = `rgba(90, 200, 250, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function init() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function connect() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(90, 200, 250, ${0.1 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            connect();
+            requestAnimationFrame(animate);
+        }
+        
+        window.addEventListener('resize', () => {
+            resize();
+            init();
+        });
+        
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        resize();
+        init();
+        animate();
+        
+        // Scroll reveal
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
-
+        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('active');
                 }
             });
         }, observerOptions);
-
-        document.querySelectorAll('.product-poster, .story-card, .car-poster').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s ease';
+        
+        document.querySelectorAll('.product-showcase, .story-card, .car-card').forEach(el => {
+            el.classList.add('reveal');
             observer.observe(el);
         });
     </script>
