@@ -881,9 +881,112 @@
             .comic-panel:nth-child(1),
             .comic-panel:nth-child(6) { grid-column: span 1; grid-row: span 1; }
         }
-    </style>
+    
+        /* Lovecraftian Filter Classes */
+        .lovecraft-swirl { filter: url(#lovecraft-swirl); }
+        .cosmic-dread { filter: url(#cosmic-dread); }
+        .tentacle-distort { filter: url(#tentacle-distort); }
+        .eldritch-horror { filter: url(#eldritch-horror); }
+        .void-swirl { filter: url(#void-swirl); }
+        .sketch-enhance { filter: url(#sketch-enhance); }
+        
+        /* Apply filters to victim images */
+        .victim-img {
+            filter: url(#sketch-enhance) contrast(1.2);
+            transition: filter 0.5s ease;
+        }
+        .victim-img:hover {
+            filter: url(#eldritch-horror) url(#sketch-enhance);
+        }
+        
+        /* Awakening image with swirl */
+        .awakening-img {
+            filter: url(#void-swirl) contrast(1.1);
+        }
+        
+        /* Messages with cosmic dread */
+        .messages-img {
+            filter: url(#cosmic-dread);
+        }
+        
+        /* Ritual with tentacle distortion */
+        .ritual-img {
+            filter: url(#tentacle-distort);
+        }
+        
+        /* Demon stone with eldritch horror */
+        .demonstone-img {
+            filter: url(#eldritch-horror);
+        }
+        
+        /* Hall with void swirl */
+        .hall-img {
+            filter: url(#void-swirl);
+        }
+        
+        /* Group with cosmic dread */
+        .group-img {
+            filter: url(#cosmic-dread);
+        }
+        
+        /* Panic with tentacle distortion */
+        .panic-img {
+            filter: url(#tentacle-distort);
+        }
+</style>
 </head>
 <body>
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+    <defs>
+        <!-- Lovecraftian Swirl Filter -->
+        <filter id="lovecraft-swirl" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="4" seed="666" result="turbulence"/>
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+            <feGaussianBlur stdDeviation="1" result="blur"/>
+            <feBlend in="SourceGraphic" in2="blur" mode="multiply"/>
+        </filter>
+        
+        <!-- Cosmic Dread Filter -->
+        <filter id="cosmic-dread" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="5" seed="13" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" xChannelSelector="R" yChannelSelector="G"/>
+            <feColorMatrix type="matrix" values="0.5 0 0 0 0  0 0.3 0 0 0  0 0 0.6 0 0  0 0 0 1 0" result="colored"/>
+            <feBlend in="SourceGraphic" in2="colored" mode="overlay"/>
+        </filter>
+        
+        <!-- Tentacle Distortion Filter -->
+        <filter id="tentacle-distort" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="3" seed="999" result="warp"/>
+            <feDisplacementMap in="SourceGraphic" in2="warp" scale="40" xChannelSelector="G" yChannelSelector="R"/>
+        </filter>
+        
+        <!-- Eldritch Horror Filter -->
+        <filter id="eldritch-horror" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="6" seed="666" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="25" xChannelSelector="R" yChannelSelector="B"/>
+            <feGaussianBlur stdDeviation="0.5"/>
+            <feColorMatrix type="saturate" values="1.5"/>
+        </filter>
+        
+        <!-- Void Swirl Filter -->
+        <filter id="void-swirl" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence type="turbulence" baseFrequency="0.015" numOctaves="4" seed="42" result="swirl"/>
+            <feDisplacementMap in="SourceGraphic" in2="swirl" scale="35" xChannelSelector="R" yChannelSelector="G"/>
+            <feGaussianBlur stdDeviation="0.8"/>
+        </filter>
+        
+        <!-- Pencil Sketch Enhance Filter -->
+        <filter id="sketch-enhance">
+            <feConvolveMatrix order="3" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0" preserveAlpha="true"/>
+            <feComponentTransfer>
+                <feFuncR type="linear" slope="1.2" intercept="-0.1"/>
+                <feFuncG type="linear" slope="1.2" intercept="-0.1"/>
+                <feFuncB type="linear" slope="1.2" intercept="-0.1"/>
+            </feComponentTransfer>
+        </filter>
+    </defs>
+</svg>
+
     <!-- SVG FILTERS -->
     <svg class="svg-filters">
         <defs>
