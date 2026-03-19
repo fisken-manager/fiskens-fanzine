@@ -3,497 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FISKEN — Catalog 02</title>
+    <title>FISKEN — 02</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-deep: #0a0a0f;
-            --bg-elevated: #12121a;
-            --surface: #1a1a24;
-            --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
-            --accent: #5ac8fa;
-            --border: rgba(255,255,255,0.08);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
-        html {
-            scroll-behavior: auto;
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --text: #ffffff;
+            --muted: #666666;
+            --accent: #ff3300;
         }
         
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
-            line-height: 1.5;
-        }
-        
-        /* PROGRESS BAR */
-        .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            z-index: 1000;
-            background: rgba(255,255,255,0.05);
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-        
-        /* SMOOTH SCROLL CONTAINER */
-        .smooth-scroll {
-            will-change: transform;
-        }
-        
-        /* SECTION BASE */
-        .section {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-        }
-        
-        /* HERO - FULL BLEED IMAGE */
-        .hero {
-            height: 100vh;
-            position: relative;
-        }
-        
-        .hero-image {
-            position: absolute;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            object-fit: cover;
-            filter: brightness(0.4) contrast(1.1);
-            transform: scale(1.2);
-            will-change: transform;
-        }
-        
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                transparent 0%,
-                rgba(10,10,15,0.5) 50%,
-                var(--bg-deep) 100%
-            );
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            padding: 4rem;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .hero-meta {
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-        
-        .hero-meta span {
-            display: inline-block;
-            transform: translateY(100%);
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .hero-meta.visible span {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .hero-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(4rem, 12vw, 10rem);
-            font-weight: 300;
-            line-height: 0.9;
-            letter-spacing: -0.05em;
-            margin-bottom: 2rem;
-        }
-        
-        .hero-title .line {
-            display: block;
-            overflow: hidden;
-        }
-        
-        .hero-title .line span {
-            display: block;
-            transform: translateY(100%);
-            opacity: 0;
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .hero-title .line.visible span {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .hero-title .outline {
-            -webkit-text-stroke: 1px var(--text-primary);
-            color: transparent;
-        }
-        
-        /* SPLIT TEXT ANIMATION */
-        .split-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 300;
             line-height: 1;
+        }
+        
+        /* UTILITY */
+        .mega {
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 700;
+            letter-spacing: -0.06em;
+            line-height: 0.85;
+        }
+        
+        .huge {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+        }
+        
+        .large {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 600;
             letter-spacing: -0.03em;
         }
         
-        .split-text .char {
-            display: inline-block;
-            transform: translateY(100%) rotateX(-90deg);
-            opacity: 0;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        .small {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
         
-        .split-text.visible .char {
-            transform: translateY(0) rotateX(0);
-            opacity: 1;
+        /* HERO — TYPOGRAPHY EXPLOSION */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr;
+            padding: 2rem;
         }
         
-        /* PRODUCT SECTION - HORIZONTAL SCROLL */
+        .hero-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20vh;
+        }
+        
+        .hero-issue {
+            color: var(--muted);
+        }
+        
+        .hero-year {
+            font-size: clamp(8rem, 25vw, 20rem);
+            font-weight: 700;
+            color: var(--surface);
+            position: absolute;
+            top: 10%;
+            right: -5%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .hero-title {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .hero-title .outline {
+            -webkit-text-stroke: 2px var(--text);
+            color: transparent;
+        }
+        
+        .hero-title .filled {
+            color: var(--text);
+        }
+        
+        .hero-title span {
+            display: block;
+        }
+        
+        /* PRODUCT SECTIONS — GRID BREAKING */
         .product-section {
             min-height: 100vh;
-            padding: 8rem 4rem;
+            position: relative;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 4rem 2rem;
+            gap: 2rem;
         }
         
-        .product-section.reverse {
+        .product-section:nth-child(odd) {
             direction: rtl;
         }
         
-        .product-section.reverse > * {
+        .product-section:nth-child(odd) > * {
             direction: ltr;
         }
         
-        .product-image-wrapper {
+        .product-image-container {
             position: relative;
-            aspect-ratio: 1;
-            border-radius: 32px;
-            overflow: hidden;
+            height: 70vh;
             background: var(--surface);
-            transform: perspective(1000px) rotateY(-15deg) translateX(-50px);
-            opacity: 0;
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .product-section.reverse .product-image-wrapper {
-            transform: perspective(1000px) rotateY(15deg) translateX(50px);
-        }
-        
-        .product-image-wrapper.visible {
-            transform: perspective(1000px) rotateY(0) translateX(0);
-            opacity: 1;
-        }
-        
-        .product-image-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg,
-                rgba(90,200,250,0.1) 0%,
-                transparent 50%
-            );
-            z-index: 1;
-            pointer-events: none;
+            overflow: hidden;
         }
         
         .product-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scale(1.1);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(100%) contrast(1.2);
+            transition: filter 0.5s ease;
         }
         
-        .product-image-wrapper:hover .product-image {
-            transform: scale(1.05);
+        .product-image-container:hover .product-image {
+            filter: grayscale(0%) contrast(1);
         }
         
-        .product-tag {
+        .product-number {
             position: absolute;
-            top: 2rem;
+            top: -2rem;
             left: 2rem;
-            background: rgba(10,10,15,0.9);
-            backdrop-filter: blur(10px);
-            padding: 0.75rem 1.5rem;
-            border-radius: 100px;
-            font-size: 0.625rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent);
-            border: 1px solid var(--border);
-            z-index: 2;
+            font-size: clamp(6rem, 15vw, 12rem);
+            font-weight: 700;
+            color: var(--surface);
+            z-index: 0;
+            pointer-events: none;
         }
         
         .product-info {
-            transform: translateX(50px);
-            opacity: 0;
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 0;
+            position: relative;
+            z-index: 10;
         }
         
-        .product-section.reverse .product-info {
-            transform: translateX(-50px);
+        .product-header {
+            border-bottom: 1px solid var(--surface);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
         }
         
-        .product-info.visible {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        
-        .product-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
+        .product-category {
             color: var(--accent);
             margin-bottom: 1rem;
         }
         
         .product-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 300;
-            line-height: 1;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .product-desc {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 2rem;
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--muted);
             max-width: 400px;
         }
         
-        .product-price {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 500;
-        }
-        
-        /* FULL BLEED IMAGE SECTION */
-        .image-section {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .image-section-bg {
-            position: absolute;
-            top: -20%;
-            left: -10%;
-            width: 120%;
-            height: 140%;
-            object-fit: cover;
-            filter: brightness(0.3);
-            will-change: transform;
-        }
-        
-        .image-section-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 4rem;
-        }
-        
-        .image-section h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 300;
-            line-height: 0.9;
-            letter-spacing: -0.04em;
-            margin-bottom: 2rem;
-        }
-        
-        .image-section p {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-        
-        /* CARDS */
-        .cards-section {
-            padding: 8rem 4rem;
-            background: var(--bg-elevated);
-        }
-        
-        .section-header {
-            max-width: 1400px;
-            margin: 0 auto 4rem;
+        .product-footer {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            border-top: 1px solid var(--surface);
+            padding-top: 2rem;
         }
         
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            font-weight: 300;
-            line-height: 1.2;
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
         }
         
-        .section-number {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            color: var(--accent);
+        /* FULL BLEED TEXT */
+        .text-section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
         }
         
-        .cards-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+        .text-section-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: grayscale(100%);
         }
         
-        .card {
-            background: var(--surface);
-            border-radius: 24px;
-            padding: 2.5rem;
-            border: 1px solid var(--border);
-            transform: translateY(60px);
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        .text-section-content {
+            position: relative;
+            z-index: 10;
+            max-width: 100%;
         }
         
-        .card.visible {
-            transform: translateY(0);
-            opacity: 1;
+        .text-section .mega {
+            mix-blend-mode: difference;
         }
         
-        .card:nth-child(2) { transition-delay: 0.1s; }
-        .card:nth-child(3) { transition-delay: 0.2s; }
-        
-        .card-meta {
-            font-size: 0.625rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        
-        .card h3 {
-            font-family: 'Space Grotesk', sans-serif;
+        .text-section p {
             font-size: 1.25rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-        
-        .card p {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
             line-height: 1.7;
+            color: var(--muted);
+            max-width: 600px;
+            margin-top: 2rem;
         }
         
-        /* CAR ADS */
-        .cars-section {
-            padding: 8rem 4rem;
-            background: var(--bg-deep);
+        /* STORIES — STACKED */
+        .stories-section {
+            padding: 4rem 2rem;
         }
         
-        .cars-grid {
-            max-width: 1400px;
-            margin: 0 auto;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4rem;
+            border-bottom: 1px solid var(--surface);
+            padding-bottom: 2rem;
+        }
+        
+        .stories-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        
+        .story-item {
+            border-bottom: 1px solid var(--surface);
+            padding: 3rem 0;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
+            grid-template-columns: 100px 2fr 3fr;
+            gap: 2rem;
+            align-items: start;
+            transition: background 0.3s ease;
+        }
+        
+        .story-item:hover {
+            background: var(--surface);
+            margin: 0 -2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        
+        .story-number {
+            color: var(--muted);
+        }
+        
+        .story-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .story-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+        
+        /* CARS — HORIZONTAL */
+        .cars-section {
+            padding: 4rem 2rem;
+            overflow-x: auto;
+        }
+        
+        .cars-container {
+            display: flex;
+            gap: 2rem;
+            min-width: max-content;
         }
         
         .car-card {
-            position: relative;
+            width: 500px;
+            flex-shrink: 0;
             background: var(--surface);
-            border-radius: 32px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            transform: translateY(40px);
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .car-card.visible {
-            transform: translateY(0);
-            opacity: 1;
+            position: relative;
         }
         
         .car-image {
             width: 100%;
-            aspect-ratio: 16/10;
+            aspect-ratio: 4/3;
             object-fit: cover;
-            filter: grayscale(30%) contrast(1.1);
-            transition: all 0.6s ease;
+            filter: grayscale(100%);
         }
         
-        .car-card:hover .car-image {
-            filter: grayscale(0%) contrast(1);
-            transform: scale(1.02);
-        }
-        
-        .car-year {
+        .car-year-mark {
             position: absolute;
             top: 1rem;
-            right: 1.5rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 6vw, 5rem);
+            right: 1rem;
+            font-size: 4rem;
             font-weight: 700;
-            color: rgba(255,255,255,0.05);
-            line-height: 1;
+            color: rgba(255,255,255,0.1);
         }
         
-        .car-content {
+        .car-info {
             padding: 2rem;
         }
         
         .car-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 100px;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.25rem 0.75rem;
             font-size: 0.625rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -501,265 +340,247 @@
         }
         
         .car-model {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 500;
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
         
         .car-price {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--accent);
-            margin-top: 1rem;
+            font-size: 1.5rem;
+            color: var(--muted);
         }
         
-        /* PHONE SECTION */
+        /* PHONE */
         .phone-section {
-            min-height: 100vh;
+            min-height: 60vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 4rem;
-            position: relative;
-            background: var(--bg-deep);
-        }
-        
-        .phone-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 30%;
-            background: linear-gradient(
-                180deg,
-                transparent 0%,
-                var(--border) 100%
-            );
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--surface);
         }
         
         .phone-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
             color: var(--accent);
             margin-bottom: 2rem;
         }
         
         .phone-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 300;
-            letter-spacing: 0.05em;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .phone-number::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent);
-            transition: width 0.3s ease;
+            transition: color 0.3s ease;
         }
         
         .phone-number:hover {
             color: var(--accent);
         }
         
-        .phone-number:hover::after {
-            width: 100%;
-        }
-        
-        /* AUDIO PLAYER */
-        .audio-player {
-            max-width: 400px;
-            margin: 3rem auto 0;
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-        }
-        
-        audio {
-            width: 100%;
-            filter: invert(1);
-            opacity: 0.8;
-        }
-        
         /* FOOTER */
         footer {
-            padding: 4rem;
-            text-align: center;
-            border-top: 1px solid var(--border);
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--surface);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         footer p {
+            color: var(--muted);
             font-size: 0.875rem;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
+        }
+        
+        /* SCROLL ANIMATIONS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
         }
         
         /* RESPONSIVE */
         @media (max-width: 1024px) {
             .product-section {
                 grid-template-columns: 1fr;
-                gap: 3rem;
             }
             
-            .cards-grid {
+            .story-item {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
-            .cars-grid {
-                grid-template-columns: 1fr;
+            .cars-container {
+                flex-direction: column;
             }
-        }
-        
-        /* REDUCED MOTION */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            
+            .car-card {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progress"></div>
-    </div>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-top">
+            <span class="small hero-issue">Catalog 02 — Spring 2026</span>
+            <span class="small">Printed in the Valley of Darkness</span>
+        </div>
+        
+        <div class="hero-year">02</div>
+        
+        <div class="hero-title reveal">
+            <span class="mega outline">FISKEN</span>
+            <span class="mega filled">FANZINE</span>
+        </div>
+    </section>
 
-    <!-- HERO SECTION -->
-    <section class="section hero">
-        <img src="assets/images/hero-ice.jpg" alt="" class="hero-image" id="heroImage">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-meta" data-split>
-                <span>Catalog 02 — Spring 2026</span>
+    <!-- PRODUCT 1 -->
+    <section class="product-section">
+        <div class="product-image-container reveal-scale">
+            <span class="product-number">001</span>
+            <img src="assets/images/chronosweep.jpg" alt="" class="product-image">
+        </div>
+        <div class="product-info reveal-left">
+            <div class="product-header">
+                <div class="product-category small">Time Measurement</div>
+                <h2 class="product-name large">Chronosweep<br>3000</h2>
+                <p class="product-desc">
+                    A timer that doesn't measure seconds. It measures "soul-crushing silence"—the time it takes for a skip to realize the match is lost.
+                </p>
             </div>
-            <h1 class="hero-title">
-                <div class="line" data-reveal><span>FISKEN</span></div>
-                <div class="line" data-reveal><span class="outline">FANZINE</span></div>
-            </h1>
+            <div class="product-footer">
+                <span class="product-price">2 499 kr</span>
+                <span class="small">Brass / Oak</span>
+            </div>
         </div>
     </section>
 
-    <!-- PRODUCT 1: CHRONOSWEEP -->
+    <!-- TEXT BREAK -->
+    <section class="text-section">
+        <img src="assets/images/ice-texture.jpg" alt="" class="text-section-bg">
+        <div class="text-section-content">
+            <h2 class="mega reveal">ALL THINGS<br>ARE WAITING</h2>
+            <p class="reveal">The ice stretches before me like a frozen lake, like a mirror that reflects nothing—or perhaps reflects too much.</p>
+        </div>
+    </section>
+
+    <!-- PRODUCT 2 -->
     <section class="product-section">
-        <div class="product-image-wrapper" data-reveal-3d>
-            <span class="product-tag">Art. 001</span>
-            <img src="assets/images/chronosweep.jpg" alt="Chronosweep 3000" class="product-image">
+        <div class="product-image-container reveal-scale">
+            <span class="product-number">002</span>
+            <img src="assets/images/slide-don.jpg" alt="" class="product-image">
         </div>
-        <div class="product-info" data-reveal-slide>
-            <div class="product-label">Time Measurement</div>
-            <h2 class="product-name">Chronosweep<br>3000</h2>
-            <p class="product-desc">
-                A timer that doesn't measure seconds. It measures "soul-crushing silence"—the time it takes for a skip to realize the match is lost.
-            </p>
-            <div class="product-price">2 499 kr</div>
-        </div>
-    </section>
-
-    <!-- FULL BLEED IMAGE SECTION -->
-    <section class="image-section">
-        <img src="assets/images/ice-texture.jpg" alt="" class="image-section-bg" id="parallaxImage">
-        <div class="image-section-content">
-            <h2 class="split-text" data-split-chars>ALL THINGS<br>ARE WAITING</h2>
-            <p>The ice stretches before me like a frozen lake, like a mirror that reflects nothing—or perhaps reflects too much.</p>
+        <div class="product-info reveal-left">
+            <div class="product-header">
+                <div class="product-category small">Equipment</div>
+                <h2 class="product-name large">Slide-Don™<br>Badger</h2>
+                <p class="product-desc">
+                    Why hold a brush when you can hold a taxidermied badger? Handcrafted in the Valley of Darkness by licensed taxidermists.
+                </p>
+            </div>
+            <div class="product-footer">
+                <span class="product-price">1 899 kr</span>
+                <span class="small">Meles meles / Carbon</span>
+            </div>
         </div>
     </section>
 
-    <!-- PRODUCT 2: SLIDE-DON -->
-    <section class="product-section reverse">
-        <div class="product-image-wrapper" data-reveal-3d>
-            <span class="product-tag">Art. 002</span>
-            <img src="assets/images/slide-don.jpg" alt="Slide-Don" class="product-image">
-        </div>
-        <div class="product-info" data-reveal-slide>
-            <div class="product-label">Equipment</div>
-            <h2 class="product-name">Slide-Don™<br>Badger</h2>
-            <p class="product-desc">
-                Why hold a brush when you can hold a taxidermied badger? Handcrafted in the Valley of Darkness by licensed taxidermists.
-            </p>
-            <div class="product-price">1 899 kr</div>
-        </div>
-    </section>
-
-    <!-- PRODUCT 3: ÄLVDALSK REGELBOK -->
+    <!-- PRODUCT 3 -->
     <section class="product-section">
-        <div class="product-image-wrapper" data-reveal-3d>
-            <span class="product-tag">Art. 003</span>
-            <img src="assets/images/elvdal-regler.jpg" alt="Älvdalsk Regelbok" class="product-image">
+        <div class="product-image-container reveal-scale">
+            <span class="product-number">003</span>
+            <img src="assets/images/elvdal-regler.jpg" alt="" class="product-image">
         </div>
-        <div class="product-info" data-reveal-slide>
-            <div class="product-label">Literature</div>
-            <h2 class="product-name">Älvdalsk<br>Rules</h2>
-            <p class="product-desc">
-                Curling—as it should be played. Includes rules like "Träd int bråtännar" and "Huldä fast stäin". Leather bound. 144 pages of pure, incomprehensible wisdom.
-            </p>
-            <div class="product-price">449 kr</div>
+        <div class="product-info reveal-left">
+            <div class="product-header">
+                <div class="product-category small">Literature</div>
+                <h2 class="product-name large">Älvdalsk<br>Rules</h2>
+                <p class="product-desc">
+                    Curling—as it should be played. Includes rules like "Träd int bråtännar" and "Huldä fast stäin". Leather bound. 144 pages.
+                </p>
+            </div>
+            <div class="product-footer">
+                <span class="product-price">449 kr</span>
+                <span class="small">Leather / Stone</span>
+            </div>
         </div>
     </section>
 
-    <!-- STORIES CARDS -->
-    <section class="cards-section">
+    <!-- STORIES -->
+    <section class="stories-section">
         <div class="section-header">
-            <h2 class="section-title">Fragments from<br>the Valley of Darkness</h2>
-            <div class="section-number">03</div>
+            <h2 class="large">Fragments from the<br>Valley of Darkness</h2>
+            <span class="small">03</span>
         </div>
-        <div class="cards-grid">
-            <article class="card" data-reveal-card>
-                <div class="card-meta">Chapter I</div>
-                <h3>On Waiting for the Ice</h3>
-                <p>It is five in the morning. I stand alone in the curling hall. The ice stretches before me like a frozen lake.</p>
+        <div class="stories-stack">
+            <article class="story-item reveal">
+                <span class="story-number small">I</span>
+                <h3 class="story-title">On Waiting for the Ice</h3>
+                <p class="story-text">It is five in the morning. I stand alone in the curling hall. The ice stretches before me like a frozen lake.</p>
             </article>
-            <article class="card" data-reveal-card>
-                <div class="card-meta">Chapter II</div>
-                <h3>The Insomnia Poem</h3>
-                <p>To lose a match is to be born again. You come out wet, frozen, screaming. No one applauds.</p>
+            <article class="story-item reveal">
+                <span class="story-number small">II</span>
+                <h3 class="story-title">The Insomnia Poem</h3>
+                <p class="story-text">To lose a match is to be born again. You come out wet, frozen, screaming. No one applauds.</p>
             </article>
-            <article class="card" data-reveal-card>
-                <div class="card-meta">Chapter III</div>
-                <h3>The Miller's Tale</h3>
-                <p>He wasn't called The Miller. He was called something else, something forgotten when he bought his first curling brush in 1978.</p>
+            <article class="story-item reveal">
+                <span class="story-number small">III</span>
+                <h3 class="story-title">The Miller's Tale</h3>
+                <p class="story-text">He wasn't called The Miller. He was called something else, something forgotten when he bought his first curling brush in 1978.</p>
             </article>
         </div>
     </section>
 
-    <!-- CAR ADS -->
+    <!-- CARS -->
     <section class="cars-section">
         <div class="section-header">
-            <h2 class="section-title">Vehicles</h2>
-            <div class="section-number">04</div>
+            <h2 class="large">Vehicles</h2>
+            <span class="small">04</span>
         </div>
-        <div class="cars-grid">
-            <div class="car-card" data-reveal-card>
-                <span class="car-year">2012</span>
-                <img src="assets/images/car-saab.jpg" alt="Citroën C5" class="car-image">
-                <div class="car-content">
+        <div class="cars-container">
+            <div class="car-card reveal-scale">
+                <span class="car-year-mark">2012</span>
+                <img src="assets/images/car-saab.jpg" alt="" class="car-image">
+                <div class="car-info">
                     <span class="car-badge">For Sale</span>
                     <h3 class="car-model">Citroën C5</h3>
                     <p class="car-price">39 000 kr</p>
                 </div>
             </div>
-            <div class="car-card" data-reveal-card>
-                <span class="car-year">2008</span>
-                <img src="assets/images/car-citroen.jpg" alt="Saab 9-5" class="car-image">
-                <div class="car-content">
+            <div class="car-card reveal-scale">
+                <span class="car-year-mark">2008</span>
+                <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
+                <div class="car-info">
                     <span class="car-badge">For Sale</span>
                     <h3 class="car-model">Saab 9-5</h3>
                     <p class="car-price">24 500 kr</p>
@@ -768,92 +589,24 @@
         </div>
     </section>
 
-    <!-- PHONE SECTION -->
+    <!-- PHONE -->
     <section class="phone-section">
-        <div>
-            <div class="phone-label">Call the Ice Watcher</div>
-            <div class="phone-number">070-287 54 64</div>
-            <p style="color: var(--text-secondary); max-width: 400px; margin: 2rem auto;">
-                Don't know what to do? Lost the match? Need curling facts at 4 AM?
-            </p>
-            <div class="audio-player">
-                <audio controls>
-                    <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-        </div>
+        <span class="phone-label small">Call the Ice Watcher</span>
+        <div class="phone-number reveal">070-287 54 64</div>
+        <audio controls style="margin-top: 3rem; width: 300px; filter: invert(1);">
+            <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
+        </audio>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <p>FISKEN FANZINE — CATALOG 02 © 2026<br>Printed in the Valley of Darkness</p>
+        <p>FISKEN FANZINE — CATALOG 02 © 2026</p>
+        <p>Printed in the Valley of Darkness</p>
     </footer>
 
-    <!-- SCROLL ENGINE -->
+    <!-- SCROLL SCRIPT -->
     <script>
-        // Progress bar
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrolled / maxScroll) * 100;
-            document.getElementById('progress').style.width = progress + '%';
-        });
-
-        // Parallax hero image
-        const heroImage = document.getElementById('heroImage');
-        const parallaxImage = document.getElementById('parallaxImage');
-        
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            
-            if (heroImage) {
-                heroImage.style.transform = `scale(1.2) translateY(${scrolled * 0.3}px)`;
-            }
-            
-            if (parallaxImage) {
-                const section = parallaxImage.closest('.image-section');
-                if (section) {
-                    const rect = section.getBoundingClientRect();
-                    const rate = rect.top * 0.2;
-                    parallaxImage.style.transform = `translateY(${rate}px)`;
-                }
-            }
-        });
-
-        // Intersection Observer for reveals
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -10% 0px'
-        };
-
-        // Meta text reveal
-        const metaObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('[data-split]').forEach(el => {
-            metaObserver.observe(el);
-        });
-
-        // Line reveal
-        const lineObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('[data-reveal]').forEach(el => {
-            lineObserver.observe(el);
-        });
-
-        // 3D product reveal
-        const product3dObserver = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
@@ -861,68 +614,8 @@
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('[data-reveal-3d]').forEach(el => {
-            product3dObserver.observe(el);
-        });
-
-        // Slide reveal
-        const slideObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, index * 100);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('[data-reveal-slide]').forEach(el => {
-            slideObserver.observe(el);
-        });
-
-        // Card stagger reveal
-        const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('[data-reveal-card]').forEach(el => {
-            cardObserver.observe(el);
-        });
-
-        // Split text into characters
-        document.querySelectorAll('[data-split-chars]').forEach(text => {
-            const content = text.innerHTML;
-            text.innerHTML = '';
-            
-            content.split('<br>').forEach((line, lineIndex) => {
-                const lineDiv = document.createElement('div');
-                lineDiv.style.overflow = 'hidden';
-                
-                line.split('').forEach((char, charIndex) => {
-                    const span = document.createElement('span');
-                    span.className = 'char';
-                    span.textContent = char === ' ' ? '\u00A0' : char;
-                    span.style.transitionDelay = `${(lineIndex * 0.1) + (charIndex * 0.02)}s`;
-                    lineDiv.appendChild(span);
-                });
-                
-                text.appendChild(lineDiv);
-            });
-            
-            // Animate on scroll
-            const charObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.3 });
-            
-            charObserver.observe(text);
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => {
+            observer.observe(el);
         });
     </script>
 </body>
