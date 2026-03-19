@@ -12,236 +12,239 @@
             --bg: #050505;
             --surface: #0a0a0a;
             --text: #e8e8e8;
-            --muted: #333;
-            --accent: #ff3b30;
+            --muted: #2a2a2a;
         }
         
-        html, body {
+        html {
+            scroll-behavior: auto;
+            overflow-x: hidden;
+        }
+        
+        body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
+            min-height: 500vh;
         }
         
-        /* 3D STAGE */
-        .stage {
+        /* LIQUID WRAPPER - DISPLACEMENT ON SCROLL */
+        .liquid-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            perspective: 1000px;
-            perspective-origin: 50% 50%;
             overflow: hidden;
+            filter: url(#liquid-filter);
         }
         
-        .world {
+        /* CHROMATIC ABERRATION LAYERS */
+        .chromatic-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .chromatic-r { mix-blend-mode: screen; opacity: 0.8; }
+        .chromatic-g { mix-blend-mode: screen; opacity: 0.8; }
+        .chromatic-b { mix-blend-mode: screen; opacity: 0.8; }
+        
+        /* DEPTH PARALLAX CONTAINER */
+        .depth-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        .depth-layer {
             position: absolute;
             width: 100%;
             height: 100%;
-            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        /* CONTENT ELEMENTS - positioned in 3D space */
-        .element {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform-style: preserve-3d;
-            will-change: transform, opacity, filter;
-            filter: url(#liquid-displacement);
-            transition: filter 0.1s linear;
+        /* LAYER 1: BACKGROUND (far) */
+        .layer-1 {
+            transform: translateZ(-500px) scale(1.5);
+            opacity: 0.3;
+            filter: blur(20px);
         }
         
-        /* HERO ELEMENTS */
-        .hero-title {
-            font-size: clamp(4rem, 12vw, 10rem);
+        /* LAYER 2: MID */
+        .layer-2 {
+            transform: translateZ(-200px) scale(1.2);
+            opacity: 0.5;
+            filter: blur(5px);
+        }
+        
+        /* LAYER 3: CONTENT */
+        .layer-3 {
+            transform: translateZ(0);
+        }
+        
+        /* LAYER 4: FOREGROUND (close) */
+        .layer-4 {
+            transform: translateZ(100px) scale(0.9);
+            opacity: 0.9;
+        }
+        
+        /* LAYER 5: EXTREME FOREGROUND */
+        .layer-5 {
+            transform: translateZ(300px) scale(0.7);
+            opacity: 0.95;
+            filter: contrast(1.2);
+        }
+        
+        /* TEXT PATH CONTAINER */
+        .text-path-container {
+            position: relative;
+            font-size: clamp(4rem, 15vw, 12rem);
             font-weight: 900;
             letter-spacing: -0.06em;
             line-height: 0.85;
-            text-align: center;
         }
         
-        .hero-title .outline {
-            -webkit-text-stroke: 2px var(--text);
-            color: transparent;
+        .text-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            fill: none;
+            stroke: var(--text);
+            stroke-width: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         
-        .hero-year {
-            font-size: clamp(15rem, 35vw, 25rem);
-            font-weight: 900;
-            color: var(--surface);
-            opacity: 0.5;
+        .text-path.visible {
+            opacity: 1;
         }
         
-        .hero-meta {
-            font-size: 0.875rem;
-            letter-spacing: 0.2em;
-            color: #666;
-            text-transform: uppercase;
+        /* EXPLODING CHARACTERS */
+        .explode-text {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 100;
+            letter-spacing: -0.04em;
         }
         
-        /* PRODUCT ELEMENTS */
+        .explode-char {
+            display: inline-block;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        
+        /* VELOCITY BLUR */
+        .velocity-blur {
+            filter: blur(calc(var(--velocity, 0) * 1px));
+            transition: filter 0.1s linear;
+        }
+        
+        /* SECTIONS */
+        .section {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+        
+        .section.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        /* SCROLL PROGRESS AS SVG PATH */
+        .scroll-path {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .scroll-path svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .scroll-path-line {
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1;
+            stroke-dasharray: 10000;
+            stroke-dashoffset: calc(10000 - (var(--scroll-progress, 0) * 10000));
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        
+        /* PRODUCT CARDS WITH 3D TILT */
         .product-card {
             background: var(--surface);
-            padding: 3rem;
-            width: 500px;
-            max-width: 80vw;
+            padding: 4rem;
+            transform: 
+                perspective(1000px) 
+                rotateX(calc(var(--scroll-y, 0) * 0.02deg))
+                rotateY(calc(var(--mouse-x, 0) * 10deg));
+            transition: transform 0.3s ease;
             border: 1px solid var(--muted);
         }
         
         .product-number {
-            font-size: 0.7rem;
+            font-size: 1rem;
             letter-spacing: 0.3em;
-            color: var(--accent);
-            margin-bottom: 1rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
         }
         
-        .product-name {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
+        .product-title {
+            font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 700;
             margin-bottom: 1rem;
-        }
-        
-        .product-desc {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #888;
-            margin-bottom: 1.5rem;
         }
         
         .product-price {
-            font-size: 1.25rem;
-            font-weight: 300;
-        }
-        
-        /* TEXT BREAK */
-        .text-break {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            text-align: center;
-            line-height: 0.9;
-        }
-        
-        /* STORIES */
-        .story-card {
-            width: 350px;
-            max-width: 80vw;
-            padding: 2rem;
-            border: 1px solid var(--muted);
-            background: var(--surface);
-        }
-        
-        .story-number {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--surface);
-            line-height: 1;
-            margin-bottom: 1rem;
-        }
-        
-        .story-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .story-text {
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #888;
-        }
-        
-        /* CARS */
-        .car-card {
-            width: 400px;
-            max-width: 80vw;
-        }
-        
-        .car-image {
-            width: 100%;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-            filter: grayscale(100%);
-            margin-bottom: 1rem;
-        }
-        
-        .car-year {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--surface);
-            margin-bottom: 0.5rem;
-        }
-        
-        .car-badge {
-            display: inline-block;
-            background: var(--accent);
-            color: var(--bg);
-            padding: 0.3rem 0.8rem;
-            font-size: 0.6rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-        
-        .car-model {
             font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        /* CONTACT */
-        .contact-info {
-            text-align: center;
-        }
-        
-        .contact-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
+            font-weight: 300;
             color: #666;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
         }
         
-        .contact-number {
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-weight: 100;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.5rem;
+        /* FRAGMENTED TEXT */
+        .fragmented {
+            position: relative;
         }
         
-        .contact audio {
-            width: 250px;
-            filter: invert(1);
-            opacity: 0.7;
+        .fragmented span {
+            display: inline-block;
+            transform: 
+                translateX(calc(var(--random-x, 0) * 100px))
+                translateY(calc(var(--scroll-y, 0) * var(--random-speed, 1) * 0.5px))
+                rotate(calc(var(--random-rotate, 0) * 10deg));
+            opacity: calc(1 - (var(--scroll-y, 0) * 0.001));
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         /* NOISE OVERLAY */
-        .noise {
+        .noise-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 1000;
-            opacity: 0.04;
+            z-index: 9999;
+            opacity: 0.03;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>');
-        }
-        
-        /* SCROLL INSTRUCTION */
-        .instruction {
-            position: fixed;
-            bottom: 5vh;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            color: #444;
-            text-transform: uppercase;
-            z-index: 100;
-            pointer-events: none;
         }
     </style>
 </head>
@@ -249,212 +252,217 @@
     <!-- SVG FILTERS -->
     <svg style="position: absolute; width: 0; height: 0;">
         <defs>
-            <filter id="liquid-displacement" x="-50%" y="-50%" width="200%" height="200%">
+            <!-- LIQUID DISPLACEMENT -->
+            <filter id="liquid-filter" x="-50%" y="-50%" width="200%" height="200%">
                 <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise" seed="1">
-                    <animate attributeName="baseFrequency" values="0.01;0.015;0.01" dur="10s" repeatCount="indefinite"/>
+                    <animate attributeName="baseFrequency" values="0.01;0.02;0.01" dur="10s" repeatCount="indefinite"/>
                 </feTurbulence>
                 <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="displacement-map"/>
+            </filter>
+            
+            <!-- CHROMATIC ABERRATION -->
+            <filter id="chromatic">
+                <feOffset in="SourceGraphic" dx="-3" dy="0" result="red"/>
+                <feOffset in="SourceGraphic" dx="0" dy="0" result="green"/>
+                <feOffset in="SourceGraphic" dx="3" dy="0" result="blue"/>
+                <feBlend in="red" in2="green" mode="screen" result="rg"/>
+                <feBlend in="rg" in2="blue" mode="screen"/>
             </filter>
         </defs>
     </svg>
     
-    <!-- NOISE -->
-    <div class="noise"></div>
+    <!-- NOISE OVERLAY -->
+    <div class="noise-overlay"></div>
     
-    <!-- INSTRUCTION -->
-    <div class="instruction">Scrolla för att röra dig framåt</div>
+    <!-- SCROLL PATH -->
+    <div class="scroll-path">
+        <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <path class="scroll-path-line" d="M0,500 Q250,100 500,500 T1000,500" />
+        </svg>
+    </div>
     
-    <!-- 3D STAGE -->
-    <div class="stage" id="stage">
-        <div class="world" id="world">
+    <!-- LIQUID WRAPPER -->
+    <div class="liquid-wrapper" id="liquidWrapper">
+        <div class="depth-container" id="depthContainer">
             
-            <!-- ELEMENT 1: Hero year (furthest back) -->
-            <div class="element hero-year" data-z="-2000">02</div>
-            
-            <!-- ELEMENT 2: Hero title -->
-            <div class="element hero-title" data-z="-1000">
-                <span class="outline">FISKEN</span>
+            <!-- SECTION 1: HERO -->
+            <div class="section active" data-section="0">
+                <div class="depth-layer layer-1">
+                    <div class="text-path-container" style="font-size: 20vw; opacity: 0.1;">
+                        <span class="outline">02</span>
+                    </div>
+                </div>
+                <div class="depth-layer layer-3">
+                    <div class="explode-text velocity-blur" id="heroText">
+                        <span class="explode-char" style="--i:0">F</span><span class="explode-char" style="--i:1">I</span><span class="explode-char" style="--i:2">S</span><span class="explode-char" style="--i:3">K</span><span class="explode-char" style="--i:4">E</span><span class="explode-char" style="--i:5">N</span>
+                    </div>
+                </div>
+                <div class="depth-layer layer-5">
+                    <div style="font-size: 0.875rem; letter-spacing: 0.3em; color: #444; position: absolute; bottom: 10vh; right: 10vw;">
+                        KATALOG 02 — VÅREN 2026
+                    </div>
+                </div>
             </div>
             
-            <!-- ELEMENT 3: Hero meta -->
-            <div class="element hero-meta" data-z="-800" style="transform: translateX(-50%) translateY(200px);">
-                Katalog 02 — Våren 2026
+            <!-- SECTION 2: PRODUCT 1 -->
+            <div class="section" data-section="1">
+                <div class="depth-layer layer-2">
+                    <div style="font-size: 30vw; font-weight: 900; color: var(--muted); opacity: 0.3;">001</div>
+                </div>
+                <div class="depth-layer layer-3">
+                    <div class="product-card">
+                        <div class="product-number">ARTIKEL 001</div>
+                        <h2 class="product-title fragmented" data-fragment>
+                            <span>CHRONO</span><span>SWEEP</span>
+                        </h2>
+                        <div class="product-price">2 499 kr</div>
+                    </div>
+                </div>
             </div>
             
-            <!-- ELEMENT 4: Product 1 -->
-            <div class="element product-card" data-z="0" style="transform: translateX(-120%) translateY(-50%);">
-                <div class="product-number">ARTIKEL 001</div>
-                <h2 class="product-name">Chronosweep 3000</h2>
-                <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter "soul-crushing silence".</p>
-                <div class="product-price">2 499 kr</div>
+            <!-- SECTION 3: TEXT BREAK -->
+            <div class="section" data-section="2">
+                <div class="depth-layer layer-4">
+                    <div class="explode-text" style="text-align: center;">
+                        <div class="explode-char" style="--i:0">A</div>
+                        <div class="explode-char" style="--i:1">L</div>
+                        <div class="explode-char" style="--i:2">L</div>
+                        <div class="explode-char" style="--i:3">T</div>
+                        <div class="explode-char" style="--i:4">I</div>
+                        <div class="explode-char" style="--i:5">N</div>
+                        <div class="explode-char" style="--i:6">G</div>
+                    </div>
+                </div>
             </div>
             
-            <!-- ELEMENT 5: Product 1 image -->
-            <div class="element" data-z="0" style="transform: translateX(20%) translateY(-50%);">
-                <img src="assets/images/chronosweep.jpg" alt="" style="max-width: 400px; max-height: 400px; filter: grayscale(100%);">
-            </div>
-            
-            <!-- ELEMENT 6: Product 2 -->
-            <div class="element product-card" data-z="1000" style="transform: translateX(-120%) translateY(-50%);">
-                <div class="product-number">ARTIKEL 002</div>
-                <h2 class="product-name">Slide-Don™ Grävling</h2>
-                <p class="product-desc">Varför hålla i en kvast när du kan hålla i en uppstoppad grävling?</p>
-                <div class="product-price">1 899 kr</div>
-            </div>
-            
-            <!-- ELEMENT 7: Product 2 image -->
-            <div class="element" data-z="1000" style="transform: translateX(20%) translateY(-50%);">
-                <img src="assets/images/slide-don.jpg" alt="" style="max-width: 400px; max-height: 400px; filter: grayscale(100%);">
-            </div>
-            
-            <!-- ELEMENT 8: Product 3 -->
-            <div class="element product-card" data-z="2000" style="transform: translateX(-120%) translateY(-50%);">
-                <div class="product-number">ARTIKEL 003</div>
-                <h2 class="product-name">Älvdalsk Regelbok</h2>
-                <p class="product-desc">Curling—som det ska spelas. 144 sidor av ren, obegriplig visdom.</p>
-                <div class="product-price">449 kr</div>
-            </div>
-            
-            <!-- ELEMENT 9: Product 3 image -->
-            <div class="element" data-z="2000" style="transform: translateX(20%) translateY(-50%);">
-                <img src="assets/images/elvdal-regler.jpg" alt="" style="max-width: 400px; max-height: 400px; filter: grayscale(100%);">
-            </div>
-            
-            <!-- ELEMENT 10: Text break -->
-            <div class="element text-break" data-z="3000">
-                ALLTING<br>ÄR ATT<br>VÄNTA
-            </div>
-            
-            <!-- ELEMENT 11: Story 1 -->
-            <div class="element story-card" data-z="4000" style="transform: translateX(-150%) translateY(-50%);">
-                <div class="story-number">I</div>
-                <h3 class="story-title">Om att vänta på isen</h3>
-                <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen.</p>
-            </div>
-            
-            <!-- ELEMENT 12: Story 2 -->
-            <div class="element story-card" data-z="4000" style="transform: translateX(-50%) translateY(-50%);">
-                <div class="story-number">II</div>
-                <h3 class="story-title">Sömnlöshetens Dikt</h3>
-                <p class="story-text">Att förlora en match är att födas på nytt. Ingen applåderar.</p>
-            </div>
-            
-            <!-- ELEMENT 13: Story 3 -->
-            <div class="element story-card" data-z="4000" style="transform: translateX(50%) translateY(-50%);">
-                <div class="story-number">III</div>
-                <h3 class="story-title">Mjölnarens Berättelse</h3>
-                <p class="story-text">Han hette inte Mjölnaren. Något glömdes bort 1978.</p>
-            </div>
-            
-            <!-- ELEMENT 14: Car 1 -->
-            <div class="element car-card" data-z="5000" style="transform: translateX(-120%) translateY(-50%);">
-                <div class="car-year">2012</div>
-                <img src="assets/images/car-saab.jpg" alt="" class="car-image">
-                <div class="car-badge">Till Salu</div>
-                <h3 class="car-model">Citroën C5</h3>
-                <p style="color: #666;">39 000 kr</p>
-            </div>
-            
-            <!-- ELEMENT 15: Car 2 -->
-            <div class="element car-card" data-z="5000" style="transform: translateX(20%) translateY(-50%);">
-                <div class="car-year">2008</div>
-                <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
-                <div class="car-badge">Till Salu</div>
-                <h3 class="car-model">Saab 9-5</h3>
-                <p style="color: #666;">24 500 kr</p>
-            </div>
-            
-            <!-- ELEMENT 16: Contact -->
-            <div class="element contact-info" data-z="6000">
-                <div class="contact-label">Ring Isvaktaren</div>
-                <div class="contact-number">070-287 54 64</div>
-                <audio controls>
-                    <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
-                </audio>
+            <!-- SECTION 4: PRODUCT 2 -->
+            <div class="section" data-section="3">
+                <div class="depth-layer layer-2">
+                    <div style="font-size: 30vw; font-weight: 900; color: var(--muted); opacity: 0.3;">002</div>
+                </div>
+                <div class="depth-layer layer-3">
+                    <div class="product-card">
+                        <div class="product-number">ARTIKEL 002</div>
+                        <h2 class="product-title fragmented" data-fragment>
+                            <span>SLIDE</span><span>DON</span>
+                        </h2>
+                        <div class="product-price">1 899 kr</div>
+                    </div>
+                </div>
             </div>
             
         </div>
     </div>
 
     <script>
-        // 3D scroll navigation
-        const world = document.getElementById('world');
-        const displacementMap = document.getElementById('displacement-map');
-        const elements = document.querySelectorAll('.element');
-        
-        let scrollZ = 0;
-        let targetZ = 0;
+        // Scroll state
+        let scrollY = 0;
+        let lastScrollY = 0;
+        let velocity = 0;
         let ticking = false;
         
-        // Smooth scroll interpolation
-        function animate() {
-            // Lerp towards target
-            scrollZ += (targetZ - scrollZ) * 0.1;
+        // Elements
+        const liquidWrapper = document.getElementById('liquidWrapper');
+        const depthContainer = document.getElementById('depthContainer');
+        const displacementMap = document.getElementById('displacement-map');
+        const sections = document.querySelectorAll('.section');
+        
+        // Update on scroll
+        function updateScroll() {
+            scrollY = window.scrollY;
+            velocity = Math.abs(scrollY - lastScrollY);
+            lastScrollY = scrollY;
             
-            // Move world (camera moves forward = world moves back)
-            world.style.transform = `translateZ(${-scrollZ}px)`;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const progress = scrollY / maxScroll;
             
-            // Update each element based on its z-position relative to camera
-            elements.forEach(el => {
-                const elZ = parseFloat(el.dataset.z);
-                const distance = elZ - scrollZ;
+            // Update CSS variables
+            document.documentElement.style.setProperty('--scroll-y', scrollY);
+            document.documentElement.style.setProperty('--scroll-progress', progress);
+            document.documentElement.style.setProperty('--velocity', Math.min(velocity, 50));
+            
+            // Liquid displacement based on velocity
+            const displacementScale = Math.min(velocity * 0.5, 30);
+            if (displacementMap) {
+                displacementMap.setAttribute('scale', displacementScale);
+            }
+            
+            // Chromatic aberration based on velocity
+            const chromaticOffset = Math.min(velocity * 0.2, 10);
+            liquidWrapper.style.filter = `url(#liquid-filter)`;
+            
+            // 3D depth rotation based on scroll
+            const rotateX = (progress - 0.5) * 20;
+            depthContainer.style.transform = `rotateX(${rotateX}deg)`;
+            
+            // Section visibility
+            const sectionHeight = window.innerHeight;
+            const currentSection = Math.floor(scrollY / sectionHeight);
+            
+            sections.forEach((section, i) => {
+                const sectionProgress = (scrollY - (i * sectionHeight)) / sectionHeight;
+                const isActive = sectionProgress >= -0.5 && sectionProgress <= 1.5;
                 
-                // Calculate visual properties based on distance
-                const absDistance = Math.abs(distance);
+                section.classList.toggle('active', isActive);
                 
-                // Opacity: fade out when far away
-                let opacity = 1;
-                if (absDistance > 500) {
-                    opacity = Math.max(0, 1 - (absDistance - 500) / 1000);
-                }
+                // Exploding characters
+                const chars = section.querySelectorAll('.explode-char');
+                chars.forEach((char, idx) => {
+                    const charProgress = sectionProgress - (idx * 0.05);
+                    const explodeX = Math.sin(charProgress * Math.PI) * 100;
+                    const explodeY = Math.cos(charProgress * Math.PI) * 50;
+                    const explodeRotate = charProgress * 30;
+                    
+                    if (isActive) {
+                        char.style.transform = `translate(${explodeX}px, ${explodeY}px) rotate(${explodeRotate}deg)`;
+                        char.style.opacity = 1 - Math.abs(charProgress * 0.5);
+                    }
+                });
                 
-                // Blur: more blur when further away
-                let blur = 0;
-                if (absDistance > 200) {
-                    blur = Math.min(absDistance * 0.05, 30);
-                }
-                
-                // Scale: smaller when further away
-                const scale = Math.max(0.3, 1 - absDistance * 0.0003);
-                
-                // Liquid displacement intensity based on distance and velocity
-                const velocity = Math.abs(targetZ - scrollZ);
-                const displacementScale = Math.min(velocity * 0.5, 20);
-                
-                // Apply styles
-                el.style.opacity = opacity;
-                el.style.filter = `blur(${blur}px)`;
-                el.style.transform = `${el.style.transform.split(')')[0]}) scale(${scale})`;
+                // Fragmented text
+                const fragments = section.querySelectorAll('[data-fragment] span');
+                fragments.forEach((frag, idx) => {
+                    const fragProgress = sectionProgress - (idx * 0.1);
+                    const randomX = Math.sin(fragProgress * Math.PI * 2 + idx) * 50;
+                    const randomY = Math.cos(fragProgress * Math.PI * 2 + idx) * 30;
+                    
+                    if (isActive) {
+                        frag.style.setProperty('--random-x', randomX / 100);
+                        frag.style.setProperty('--random-speed', 1 + idx * 0.2);
+                        frag.style.setProperty('--random-rotate', Math.sin(fragProgress * Math.PI) * 2);
+                    }
+                });
             });
             
-            // Update global displacement
-            const velocity = Math.abs(targetZ - scrollZ);
-            displacementMap.setAttribute('scale', Math.min(velocity * 0.3, 25));
-            
-            requestAnimationFrame(animate);
+            ticking = false;
         }
         
-        // Scroll input
-        window.addEventListener('wheel', (e) => {
-            targetZ += e.deltaY * 2;
-            targetZ = Math.max(0, Math.min(targetZ, 7000)); // Clamp between 0 and 7000
+        // Mouse movement for 3D tilt
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            document.documentElement.style.setProperty('--mouse-x', mouseX);
+            document.documentElement.style.setProperty('--mouse-y', mouseY);
+        });
+        
+        // Scroll listener
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScroll);
+                ticking = true;
+            }
         }, { passive: true });
         
-        // Touch support
-        let touchStartY = 0;
-        window.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
+        // Initial
+        updateScroll();
         
-        window.addEventListener('touchmove', (e) => {
-            const deltaY = touchStartY - e.touches[0].clientY;
-            targetZ += deltaY * 2;
-            targetZ = Math.max(0, Math.min(targetZ, 7000));
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-        
-        // Start animation
-        animate();
+        // Random initialization for fragmented text
+        document.querySelectorAll('[data-fragment] span').forEach(span => {
+            span.style.setProperty('--random-x', (Math.random() - 0.5) * 2);
+            span.style.setProperty('--random-speed', 0.5 + Math.random());
+            span.style.setProperty('--random-rotate', (Math.random() - 0.5) * 2);
+        });
     </script>
 </body>
 </html>
