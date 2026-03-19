@@ -16,45 +16,35 @@
             --accent: #ff3b30;
         }
         
-        html, body {
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
+            overflow-x: hidden;
         }
         
-        /* SECTIONS CONTAINER */
-        .sections {
-            position: relative;
+        /* SNAP CONTAINER */
+        .snap-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
             height: 100vh;
-            width: 100vw;
         }
         
-        /* EACH SECTION - FULL SCREEN, ABSOLUTE */
+        /* EACH SECTION */
         .section {
-            position: absolute;
-            top: 0;
-            left: 0;
+            scroll-snap-align: start;
+            min-height: 100vh;
             width: 100vw;
-            height: 100vh;
             display: flex;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        visibility 0.8s;
-            background: var(--bg);
-            overflow: hidden;
-        }
-        
-        .section.active {
-            opacity: 1;
-            visibility: visible;
+            position: relative;
         }
         
         /* HERO */
-        .hero { z-index: 10; }
+        .hero { background: var(--bg); }
         .hero-left {
             width: 55%;
             display: flex;
@@ -88,6 +78,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            overflow: hidden;
         }
         .hero-image {
             width: 70%;
@@ -106,7 +97,7 @@
         }
         
         /* PRODUCT */
-        .product { z-index: 20; background: var(--surface); }
+        .product { background: var(--surface); }
         .product-image-side {
             width: 50%;
             display: flex;
@@ -122,7 +113,7 @@
         }
         .product-giant-number {
             position: absolute;
-            font-size: 40vw;
+            font-size: 35vw;
             font-weight: 900;
             color: var(--bg);
             opacity: 0.5;
@@ -162,7 +153,6 @@
         
         /* TEXT */
         .text-section { 
-            z-index: 30; 
             background: var(--bg);
             align-items: center;
             justify-content: center;
@@ -177,12 +167,12 @@
         
         /* STORIES */
         .stories { 
-            z-index: 40; 
             background: var(--surface);
             flex-direction: column;
+            scroll-snap-align: start;
         }
         .stories-header {
-            height: 20vh;
+            height: 15vh;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -190,37 +180,32 @@
             border-bottom: 1px solid var(--bg);
         }
         .stories-header h2 {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
             font-weight: 700;
         }
-        .stories-track {
-            height: 80vh;
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
+        .stories-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
         }
-        .stories-track::-webkit-scrollbar { display: none; }
         .story-card {
-            flex: 0 0 50vw;
-            height: 100%;
-            padding: 6vh 4vw;
+            padding: 4vw;
             border-right: 1px solid var(--bg);
-            scroll-snap-align: start;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
+        .story-card:last-child { border-right: none; }
         .story-number {
-            font-size: 12rem;
+            font-size: 8rem;
             font-weight: 900;
             color: var(--bg);
             line-height: 1;
         }
         .story-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 2vh;
+            margin: 2vh 0;
         }
         .story-text {
             font-size: 1rem;
@@ -229,7 +214,7 @@
         }
         
         /* CARS */
-        .cars { z-index: 50; background: var(--bg); }
+        .cars { background: var(--bg); }
         .car-half {
             width: 50%;
             position: relative;
@@ -252,33 +237,32 @@
             position: absolute;
             top: 2vh;
             right: 2vw;
-            font-size: 8rem;
+            font-size: 6rem;
             font-weight: 900;
             color: var(--surface);
         }
         .car-info {
-            height: 25vh;
-            padding: 4vh 4vw;
+            height: 20vh;
+            padding: 3vh 3vw;
             border-top: 1px solid var(--surface);
         }
         .car-badge {
             display: inline-block;
             background: var(--accent);
             color: var(--bg);
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 0.8rem;
             font-size: 0.6rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            margin-bottom: 2vh;
+            margin-bottom: 1.5vh;
         }
         .car-model {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 900;
         }
         
         /* CONTACT */
         .contact { 
-            z-index: 60; 
             background: var(--surface);
             flex-direction: column;
             align-items: center;
@@ -290,59 +274,55 @@
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--muted);
-            margin-bottom: 4vh;
+            margin-bottom: 3vh;
         }
         .contact-number {
-            font-size: clamp(3rem, 10vw, 8rem);
+            font-size: clamp(2.5rem, 8vw, 6rem);
             font-weight: 100;
             letter-spacing: -0.03em;
-            margin-bottom: 4vh;
+            margin-bottom: 3vh;
         }
         .contact audio {
-            width: 300px;
+            width: 280px;
             filter: invert(1);
         }
         
         /* FOOTER */
         .footer { 
-            z-index: 70; 
             background: var(--bg);
-            height: 30vh;
+            min-height: 40vh;
             align-items: center;
             justify-content: space-between;
-            padding: 0 4vw;
+            padding: 4vh 4vw;
             font-size: 0.7rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--muted);
         }
         
-        /* SCROLL INDICATOR */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 4vh;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 100;
-        }
-        .scroll-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--muted);
-            transition: background 0.3s;
-        }
-        .scroll-dot.active {
-            background: var(--accent);
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero { flex-direction: column; }
+            .hero-left, .hero-right { width: 100%; }
+            .hero-right { min-height: 50vh; }
+            
+            .product { flex-direction: column; }
+            .product-image-side, .product-info-side { width: 100%; }
+            .product-image-side { min-height: 50vh; }
+            
+            .stories-grid { grid-template-columns: 1fr; }
+            .story-card { border-right: none; border-bottom: 1px solid var(--bg); }
+            
+            .cars { flex-direction: column; }
+            .car-half { width: 100%; }
+            .car-half:first-child { border-right: none; border-bottom: 1px solid var(--surface); }
         }
     </style>
 </head>
 <body>
-    <div class="sections">
+    <div class="snap-container">
         <!-- SECTION 1: HERO -->
-        <section class="section hero active" data-section="0">
+        <section class="section hero">
             <div class="hero-left">
                 <div class="hero-meta">
                     <span>Katalog 02</span>
@@ -364,7 +344,7 @@
         </section>
         
         <!-- SECTION 2: PRODUCT 1 -->
-        <section class="section product" data-section="1">
+        <section class="section product">
             <div class="product-image-side">
                 <div class="product-giant-number">001</div>
                 <img src="assets/images/chronosweep.jpg" alt="">
@@ -377,18 +357,32 @@
             </div>
         </section>
         
-        <!-- SECTION 3: TEXT -->
-        <section class="section text-section" data-section="2">
+        <!-- SECTION 3: PRODUCT 2 -->
+        <section class="section product">
+            <div class="product-info-side">
+                <div class="product-category">Artikel 002 — Redskap</div>
+                <h2 class="product-name">Slide-Don™<br>Grävling</h2>
+                <p class="product-desc">Varför hålla i en kvast när du kan hålla i en uppstoppad grävling? Handgjord i Mörkrets Dal av lokala taxidermister.</p>
+                <div class="product-price">1 899 kr</div>
+            </div>
+            <div class="product-image-side">
+                <div class="product-giant-number">002</div>
+                <img src="assets/images/slide-don.jpg" alt="">
+            </div>
+        </section>
+        
+        <!-- SECTION 4: TEXT -->
+        <section class="section text-section">
             <h2>ALLTING<br>ÄR ATT<br>VÄNTA</h2>
         </section>
         
-        <!-- SECTION 4: STORIES -->
-        <section class="section stories" data-section="3">
+        <!-- SECTION 5: STORIES -->
+        <section class="section stories">
             <div class="stories-header">
                 <h2>Fragment från Mörkrets Dal</h2>
                 <span style="color: var(--muted);">03</span>
             </div>
-            <div class="stories-track">
+            <div class="stories-grid">
                 <article class="story-card">
                     <div class="story-number">I</div>
                     <div>
@@ -413,8 +407,8 @@
             </div>
         </section>
         
-        <!-- SECTION 5: CARS -->
-        <section class="section cars" data-section="4">
+        <!-- SECTION 6: CARS -->
+        <section class="section cars">
             <div class="car-half">
                 <div class="car-image-wrap">
                     <div class="car-year">2012</div>
@@ -439,8 +433,8 @@
             </div>
         </section>
         
-        <!-- SECTION 6: CONTACT -->
-        <section class="section contact" data-section="5">
+        <!-- SECTION 7: CONTACT -->
+        <section class="section contact">
             <div class="contact-label">Ring Isvaktaren</div>
             <div class="contact-number">070-287 54 64</div>
             <audio controls>
@@ -448,114 +442,11 @@
             </audio>
         </section>
         
-        <!-- SECTION 7: FOOTER -->
-        <section class="section footer" data-section="6">
+        <!-- SECTION 8: FOOTER -->
+        <section class="section footer">
             <span>Fisken Fanzine — Katalog 02</span>
             <span>© 2026 Mörkrets Dal</span>
         </section>
     </div>
-    
-    <!-- SCROLL INDICATOR -->
-    <div class="scroll-indicator">
-        <div class="scroll-dot active"></div>
-        <div class="scroll-dot"></div>
-        <div class="scroll-dot"></div>
-        <div class="scroll-dot"></div>
-        <div class="scroll-dot"></div>
-        <div class="scroll-dot"></div>
-        <div class="scroll-dot"></div>
-    </div>
-
-    <script>
-        // Section management
-        let currentSection = 0;
-        const sections = document.querySelectorAll('.section');
-        const dots = document.querySelectorAll('.scroll-dot');
-        const totalSections = sections.length;
-        let isScrolling = false;
-        let scrollTimeout;
-        
-        function showSection(index) {
-            if (index < 0) index = 0;
-            if (index >= totalSections) index = totalSections - 1;
-            
-            currentSection = index;
-            
-            sections.forEach((section, i) => {
-                section.classList.toggle('active', i === index);
-            });
-            
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-        }
-        
-        // Wheel event for section switching
-        window.addEventListener('wheel', (e) => {
-            if (isScrolling) return;
-            
-            // Check if inside stories horizontal scroll
-            const storiesSection = document.querySelector('.stories.active');
-            if (storiesSection) {
-                const track = storiesSection.querySelector('.stories-track');
-                const canScrollLeft = track.scrollLeft > 0;
-                const canScrollRight = track.scrollLeft < track.scrollWidth - track.clientWidth;
-                
-                if ((e.deltaY > 0 && canScrollRight) || (e.deltaY < 0 && canScrollLeft)) {
-                    // Let horizontal scroll happen
-                    track.scrollLeft += e.deltaY;
-                    return;
-                }
-            }
-            
-            isScrolling = true;
-            
-            if (e.deltaY > 0) {
-                showSection(currentSection + 1);
-            } else {
-                showSection(currentSection - 1);
-            }
-            
-            setTimeout(() => {
-                isScrolling = false;
-            }, 800);
-        }, { passive: true });
-        
-        // Keyboard navigation
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                showSection(currentSection + 1);
-            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                showSection(currentSection - 1);
-            }
-        });
-        
-        // Touch/swipe support
-        let touchStartY = 0;
-        let touchEndY = 0;
-        
-        window.addEventListener('touchstart', (e) => {
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
-        
-        window.addEventListener('touchend', (e) => {
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const diff = touchStartY - touchEndY;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) {
-                    showSection(currentSection + 1);
-                } else {
-                    showSection(currentSection - 1);
-                }
-            }
-        }
-        
-        // Initial
-        showSection(0);
-    </script>
 </body>
 </html>
