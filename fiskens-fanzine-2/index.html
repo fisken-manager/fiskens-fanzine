@@ -12,7 +12,7 @@
             --bg: #050505;
             --surface: #0a0a0a;
             --text: #e8e8e8;
-            --muted: #333;
+            --muted: #2a2a2a;
             --accent: #ff3b30;
         }
         
@@ -25,110 +25,84 @@
             background: var(--bg);
             color: var(--text);
             overflow-x: hidden;
-            min-height: 600vh;
         }
         
+        /* HIDE SCROLLBAR */
         ::-webkit-scrollbar { display: none; }
         body { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 3D STAGE */
-        .stage {
+        /* LIQUID BACKGROUND - FIXED */
+        .liquid-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            perspective: 1000px;
-            perspective-origin: 50% 50%;
-            overflow: hidden;
+            filter: url(#water-filter);
+            z-index: 0;
+            pointer-events: none;
         }
         
-        .world {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.1s linear;
+        /* CONTENT - SCROLLS NORMAL */
+        .content {
+            position: relative;
+            z-index: 10;
         }
         
-        /* DEPTH LAYERS */
-        .layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            will-change: transform;
-            transition: transform 0.1s linear;
-        }
-        
-        /* Layer 1: Furthest, most blur, moves slowest */
-        .layer-1 {
-            transform: translateZ(-800px) scale(1.8);
-            filter: blur(40px);
-            opacity: 0.2;
-        }
-        
-        /* Layer 2: Far, more blur, moves slower */
-        .layer-2 {
-            transform: translateZ(-400px) scale(1.4);
-            filter: blur(20px);
-            opacity: 0.4;
-        }
-        
-        /* Layer 3: Mid, some blur */
-        .layer-3 {
-            transform: translateZ(-200px) scale(1.2);
-            filter: blur(8px);
-            opacity: 0.6;
-        }
-        
-        /* Layer 4: Surface, sharp */
-        .layer-4 {
-            transform: translateZ(0) scale(1);
-            filter: blur(0);
-            opacity: 1;
-        }
-        
-        /* Layer 5: Close, sharp, moves faster */
-        .layer-5 {
-            transform: translateZ(200px) scale(0.8);
-            filter: blur(0);
-            opacity: 1;
-        }
-        
-        /* CONTENT SECTIONS */
-        .content-section {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        /* SECTION */
+        .section {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 5vh 5vw;
+            align-items: center;
+            padding: 10vh 5vw;
+            position: relative;
+            border-bottom: 1px solid var(--surface);
         }
         
-        /* SECTION POSITIONS IN 3D SPACE */
-        .section-hero { top: 0; }
-        .section-product-1 { top: 100%; }
-        .section-product-2 { top: 200%; }
-        .section-product-3 { top: 300%; }
-        .section-text { top: 400%; }
-        .section-stories { top: 500%; }
+        /* ELEMENTS WITH DEPTH - emerge from water */
+        .depth-element {
+            position: relative;
+            transition: all 0.3s ease;
+            will-change: filter, opacity, transform;
+        }
+        
+        /* Far away = more blur, more liquid, lower opacity */
+        .depth-far {
+            filter: blur(30px);
+            opacity: 0.2;
+            transform: translateY(50px) scale(0.9);
+        }
+        
+        .depth-mid {
+            filter: blur(10px);
+            opacity: 0.5;
+            transform: translateY(20px) scale(0.95);
+        }
+        
+        .depth-surface {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .depth-past {
+            filter: blur(20px);
+            opacity: 0.3;
+            transform: translateY(-30px) scale(0.95);
+        }
         
         /* TYPOGRAPHY */
         .mega {
-            font-size: clamp(4rem, 15vw, 12rem);
+            font-size: clamp(4rem, 12vw, 10rem);
             font-weight: 900;
             letter-spacing: -0.06em;
             line-height: 0.85;
         }
         
         .huge {
-            font-size: clamp(2rem, 6vw, 5rem);
+            font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 700;
             letter-spacing: -0.04em;
             line-height: 1;
@@ -139,35 +113,94 @@
             color: transparent;
         }
         
-        .muted-text {
-            color: var(--muted);
+        /* HERO */
+        .hero {
+            min-height: 100vh;
         }
         
-        /* PRODUCT CARD */
-        .product-card {
+        .hero-year {
+            position: absolute;
+            font-size: clamp(15rem, 40vw, 30rem);
+            font-weight: 900;
+            color: var(--surface);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+        
+        /* PRODUCTS */
+        .product {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5vw;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+        }
+        
+        .product:nth-child(even) {
+            direction: rtl;
+        }
+        
+        .product:nth-child(even) > * {
+            direction: ltr;
+        }
+        
+        .product-image {
+            aspect-ratio: 1;
             background: var(--surface);
-            padding: 4rem;
-            max-width: 600px;
-            text-align: left;
-            border: 1px solid var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .product-image img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            filter: grayscale(100%);
         }
         
         .product-number {
+            position: absolute;
+            font-size: clamp(6rem, 15vw, 12rem);
+            font-weight: 900;
+            color: var(--bg);
+            opacity: 0.5;
+            top: -5vh;
+            left: -2vw;
+        }
+        
+        .product-info {
+            padding: 2vh 0;
+        }
+        
+        .product-category {
             font-size: 0.7rem;
             letter-spacing: 0.3em;
+            text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 1rem;
+            margin-bottom: 2vh;
         }
         
         .product-name {
-            margin-bottom: 1rem;
+            margin-bottom: 3vh;
         }
         
         .product-desc {
             font-size: 1rem;
-            line-height: 1.6;
+            line-height: 1.7;
             color: #666;
-            margin-bottom: 2rem;
+            margin-bottom: 3vh;
+            max-width: 400px;
         }
         
         .product-price {
@@ -175,19 +208,33 @@
             font-weight: 300;
         }
         
+        /* TEXT BREAK */
+        .text-break {
+            background: var(--surface);
+            margin: 0 -5vw;
+            padding: 15vh 5vw;
+        }
+        
+        .text-break h2 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            text-align: center;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+        }
+        
         /* STORIES */
-        .stories-grid {
+        .stories {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1200px;
+            gap: 2vw;
             width: 100%;
+            max-width: 1200px;
         }
         
         .story {
-            text-align: left;
-            padding: 2rem;
-            border: 1px solid var(--muted);
+            padding: 4vh 2vw;
+            border: 1px solid var(--surface);
         }
         
         .story-number {
@@ -195,19 +242,106 @@
             font-weight: 900;
             color: var(--surface);
             line-height: 1;
-            margin-bottom: 1rem;
+            margin-bottom: 2vh;
         }
         
         .story-title {
             font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 2vh;
         }
         
         .story-text {
             font-size: 0.9rem;
             line-height: 1.6;
             color: #666;
+        }
+        
+        /* CARS */
+        .cars {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2vw;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .car {
+            position: relative;
+        }
+        
+        .car-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            filter: grayscale(100%);
+            margin-bottom: 2vh;
+        }
+        
+        .car-year {
+            position: absolute;
+            top: 1vh;
+            right: 1vw;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--surface);
+        }
+        
+        .car-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1vh;
+        }
+        
+        .car-model {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        /* CONTACT */
+        .contact {
+            background: var(--surface);
+            margin: 0 -5vw;
+            padding: 15vh 5vw;
+            text-align: center;
+        }
+        
+        .contact-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 4vh;
+        }
+        
+        .contact-number {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 100;
+            letter-spacing: -0.03em;
+            margin-bottom: 4vh;
+        }
+        
+        .contact audio {
+            width: 280px;
+            filter: invert(1);
+            opacity: 0.7;
+        }
+        
+        /* FOOTER */
+        .footer {
+            padding: 5vh 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #444;
+            border-top: 1px solid var(--surface);
         }
         
         /* NOISE */
@@ -218,193 +352,221 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 100;
             opacity: 0.03;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>');
         }
         
-        /* LIQUID FILTER - only on distant layers */
-        .liquid-layer {
-            filter: url(#liquid-filter);
-        }
-        
         /* RESPONSIVE */
         @media (max-width: 1024px) {
-            .stories-grid {
+            .product, .stories, .cars {
                 grid-template-columns: 1fr;
-            }
-            
-            .layer-1, .layer-2, .layer-3 {
-                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <!-- SVG FILTER -->
+    <!-- SVG FILTER - WATER EFFECT -->
     <svg style="position: absolute; width: 0; height: 0;">
         <defs>
-            <filter id="liquid-filter">
-                <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" result="noise">
-                    <animate attributeName="baseFrequency" values="0.01;0.015;0.01" dur="10s" repeatCount="indefinite"/>
+            <filter id="water-filter" x="-50%" y="-50%" width="200%" height="200%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.005" numOctaves="2" result="noise" seed="3">
+                    <animate attributeName="baseFrequency" values="0.005;0.008;0.005" dur="15s" repeatCount="indefinite"/>
                 </feTurbulence>
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" id="displacement"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="G"/>
             </filter>
         </defs>
     </svg>
     
+    <!-- LIQUID BACKGROUND -->
+    <div class="liquid-bg"></div>
+    
     <!-- NOISE -->
     <div class="noise"></div>
     
-    <!-- 3D STAGE -->
-    <div class="stage" id="stage">
-        <div class="world" id="world">
-            
-            <!-- LAYER 1: Furthest (most blur, most liquid) -->
-            <div class="layer layer-1 liquid-layer">
-                <div class="content-section section-hero">
-                    <div class="mega muted-text" style="font-size: 25vw;">02</div>
+    <!-- CONTENT -->
+    <div class="content">
+        
+        <!-- HERO -->
+        <section class="section hero">
+            <div class="hero-year depth-element" data-depth="far">02</div>
+            <div class="hero-content">
+                <h1 class="mega depth-element" data-depth="surface">
+                    <span class="outline">FISKEN</span>
+                </h1>
+                <p class="depth-element" data-depth="surface" style="font-size: 1.2rem; letter-spacing: 0.2em; color: #666; margin-top: 2vh;">
+                    KATALOG 02 — VÅREN 2026
+                </p>
+            </div>
+        </section>
+        
+        <!-- PRODUCT 1 -->
+        <section class="section">
+            <div class="product">
+                <div class="product-image depth-element" data-depth="surface">
+                    <div class="product-number">001</div>
+                    <img src="assets/images/chronosweep.jpg" alt="">
                 </div>
-                <div class="content-section section-text">
-                    <div class="mega muted-text" style="font-size: 20vw;">VÄNTA</div>
+                <div class="product-info depth-element" data-depth="surface">
+                    <div class="product-category">Artikel 001 — Tidmätning</div>
+                    <h2 class="product-name huge">Chronosweep 3000</h2>
+                    <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence".</p>
+                    <div class="product-price">2 499 kr</div>
                 </div>
             </div>
-            
-            <!-- LAYER 2: Far (more blur, more liquid) -->
-            <div class="layer layer-2 liquid-layer">
-                <div class="content-section section-hero">
-                    <div class="huge muted-text">KATALOG</div>
+        </section>
+        
+        <!-- PRODUCT 2 -->
+        <section class="section">
+            <div class="product">
+                <div class="product-info depth-element" data-depth="surface">
+                    <div class="product-category">Artikel 002 — Redskap</div>
+                    <h2 class="product-name huge">Slide-Don™ Grävling</h2>
+                    <p class="product-desc">Varför hålla i en kvast när du kan hålla i en uppstoppad grävling?</p>
+                    <div class="product-price">1 899 kr</div>
                 </div>
-                <div class="content-section section-product-1">
-                    <div class="mega muted-text">001</div>
-                </div>
-                <div class="content-section section-product-2">
-                    <div class="mega muted-text">002</div>
-                </div>
-                <div class="content-section section-product-3">
-                    <div class="mega muted-text">003</div>
-                </div>
-            </div>
-            
-            <!-- LAYER 3: Mid (some blur, some liquid) -->
-            <div class="layer layer-3 liquid-layer">
-                <div class="content-section section-hero">
-                    <div style="font-size: 1rem; letter-spacing: 0.3em; color: #444;">VÅREN 2026</div>
+                <div class="product-image depth-element" data-depth="surface">
+                    <div class="product-number">002</div>
+                    <img src="assets/images/slide-don.jpg" alt="">
                 </div>
             </div>
-            
-            <!-- LAYER 4: Surface (sharp, stable) -->
-            <div class="layer layer-4">
-                <div class="content-section section-hero">
-                    <h1 class="mega">
-                        <span class="outline">FISKEN</span>
-                    </h1>
+        </section>
+        
+        <!-- PRODUCT 3 -->
+        <section class="section">
+            <div class="product">
+                <div class="product-image depth-element" data-depth="surface">
+                    <div class="product-number">003</div>
+                    <img src="assets/images/elvdal-regler.jpg" alt="">
                 </div>
-                
-                <div class="content-section section-product-1">
-                    <div class="product-card">
-                        <div class="product-number">ARTIKEL 001 — TIDMÄTNING</div>
-                        <h2 class="product-name huge">Chronosweep 3000</h2>
-                        <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter "soul-crushing silence".</p>
-                        <div class="product-price">2 499 kr</div>
-                    </div>
-                </div>
-                
-                <div class="content-section section-product-2">
-                    <div class="product-card">
-                        <div class="product-number">ARTIKEL 002 — REDSKAP</div>
-                        <h2 class="product-name huge">Slide-Don™ Grävling</h2>
-                        <p class="product-desc">Varför hålla i en kvast när du kan hålla i en uppstoppad grävling?</p>
-                        <div class="product-price">1 899 kr</div>
-                    </div>
-                </div>
-                
-                <div class="content-section section-product-3">
-                    <div class="product-card">
-                        <div class="product-number">ARTIKEL 003 — LITTERATUR</div>
-                        <h2 class="product-name huge">Älvdalsk Regelbok</h2>
-                        <p class="product-desc">Curling—som det ska spelas. 144 sidor av ren, obegriplig visdom.</p>
-                        <div class="product-price">449 kr</div>
-                    </div>
-                </div>
-                
-                <div class="content-section section-text">
-                    <h2 class="mega">ALLTING<br>ÄR ATT<br>VÄNTA</h2>
-                </div>
-                
-                <div class="content-section section-stories">
-                    <div class="stories-grid">
-                        <div class="story">
-                            <div class="story-number">I</div>
-                            <h3 class="story-title">Om att vänta på isen</h3>
-                            <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen.</p>
-                        </div>
-                        <div class="story">
-                            <div class="story-number">II</div>
-                            <h3 class="story-title">Sömnlöshetens Dikt</h3>
-                            <p class="story-text">Att förlora en match är att födas på nytt. Ingen applåderar.</p>
-                        </div>
-                        <div class="story">
-                            <div class="story-number">III</div>
-                            <h3 class="story-title">Mjölnarens Berättelse</h3>
-                            <p class="story-text">Han hette inte Mjölnaren. Något glömdes bort 1978.</p>
-                        </div>
-                    </div>
+                <div class="product-info depth-element" data-depth="surface">
+                    <div class="product-category">Artikel 003 — Litteratur</div>
+                    <h2 class="product-name huge">Älvdalsk Regelbok</h2>
+                    <p class="product-desc">Curling—som det ska spelas. 144 sidor av ren, obegriplig visdom.</p>
+                    <div class="product-price">449 kr</div>
                 </div>
             </div>
-            
-            <!-- LAYER 5: Closest (sharp, moves fastest) -->
-            <div class="layer layer-5">
-                <div class="content-section section-hero">
-                    <div style="position: absolute; bottom: 10vh; right: 10vw; font-size: 0.7rem; letter-spacing: 0.2em; color: #555;">
-                        Scrolla för att utforska
+        </section>
+        
+        <!-- TEXT BREAK -->
+        <section class="section text-break">
+            <h2 class="mega depth-element" data-depth="surface">ALLTING<br>ÄR ATT<br>VÄNTA</h2>
+        </section>
+        
+        <!-- STORIES -->
+        <section class="section">
+            <div class="stories">
+                <div class="story depth-element" data-depth="surface">
+                    <div class="story-number">I</div>
+                    <h3 class="story-title">Om att vänta på isen</h3>
+                    <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen.</p>
+                </div>
+                <div class="story depth-element" data-depth="surface">
+                    <div class="story-number">II</div>
+                    <h3 class="story-title">Sömnlöshetens Dikt</h3>
+                    <p class="story-text">Att förlora en match är att födas på nytt. Ingen applåderar.</p>
+                </div>
+                <div class="story depth-element" data-depth="surface">
+                    <div class="story-number">III</div>
+                    <h3 class="story-title">Mjölnarens Berättelse</h3>
+                    <p class="story-text">Han hette inte Mjölnaren. Något glömdes bort 1978.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CARS -->
+        <section class="section">
+            <div class="cars">
+                <div class="car depth-element" data-depth="surface">
+                    <div class="car-year">2012</div>
+                    <img src="assets/images/car-saab.jpg" alt="" class="car-image">
+                    <div class="car-info">
+                        <div class="car-badge">Till Salu</div>
+                        <h3 class="car-model">Citroën C5</h3>
+                        <p style="color: #666;">39 000 kr</p>
+                    </div>
+                </div>
+                <div class="car depth-element" data-depth="surface">
+                    <div class="car-year">2008</div>
+                    <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
+                    <div class="car-info">
+                        <div class="car-badge">Till Salu</div>
+                        <h3 class="car-model">Saab 9-5</h3>
+                        <p style="color: #666;">24 500 kr</p>
                     </div>
                 </div>
             </div>
-            
-        </div>
+        </section>
+        
+        <!-- CONTACT -->
+        <section class="section contact">
+            <div class="contact-label depth-element" data-depth="surface">Ring Isvaktaren</div>
+            <div class="contact-number depth-element" data-depth="surface">070-287 54 64</div>
+            <audio controls class="depth-element" data-depth="surface">
+                <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
+            </audio>
+        </section>
+        
+        <!-- FOOTER -->
+        <section class="section">
+            <div class="footer depth-element" data-depth="surface">
+                <span>Fisken Fanzine — Katalog 02</span>
+                <span>© 2026 Mörkrets Dal</span>
+            </div>
+        </section>
+        
     </div>
 
     <script>
-        // 3D scroll effect
-        const world = document.getElementById('world');
-        const displacement = document.getElementById('displacement');
+        // Elements emerge from and sink into water
+        const depthElements = document.querySelectorAll('.depth-element');
         
+        function updateDepth() {
+            const windowCenter = window.scrollY + window.innerHeight / 2;
+            
+            depthElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const elementCenter = rect.top + rect.height / 2 + window.scrollY;
+                const distanceFromCenter = elementCenter - windowCenter;
+                const viewportHeight = window.innerHeight;
+                
+                // Calculate how close to center (0 = at center, 1 = far away)
+                const normalizedDistance = Math.abs(distanceFromCenter) / (viewportHeight * 0.6);
+                const clampedDistance = Math.min(Math.max(normalizedDistance, 0), 1);
+                
+                // Apply depth classes based on distance
+                el.classList.remove('depth-far', 'depth-mid', 'depth-surface', 'depth-past');
+                
+                if (clampedDistance > 0.7) {
+                    // Far away - deep in water
+                    el.classList.add('depth-far');
+                } else if (clampedDistance > 0.4) {
+                    // Mid distance - emerging from water
+                    el.classList.add('depth-mid');
+                } else if (clampedDistance > 0.2 && distanceFromCenter < 0) {
+                    // Just passed center - sinking back
+                    el.classList.add('depth-past');
+                } else {
+                    // At surface - visible
+                    el.classList.add('depth-surface');
+                }
+            });
+        }
+        
+        // Update on scroll
         let ticking = false;
-        
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
-                    const maxScroll = document.body.scrollHeight - window.innerHeight;
-                    const progress = scrollY / maxScroll;
-                    
-                    // Move world in Z based on scroll
-                    // As we scroll down, we move "into" the screen
-                    const zMove = -scrollY * 0.5;
-                    world.style.transform = `translateZ(${zMove}px)`;
-                    
-                    // Liquid effect stronger when scrolling fast
-                    const velocity = Math.abs(scrollY - (window.lastScrollY || 0));
-                    const liquidScale = 10 + Math.min(velocity * 0.5, 30);
-                    displacement.setAttribute('scale', liquidScale);
-                    
-                    window.lastScrollY = scrollY;
+                    updateDepth();
                     ticking = false;
                 });
                 ticking = true;
             }
         }, { passive: true });
         
-        // Mouse parallax
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-            
-            // Slight rotation based on mouse
-            const stage = document.getElementById('stage');
-            stage.style.perspectiveOrigin = `${50 + mouseX * 10}% ${50 + mouseY * 10}%`;
-        });
+        // Initial
+        updateDepth();
     </script>
 </body>
 </html>
