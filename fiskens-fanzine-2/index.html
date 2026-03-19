@@ -37,15 +37,9 @@
             scrollbar-width: none;
         }
         
-        /* LIQUID WRAPPER */
-        .liquid-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+        /* LIQUID EFFECT ON BODY */
+        body {
             filter: url(#liquid-filter);
-            overflow: hidden;
         }
         
         /* NOISE OVERLAY */
@@ -379,11 +373,7 @@
     <!-- NOISE -->
     <div class="noise-overlay"></div>
     
-    <!-- LIQUID WRAPPER -->
-    <div class="liquid-wrapper" id="liquidWrapper">
-        
-        <!-- CONTENT -->
-        <div class="content">
+    <!-- CONTENT -->
             
             <!-- HERO -->
             <section class="section hero">
@@ -505,23 +495,21 @@
                     <span>© 2026 Mörkrets Dal</span>
                 </div>
             </section>
-            
-        </div>
-    </div>
 
     <script>
         // Liquid displacement on scroll
         const displacementMap = document.getElementById('displacement-map');
+        let lastScrollY = 0;
         let ticking = false;
         
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 requestAnimationFrame(() => {
-                    const velocity = Math.abs(window.scrollY - (window.lastScrollY || 0));
-                    window.lastScrollY = window.scrollY;
+                    const velocity = Math.abs(window.scrollY - lastScrollY);
+                    lastScrollY = window.scrollY;
                     
                     // Subtle displacement based on scroll
-                    const scale = 8 + Math.min(velocity * 0.2, 15);
+                    const scale = 8 + Math.min(velocity * 0.3, 20);
                     displacementMap.setAttribute('scale', scale);
                     
                     ticking = false;
