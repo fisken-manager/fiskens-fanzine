@@ -12,229 +12,126 @@
             --bg: #050505;
             --surface: #0a0a0a;
             --text: #e8e8e8;
-            --muted: #2a2a2a;
+            --muted: #333;
             --accent: #ff3b30;
         }
         
-        html {
-            scroll-behavior: auto;
-        }
-        
-        body {
+        html, body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
         }
         
-        /* HIDE SCROLLBAR */
-        ::-webkit-scrollbar { display: none; }
-        body { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* LIQUID BACKGROUND - FIXED */
-        .liquid-bg {
+        /* 3D STAGE */
+        .stage {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            filter: url(#water-filter);
-            z-index: 0;
-            pointer-events: none;
+            perspective: 1000px;
+            perspective-origin: 50% 50%;
+            overflow: hidden;
         }
         
-        /* CONTENT - SCROLLS NORMAL */
-        .content {
-            position: relative;
-            z-index: 10;
+        .world {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
         }
         
-        /* SECTION */
-        .section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 10vh 5vw;
-            position: relative;
-            border-bottom: 1px solid var(--surface);
+        /* CONTENT ELEMENTS - positioned in 3D space */
+        .element {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-style: preserve-3d;
+            will-change: transform, opacity, filter;
+            filter: url(#liquid-displacement);
+            transition: filter 0.1s linear;
         }
         
-        /* ELEMENTS WITH DEPTH - emerge from water */
-        .depth-element {
-            position: relative;
-            transition: all 0.3s ease;
-            will-change: filter, opacity, transform;
-        }
-        
-        /* Far away = more blur, more liquid, lower opacity */
-        .depth-far {
-            filter: blur(30px);
-            opacity: 0.2;
-            transform: translateY(50px) scale(0.9);
-        }
-        
-        .depth-mid {
-            filter: blur(10px);
-            opacity: 0.5;
-            transform: translateY(20px) scale(0.95);
-        }
-        
-        .depth-surface {
-            filter: blur(0);
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        .depth-past {
-            filter: blur(20px);
-            opacity: 0.3;
-            transform: translateY(-30px) scale(0.95);
-        }
-        
-        /* TYPOGRAPHY */
-        .mega {
+        /* HERO ELEMENTS */
+        .hero-title {
             font-size: clamp(4rem, 12vw, 10rem);
             font-weight: 900;
             letter-spacing: -0.06em;
             line-height: 0.85;
+            text-align: center;
         }
         
-        .huge {
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            line-height: 1;
-        }
-        
-        .outline {
+        .hero-title .outline {
             -webkit-text-stroke: 2px var(--text);
             color: transparent;
         }
         
-        /* HERO */
-        .hero {
-            min-height: 100vh;
-        }
-        
         .hero-year {
-            position: absolute;
-            font-size: clamp(15rem, 40vw, 30rem);
+            font-size: clamp(15rem, 35vw, 25rem);
             font-weight: 900;
             color: var(--surface);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
+            opacity: 0.5;
         }
         
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
+        .hero-meta {
+            font-size: 0.875rem;
+            letter-spacing: 0.2em;
+            color: #666;
+            text-transform: uppercase;
         }
         
-        /* PRODUCTS */
-        .product {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5vw;
-            align-items: center;
-            width: 100%;
-            max-width: 1400px;
-        }
-        
-        .product:nth-child(even) {
-            direction: rtl;
-        }
-        
-        .product:nth-child(even) > * {
-            direction: ltr;
-        }
-        
-        .product-image {
-            aspect-ratio: 1;
+        /* PRODUCT ELEMENTS */
+        .product-card {
             background: var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .product-image img {
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-            filter: grayscale(100%);
+            padding: 3rem;
+            width: 500px;
+            max-width: 80vw;
+            border: 1px solid var(--muted);
         }
         
         .product-number {
-            position: absolute;
-            font-size: clamp(6rem, 15vw, 12rem);
-            font-weight: 900;
-            color: var(--bg);
-            opacity: 0.5;
-            top: -5vh;
-            left: -2vw;
-        }
-        
-        .product-info {
-            padding: 2vh 0;
-        }
-        
-        .product-category {
             font-size: 0.7rem;
             letter-spacing: 0.3em;
-            text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 2vh;
+            margin-bottom: 1rem;
         }
         
         .product-name {
-            margin-bottom: 3vh;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
         
         .product-desc {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #666;
-            margin-bottom: 3vh;
-            max-width: 400px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #888;
+            margin-bottom: 1.5rem;
         }
         
         .product-price {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 300;
         }
         
         /* TEXT BREAK */
         .text-break {
-            background: var(--surface);
-            margin: 0 -5vw;
-            padding: 15vh 5vw;
-        }
-        
-        .text-break h2 {
-            font-size: clamp(3rem, 10vw, 8rem);
+            font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 900;
             text-align: center;
             line-height: 0.9;
-            letter-spacing: -0.05em;
         }
         
         /* STORIES */
-        .stories {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2vw;
-            width: 100%;
-            max-width: 1200px;
-        }
-        
-        .story {
-            padding: 4vh 2vw;
-            border: 1px solid var(--surface);
+        .story-card {
+            width: 350px;
+            max-width: 80vw;
+            padding: 2rem;
+            border: 1px solid var(--muted);
+            background: var(--surface);
         }
         
         .story-number {
@@ -242,32 +139,25 @@
             font-weight: 900;
             color: var(--surface);
             line-height: 1;
-            margin-bottom: 2vh;
+            margin-bottom: 1rem;
         }
         
         .story-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 2vh;
+            margin-bottom: 0.5rem;
         }
         
         .story-text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.6;
-            color: #666;
+            color: #888;
         }
         
         /* CARS */
-        .cars {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2vw;
-            width: 100%;
-            max-width: 1200px;
-        }
-        
-        .car {
-            position: relative;
+        .car-card {
+            width: 400px;
+            max-width: 80vw;
         }
         
         .car-image {
@@ -275,16 +165,14 @@
             aspect-ratio: 4/3;
             object-fit: cover;
             filter: grayscale(100%);
-            margin-bottom: 2vh;
+            margin-bottom: 1rem;
         }
         
         .car-year {
-            position: absolute;
-            top: 1vh;
-            right: 1vw;
             font-size: 4rem;
             font-weight: 900;
             color: var(--surface);
+            margin-bottom: 0.5rem;
         }
         
         .car-badge {
@@ -295,7 +183,7 @@
             font-size: 0.6rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            margin-bottom: 1vh;
+            margin-bottom: 0.5rem;
         }
         
         .car-model {
@@ -304,47 +192,32 @@
         }
         
         /* CONTACT */
-        .contact {
-            background: var(--surface);
-            margin: 0 -5vw;
-            padding: 15vh 5vw;
+        .contact-info {
             text-align: center;
         }
         
         .contact-label {
             font-size: 0.7rem;
             letter-spacing: 0.3em;
-            text-transform: uppercase;
             color: #666;
-            margin-bottom: 4vh;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
         }
         
         .contact-number {
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 100;
             letter-spacing: -0.03em;
-            margin-bottom: 4vh;
+            margin-bottom: 1.5rem;
         }
         
         .contact audio {
-            width: 280px;
+            width: 250px;
             filter: invert(1);
             opacity: 0.7;
         }
         
-        /* FOOTER */
-        .footer {
-            padding: 5vh 0;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #444;
-            border-top: 1px solid var(--surface);
-        }
-        
-        /* NOISE */
+        /* NOISE OVERLAY */
         .noise {
             position: fixed;
             top: 0;
@@ -352,221 +225,236 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 100;
-            opacity: 0.03;
+            z-index: 1000;
+            opacity: 0.04;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>');
         }
         
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .product, .stories, .cars {
-                grid-template-columns: 1fr;
-            }
+        /* SCROLL INSTRUCTION */
+        .instruction {
+            position: fixed;
+            bottom: 5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: #444;
+            text-transform: uppercase;
+            z-index: 100;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <!-- SVG FILTER - WATER EFFECT -->
+    <!-- SVG FILTERS -->
     <svg style="position: absolute; width: 0; height: 0;">
         <defs>
-            <filter id="water-filter" x="-50%" y="-50%" width="200%" height="200%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.005" numOctaves="2" result="noise" seed="3">
-                    <animate attributeName="baseFrequency" values="0.005;0.008;0.005" dur="15s" repeatCount="indefinite"/>
+            <filter id="liquid-displacement" x="-50%" y="-50%" width="200%" height="200%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise" seed="1">
+                    <animate attributeName="baseFrequency" values="0.01;0.015;0.01" dur="10s" repeatCount="indefinite"/>
                 </feTurbulence>
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="G"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="displacement-map"/>
             </filter>
         </defs>
     </svg>
     
-    <!-- LIQUID BACKGROUND -->
-    <div class="liquid-bg"></div>
-    
     <!-- NOISE -->
     <div class="noise"></div>
     
-    <!-- CONTENT -->
-    <div class="content">
-        
-        <!-- HERO -->
-        <section class="section hero">
-            <div class="hero-year depth-element" data-depth="far">02</div>
-            <div class="hero-content">
-                <h1 class="mega depth-element" data-depth="surface">
-                    <span class="outline">FISKEN</span>
-                </h1>
-                <p class="depth-element" data-depth="surface" style="font-size: 1.2rem; letter-spacing: 0.2em; color: #666; margin-top: 2vh;">
-                    KATALOG 02 — VÅREN 2026
-                </p>
+    <!-- INSTRUCTION -->
+    <div class="instruction">Scrolla för att röra dig framåt</div>
+    
+    <!-- 3D STAGE -->
+    <div class="stage" id="stage">
+        <div class="world" id="world">
+            
+            <!-- ELEMENT 1: Hero year (furthest back) -->
+            <div class="element hero-year" data-z="-2000">02</div>
+            
+            <!-- ELEMENT 2: Hero title -->
+            <div class="element hero-title" data-z="-1000">
+                <span class="outline">FISKEN</span>
             </div>
-        </section>
-        
-        <!-- PRODUCT 1 -->
-        <section class="section">
-            <div class="product">
-                <div class="product-image depth-element" data-depth="surface">
-                    <div class="product-number">001</div>
-                    <img src="assets/images/chronosweep.jpg" alt="">
-                </div>
-                <div class="product-info depth-element" data-depth="surface">
-                    <div class="product-category">Artikel 001 — Tidmätning</div>
-                    <h2 class="product-name huge">Chronosweep 3000</h2>
-                    <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence".</p>
-                    <div class="product-price">2 499 kr</div>
-                </div>
+            
+            <!-- ELEMENT 3: Hero meta -->
+            <div class="element hero-meta" data-z="-800" style="transform: translateX(-50%) translateY(200px);">
+                Katalog 02 — Våren 2026
             </div>
-        </section>
-        
-        <!-- PRODUCT 2 -->
-        <section class="section">
-            <div class="product">
-                <div class="product-info depth-element" data-depth="surface">
-                    <div class="product-category">Artikel 002 — Redskap</div>
-                    <h2 class="product-name huge">Slide-Don™ Grävling</h2>
-                    <p class="product-desc">Varför hålla i en kvast när du kan hålla i en uppstoppad grävling?</p>
-                    <div class="product-price">1 899 kr</div>
-                </div>
-                <div class="product-image depth-element" data-depth="surface">
-                    <div class="product-number">002</div>
-                    <img src="assets/images/slide-don.jpg" alt="">
-                </div>
+            
+            <!-- ELEMENT 4: Product 1 -->
+            <div class="element product-card" data-z="0" style="transform: translateX(-120%) translateY(-50%);">
+                <div class="product-number">ARTIKEL 001</div>
+                <h2 class="product-name">Chronosweep 3000</h2>
+                <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter "soul-crushing silence".</p>
+                <div class="product-price">2 499 kr</div>
             </div>
-        </section>
-        
-        <!-- PRODUCT 3 -->
-        <section class="section">
-            <div class="product">
-                <div class="product-image depth-element" data-depth="surface">
-                    <div class="product-number">003</div>
-                    <img src="assets/images/elvdal-regler.jpg" alt="">
-                </div>
-                <div class="product-info depth-element" data-depth="surface">
-                    <div class="product-category">Artikel 003 — Litteratur</div>
-                    <h2 class="product-name huge">Älvdalsk Regelbok</h2>
-                    <p class="product-desc">Curling—som det ska spelas. 144 sidor av ren, obegriplig visdom.</p>
-                    <div class="product-price">449 kr</div>
-                </div>
+            
+            <!-- ELEMENT 5: Product 1 image -->
+            <div class="element" data-z="0" style="transform: translateX(20%) translateY(-50%);">
+                <img src="assets/images/chronosweep.jpg" alt="" style="max-width: 400px; max-height: 400px; filter: grayscale(100%);">
             </div>
-        </section>
-        
-        <!-- TEXT BREAK -->
-        <section class="section text-break">
-            <h2 class="mega depth-element" data-depth="surface">ALLTING<br>ÄR ATT<br>VÄNTA</h2>
-        </section>
-        
-        <!-- STORIES -->
-        <section class="section">
-            <div class="stories">
-                <div class="story depth-element" data-depth="surface">
-                    <div class="story-number">I</div>
-                    <h3 class="story-title">Om att vänta på isen</h3>
-                    <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen.</p>
-                </div>
-                <div class="story depth-element" data-depth="surface">
-                    <div class="story-number">II</div>
-                    <h3 class="story-title">Sömnlöshetens Dikt</h3>
-                    <p class="story-text">Att förlora en match är att födas på nytt. Ingen applåderar.</p>
-                </div>
-                <div class="story depth-element" data-depth="surface">
-                    <div class="story-number">III</div>
-                    <h3 class="story-title">Mjölnarens Berättelse</h3>
-                    <p class="story-text">Han hette inte Mjölnaren. Något glömdes bort 1978.</p>
-                </div>
+            
+            <!-- ELEMENT 6: Product 2 -->
+            <div class="element product-card" data-z="1000" style="transform: translateX(-120%) translateY(-50%);">
+                <div class="product-number">ARTIKEL 002</div>
+                <h2 class="product-name">Slide-Don™ Grävling</h2>
+                <p class="product-desc">Varför hålla i en kvast när du kan hålla i en uppstoppad grävling?</p>
+                <div class="product-price">1 899 kr</div>
             </div>
-        </section>
-        
-        <!-- CARS -->
-        <section class="section">
-            <div class="cars">
-                <div class="car depth-element" data-depth="surface">
-                    <div class="car-year">2012</div>
-                    <img src="assets/images/car-saab.jpg" alt="" class="car-image">
-                    <div class="car-info">
-                        <div class="car-badge">Till Salu</div>
-                        <h3 class="car-model">Citroën C5</h3>
-                        <p style="color: #666;">39 000 kr</p>
-                    </div>
-                </div>
-                <div class="car depth-element" data-depth="surface">
-                    <div class="car-year">2008</div>
-                    <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
-                    <div class="car-info">
-                        <div class="car-badge">Till Salu</div>
-                        <h3 class="car-model">Saab 9-5</h3>
-                        <p style="color: #666;">24 500 kr</p>
-                    </div>
-                </div>
+            
+            <!-- ELEMENT 7: Product 2 image -->
+            <div class="element" data-z="1000" style="transform: translateX(20%) translateY(-50%);">
+                <img src="assets/images/slide-don.jpg" alt="" style="max-width: 400px; max-height: 400px; filter: grayscale(100%);">
             </div>
-        </section>
-        
-        <!-- CONTACT -->
-        <section class="section contact">
-            <div class="contact-label depth-element" data-depth="surface">Ring Isvaktaren</div>
-            <div class="contact-number depth-element" data-depth="surface">070-287 54 64</div>
-            <audio controls class="depth-element" data-depth="surface">
-                <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
-            </audio>
-        </section>
-        
-        <!-- FOOTER -->
-        <section class="section">
-            <div class="footer depth-element" data-depth="surface">
-                <span>Fisken Fanzine — Katalog 02</span>
-                <span>© 2026 Mörkrets Dal</span>
+            
+            <!-- ELEMENT 8: Product 3 -->
+            <div class="element product-card" data-z="2000" style="transform: translateX(-120%) translateY(-50%);">
+                <div class="product-number">ARTIKEL 003</div>
+                <h2 class="product-name">Älvdalsk Regelbok</h2>
+                <p class="product-desc">Curling—som det ska spelas. 144 sidor av ren, obegriplig visdom.</p>
+                <div class="product-price">449 kr</div>
             </div>
-        </section>
-        
+            
+            <!-- ELEMENT 9: Product 3 image -->
+            <div class="element" data-z="2000" style="transform: translateX(20%) translateY(-50%);">
+                <img src="assets/images/elvdal-regler.jpg" alt="" style="max-width: 400px; max-height: 400px; filter: grayscale(100%);">
+            </div>
+            
+            <!-- ELEMENT 10: Text break -->
+            <div class="element text-break" data-z="3000">
+                ALLTING<br>ÄR ATT<br>VÄNTA
+            </div>
+            
+            <!-- ELEMENT 11: Story 1 -->
+            <div class="element story-card" data-z="4000" style="transform: translateX(-150%) translateY(-50%);">
+                <div class="story-number">I</div>
+                <h3 class="story-title">Om att vänta på isen</h3>
+                <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen.</p>
+            </div>
+            
+            <!-- ELEMENT 12: Story 2 -->
+            <div class="element story-card" data-z="4000" style="transform: translateX(-50%) translateY(-50%);">
+                <div class="story-number">II</div>
+                <h3 class="story-title">Sömnlöshetens Dikt</h3>
+                <p class="story-text">Att förlora en match är att födas på nytt. Ingen applåderar.</p>
+            </div>
+            
+            <!-- ELEMENT 13: Story 3 -->
+            <div class="element story-card" data-z="4000" style="transform: translateX(50%) translateY(-50%);">
+                <div class="story-number">III</div>
+                <h3 class="story-title">Mjölnarens Berättelse</h3>
+                <p class="story-text">Han hette inte Mjölnaren. Något glömdes bort 1978.</p>
+            </div>
+            
+            <!-- ELEMENT 14: Car 1 -->
+            <div class="element car-card" data-z="5000" style="transform: translateX(-120%) translateY(-50%);">
+                <div class="car-year">2012</div>
+                <img src="assets/images/car-saab.jpg" alt="" class="car-image">
+                <div class="car-badge">Till Salu</div>
+                <h3 class="car-model">Citroën C5</h3>
+                <p style="color: #666;">39 000 kr</p>
+            </div>
+            
+            <!-- ELEMENT 15: Car 2 -->
+            <div class="element car-card" data-z="5000" style="transform: translateX(20%) translateY(-50%);">
+                <div class="car-year">2008</div>
+                <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
+                <div class="car-badge">Till Salu</div>
+                <h3 class="car-model">Saab 9-5</h3>
+                <p style="color: #666;">24 500 kr</p>
+            </div>
+            
+            <!-- ELEMENT 16: Contact -->
+            <div class="element contact-info" data-z="6000">
+                <div class="contact-label">Ring Isvaktaren</div>
+                <div class="contact-number">070-287 54 64</div>
+                <audio controls>
+                    <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            
+        </div>
     </div>
 
     <script>
-        // Elements emerge from and sink into water
-        const depthElements = document.querySelectorAll('.depth-element');
+        // 3D scroll navigation
+        const world = document.getElementById('world');
+        const displacementMap = document.getElementById('displacement-map');
+        const elements = document.querySelectorAll('.element');
         
-        function updateDepth() {
-            const windowCenter = window.scrollY + window.innerHeight / 2;
+        let scrollZ = 0;
+        let targetZ = 0;
+        let ticking = false;
+        
+        // Smooth scroll interpolation
+        function animate() {
+            // Lerp towards target
+            scrollZ += (targetZ - scrollZ) * 0.1;
             
-            depthElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                const elementCenter = rect.top + rect.height / 2 + window.scrollY;
-                const distanceFromCenter = elementCenter - windowCenter;
-                const viewportHeight = window.innerHeight;
+            // Move world (camera moves forward = world moves back)
+            world.style.transform = `translateZ(${-scrollZ}px)`;
+            
+            // Update each element based on its z-position relative to camera
+            elements.forEach(el => {
+                const elZ = parseFloat(el.dataset.z);
+                const distance = elZ - scrollZ;
                 
-                // Calculate how close to center (0 = at center, 1 = far away)
-                const normalizedDistance = Math.abs(distanceFromCenter) / (viewportHeight * 0.6);
-                const clampedDistance = Math.min(Math.max(normalizedDistance, 0), 1);
+                // Calculate visual properties based on distance
+                const absDistance = Math.abs(distance);
                 
-                // Apply depth classes based on distance
-                el.classList.remove('depth-far', 'depth-mid', 'depth-surface', 'depth-past');
-                
-                if (clampedDistance > 0.7) {
-                    // Far away - deep in water
-                    el.classList.add('depth-far');
-                } else if (clampedDistance > 0.4) {
-                    // Mid distance - emerging from water
-                    el.classList.add('depth-mid');
-                } else if (clampedDistance > 0.2 && distanceFromCenter < 0) {
-                    // Just passed center - sinking back
-                    el.classList.add('depth-past');
-                } else {
-                    // At surface - visible
-                    el.classList.add('depth-surface');
+                // Opacity: fade out when far away
+                let opacity = 1;
+                if (absDistance > 500) {
+                    opacity = Math.max(0, 1 - (absDistance - 500) / 1000);
                 }
+                
+                // Blur: more blur when further away
+                let blur = 0;
+                if (absDistance > 200) {
+                    blur = Math.min(absDistance * 0.05, 30);
+                }
+                
+                // Scale: smaller when further away
+                const scale = Math.max(0.3, 1 - absDistance * 0.0003);
+                
+                // Liquid displacement intensity based on distance and velocity
+                const velocity = Math.abs(targetZ - scrollZ);
+                const displacementScale = Math.min(velocity * 0.5, 20);
+                
+                // Apply styles
+                el.style.opacity = opacity;
+                el.style.filter = `blur(${blur}px)`;
+                el.style.transform = `${el.style.transform.split(')')[0]}) scale(${scale})`;
             });
+            
+            // Update global displacement
+            const velocity = Math.abs(targetZ - scrollZ);
+            displacementMap.setAttribute('scale', Math.min(velocity * 0.3, 25));
+            
+            requestAnimationFrame(animate);
         }
         
-        // Update on scroll
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    updateDepth();
-                    ticking = false;
-                });
-                ticking = true;
-            }
+        // Scroll input
+        window.addEventListener('wheel', (e) => {
+            targetZ += e.deltaY * 2;
+            targetZ = Math.max(0, Math.min(targetZ, 7000)); // Clamp between 0 and 7000
         }, { passive: true });
         
-        // Initial
-        updateDepth();
+        // Touch support
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        window.addEventListener('touchmove', (e) => {
+            const deltaY = touchStartY - e.touches[0].clientY;
+            targetZ += deltaY * 2;
+            targetZ = Math.max(0, Math.min(targetZ, 7000));
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        // Start animation
+        animate();
     </script>
 </body>
 </html>
