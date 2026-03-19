@@ -11,442 +11,458 @@
         :root {
             --bg: #050505;
             --surface: #0a0a0a;
-            --text: #fff;
-            --muted: #333;
-            --accent: #ff3b30;
+            --text: #e8e8e8;
+            --muted: #2a2a2a;
         }
         
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
+            overflow-x: hidden;
         }
         
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
+            min-height: 500vh;
         }
         
-        /* SNAP CONTAINER */
-        .snap-container {
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
-            height: 100vh;
-        }
-        
-        /* EACH SECTION */
-        .section {
-            scroll-snap-align: start;
-            min-height: 100vh;
+        /* LIQUID WRAPPER - DISPLACEMENT ON SCROLL */
+        .liquid-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
-            display: flex;
-            position: relative;
-        }
-        
-        /* HERO */
-        .hero { background: var(--bg); }
-        .hero-left {
-            width: 55%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 6vh 4vw;
-        }
-        .hero-meta {
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--muted);
-            display: flex;
-            justify-content: space-between;
-        }
-        .hero-title {
-            font-size: clamp(5rem, 14vw, 16rem);
-            font-weight: 900;
-            line-height: 0.8;
-            letter-spacing: -0.06em;
-        }
-        .hero-title .outline {
-            -webkit-text-stroke: 3px var(--text);
-            color: transparent;
-            display: block;
-        }
-        .hero-right {
-            width: 45%;
-            background: var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            height: 100vh;
             overflow: hidden;
+            filter: url(#liquid-filter);
         }
-        .hero-image {
-            width: 70%;
-            height: 70%;
-            object-fit: contain;
-            filter: grayscale(100%);
-        }
-        .hero-year {
+        
+        /* CHROMATIC ABERRATION LAYERS */
+        .chromatic-layer {
             position: absolute;
-            font-size: 25vw;
-            font-weight: 900;
-            color: var(--bg);
-            opacity: 0.6;
-            bottom: -5vh;
-            right: -2vw;
-        }
-        
-        /* PRODUCT */
-        .product { background: var(--surface); }
-        .product-image-side {
-            width: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        .product-image-side img {
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-            filter: grayscale(100%);
-        }
-        .product-giant-number {
-            position: absolute;
-            font-size: 35vw;
-            font-weight: 900;
-            color: var(--bg);
-            opacity: 0.5;
-        }
-        .product-info-side {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 6vw;
-        }
-        .product-category {
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 2vh;
-        }
-        .product-name {
-            font-size: clamp(3rem, 6vw, 7rem);
-            font-weight: 900;
-            line-height: 0.9;
-            letter-spacing: -0.04em;
-            margin-bottom: 4vh;
-        }
-        .product-desc {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #888;
-            max-width: 400px;
-            margin-bottom: 4vh;
-        }
-        .product-price {
-            font-size: 2rem;
-            font-weight: 300;
-        }
-        
-        /* TEXT */
-        .text-section { 
-            background: var(--bg);
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .text-section h2 {
-            font-size: clamp(4rem, 12vw, 10rem);
-            font-weight: 900;
-            line-height: 0.85;
-            letter-spacing: -0.05em;
-        }
-        
-        /* STORIES */
-        .stories { 
-            background: var(--surface);
-            flex-direction: column;
-            scroll-snap-align: start;
-        }
-        .stories-header {
-            height: 15vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 4vw;
-            border-bottom: 1px solid var(--bg);
-        }
-        .stories-header h2 {
-            font-size: clamp(1.2rem, 2.5vw, 2rem);
-            font-weight: 700;
-        }
-        .stories-grid {
-            flex: 1;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-        }
-        .story-card {
-            padding: 4vw;
-            border-right: 1px solid var(--bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .story-card:last-child { border-right: none; }
-        .story-number {
-            font-size: 8rem;
-            font-weight: 900;
-            color: var(--bg);
-            line-height: 1;
-        }
-        .story-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 2vh 0;
-        }
-        .story-text {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #888;
-        }
-        
-        /* CARS */
-        .cars { background: var(--bg); }
-        .car-half {
-            width: 50%;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-        .car-half:first-child { border-right: 1px solid var(--surface); }
-        .car-image-wrap {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
-        }
-        .car-image-wrap img {
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-        .car-year {
-            position: absolute;
-            top: 2vh;
-            right: 2vw;
-            font-size: 6rem;
-            font-weight: 900;
-            color: var(--surface);
-        }
-        .car-info {
-            height: 20vh;
-            padding: 3vh 3vw;
-            border-top: 1px solid var(--surface);
-        }
-        .car-badge {
-            display: inline-block;
-            background: var(--accent);
-            color: var(--bg);
-            padding: 0.3rem 0.8rem;
-            font-size: 0.6rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 1.5vh;
-        }
-        .car-model {
-            font-size: 1.5rem;
-            font-weight: 900;
+            pointer-events: none;
         }
         
-        /* CONTACT */
-        .contact { 
-            background: var(--surface);
-            flex-direction: column;
+        .chromatic-r { mix-blend-mode: screen; opacity: 0.8; }
+        .chromatic-g { mix-blend-mode: screen; opacity: 0.8; }
+        .chromatic-b { mix-blend-mode: screen; opacity: 0.8; }
+        
+        /* DEPTH PARALLAX CONTAINER */
+        .depth-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        .depth-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
         }
-        .contact-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 3vh;
+        
+        /* LAYER 1: BACKGROUND (far) */
+        .layer-1 {
+            transform: translateZ(-500px) scale(1.5);
+            opacity: 0.3;
+            filter: blur(20px);
         }
-        .contact-number {
-            font-size: clamp(2.5rem, 8vw, 6rem);
+        
+        /* LAYER 2: MID */
+        .layer-2 {
+            transform: translateZ(-200px) scale(1.2);
+            opacity: 0.5;
+            filter: blur(5px);
+        }
+        
+        /* LAYER 3: CONTENT */
+        .layer-3 {
+            transform: translateZ(0);
+        }
+        
+        /* LAYER 4: FOREGROUND (close) */
+        .layer-4 {
+            transform: translateZ(100px) scale(0.9);
+            opacity: 0.9;
+        }
+        
+        /* LAYER 5: EXTREME FOREGROUND */
+        .layer-5 {
+            transform: translateZ(300px) scale(0.7);
+            opacity: 0.95;
+            filter: contrast(1.2);
+        }
+        
+        /* TEXT PATH CONTAINER */
+        .text-path-container {
+            position: relative;
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            letter-spacing: -0.06em;
+            line-height: 0.85;
+        }
+        
+        .text-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            fill: none;
+            stroke: var(--text);
+            stroke-width: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .text-path.visible {
+            opacity: 1;
+        }
+        
+        /* EXPLODING CHARACTERS */
+        .explode-text {
+            font-size: clamp(3rem, 10vw, 8rem);
             font-weight: 100;
-            letter-spacing: -0.03em;
-            margin-bottom: 3vh;
-        }
-        .contact audio {
-            width: 280px;
-            filter: invert(1);
+            letter-spacing: -0.04em;
         }
         
-        /* FOOTER */
-        .footer { 
-            background: var(--bg);
-            min-height: 40vh;
+        .explode-char {
+            display: inline-block;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        
+        /* VELOCITY BLUR */
+        .velocity-blur {
+            filter: blur(calc(var(--velocity, 0) * 1px));
+            transition: filter 0.1s linear;
+        }
+        
+        /* SECTIONS */
+        .section {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 4vh 4vw;
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--muted);
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
         }
         
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .hero { flex-direction: column; }
-            .hero-left, .hero-right { width: 100%; }
-            .hero-right { min-height: 50vh; }
-            
-            .product { flex-direction: column; }
-            .product-image-side, .product-info-side { width: 100%; }
-            .product-image-side { min-height: 50vh; }
-            
-            .stories-grid { grid-template-columns: 1fr; }
-            .story-card { border-right: none; border-bottom: 1px solid var(--bg); }
-            
-            .cars { flex-direction: column; }
-            .car-half { width: 100%; }
-            .car-half:first-child { border-right: none; border-bottom: 1px solid var(--surface); }
+        .section.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        /* SCROLL PROGRESS AS SVG PATH */
+        .scroll-path {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .scroll-path svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .scroll-path-line {
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1;
+            stroke-dasharray: 10000;
+            stroke-dashoffset: calc(10000 - (var(--scroll-progress, 0) * 10000));
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        
+        /* PRODUCT CARDS WITH 3D TILT */
+        .product-card {
+            background: var(--surface);
+            padding: 4rem;
+            transform: 
+                perspective(1000px) 
+                rotateX(calc(var(--scroll-y, 0) * 0.02deg))
+                rotateY(calc(var(--mouse-x, 0) * 10deg));
+            transition: transform 0.3s ease;
+            border: 1px solid var(--muted);
+        }
+        
+        .product-number {
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+        
+        .product-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #666;
+        }
+        
+        /* FRAGMENTED TEXT */
+        .fragmented {
+            position: relative;
+        }
+        
+        .fragmented span {
+            display: inline-block;
+            transform: 
+                translateX(calc(var(--random-x, 0) * 100px))
+                translateY(calc(var(--scroll-y, 0) * var(--random-speed, 1) * 0.5px))
+                rotate(calc(var(--random-rotate, 0) * 10deg));
+            opacity: calc(1 - (var(--scroll-y, 0) * 0.001));
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* NOISE OVERLAY */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>');
         }
     </style>
 </head>
 <body>
-    <div class="snap-container">
-        <!-- SECTION 1: HERO -->
-        <section class="section hero">
-            <div class="hero-left">
-                <div class="hero-meta">
-                    <span>Katalog 02</span>
-                    <span>Våren 2026</span>
-                </div>
-                <h1 class="hero-title">
-                    <span class="outline">FISKEN</span>
-                    <span>KATALOG</span>
-                </h1>
-                <div class="hero-meta">
-                    <span></span>
-                    <span>Tryckt i Mörkrets Dal</span>
-                </div>
-            </div>
-            <div class="hero-right">
-                <div class="hero-year">02</div>
-                <img src="assets/images/chronosweep.jpg" alt="" class="hero-image">
-            </div>
-        </section>
-        
-        <!-- SECTION 2: PRODUCT 1 -->
-        <section class="section product">
-            <div class="product-image-side">
-                <div class="product-giant-number">001</div>
-                <img src="assets/images/chronosweep.jpg" alt="">
-            </div>
-            <div class="product-info-side">
-                <div class="product-category">Artikel 001 — Tidmätning</div>
-                <h2 class="product-name">Chronosweep<br>3000</h2>
-                <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence"—den tid det tar för en skip att inse att matchen är förlorad.</p>
-                <div class="product-price">2 499 kr</div>
-            </div>
-        </section>
-        
-        <!-- SECTION 3: PRODUCT 2 -->
-        <section class="section product">
-            <div class="product-info-side">
-                <div class="product-category">Artikel 002 — Redskap</div>
-                <h2 class="product-name">Slide-Don™<br>Grävling</h2>
-                <p class="product-desc">Varför hålla i en kvast när du kan hålla i en uppstoppad grävling? Handgjord i Mörkrets Dal av lokala taxidermister.</p>
-                <div class="product-price">1 899 kr</div>
-            </div>
-            <div class="product-image-side">
-                <div class="product-giant-number">002</div>
-                <img src="assets/images/slide-don.jpg" alt="">
-            </div>
-        </section>
-        
-        <!-- SECTION 4: TEXT -->
-        <section class="section text-section">
-            <h2>ALLTING<br>ÄR ATT<br>VÄNTA</h2>
-        </section>
-        
-        <!-- SECTION 5: STORIES -->
-        <section class="section stories">
-            <div class="stories-header">
-                <h2>Fragment från Mörkrets Dal</h2>
-                <span style="color: var(--muted);">03</span>
-            </div>
-            <div class="stories-grid">
-                <article class="story-card">
-                    <div class="story-number">I</div>
-                    <div>
-                        <h3 class="story-title">Om att vänta på isen</h3>
-                        <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen. Isen sträcker sig framför mig.</p>
-                    </div>
-                </article>
-                <article class="story-card">
-                    <div class="story-number">II</div>
-                    <div>
-                        <h3 class="story-title">Sömnlöshetens Dikt</h3>
-                        <p class="story-text">Att förlora en match är att födas på nytt. Man kommer ut blöt, frusen, skrikande.</p>
-                    </div>
-                </article>
-                <article class="story-card">
-                    <div class="story-number">III</div>
-                    <div>
-                        <h3 class="story-title">Mjölnarens Berättelse</h3>
-                        <p class="story-text">Han hette inte Mjölnaren. Han hette något annat, något som glömdes bort 1978.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-        
-        <!-- SECTION 6: CARS -->
-        <section class="section cars">
-            <div class="car-half">
-                <div class="car-image-wrap">
-                    <div class="car-year">2012</div>
-                    <img src="assets/images/car-saab.jpg" alt="">
-                </div>
-                <div class="car-info">
-                    <div class="car-badge">Till Salu</div>
-                    <h3 class="car-model">Citroën C5</h3>
-                    <p style="color: #666; margin-top: 1vh;">39 000 kr</p>
-                </div>
-            </div>
-            <div class="car-half">
-                <div class="car-image-wrap">
-                    <div class="car-year">2008</div>
-                    <img src="assets/images/car-citroen.jpg" alt="">
-                </div>
-                <div class="car-info">
-                    <div class="car-badge">Till Salu</div>
-                    <h3 class="car-model">Saab 9-5</h3>
-                    <p style="color: #666; margin-top: 1vh;">24 500 kr</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- SECTION 7: CONTACT -->
-        <section class="section contact">
-            <div class="contact-label">Ring Isvaktaren</div>
-            <div class="contact-number">070-287 54 64</div>
-            <audio controls>
-                <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
-            </audio>
-        </section>
-        
-        <!-- SECTION 8: FOOTER -->
-        <section class="section footer">
-            <span>Fisken Fanzine — Katalog 02</span>
-            <span>© 2026 Mörkrets Dal</span>
-        </section>
+    <!-- SVG FILTERS -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <!-- LIQUID DISPLACEMENT -->
+            <filter id="liquid-filter" x="-50%" y="-50%" width="200%" height="200%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise" seed="1">
+                    <animate attributeName="baseFrequency" values="0.01;0.02;0.01" dur="10s" repeatCount="indefinite"/>
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="displacement-map"/>
+            </filter>
+            
+            <!-- CHROMATIC ABERRATION -->
+            <filter id="chromatic">
+                <feOffset in="SourceGraphic" dx="-3" dy="0" result="red"/>
+                <feOffset in="SourceGraphic" dx="0" dy="0" result="green"/>
+                <feOffset in="SourceGraphic" dx="3" dy="0" result="blue"/>
+                <feBlend in="red" in2="green" mode="screen" result="rg"/>
+                <feBlend in="rg" in2="blue" mode="screen"/>
+            </filter>
+        </defs>
+    </svg>
+    
+    <!-- NOISE OVERLAY -->
+    <div class="noise-overlay"></div>
+    
+    <!-- SCROLL PATH -->
+    <div class="scroll-path">
+        <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <path class="scroll-path-line" d="M0,500 Q250,100 500,500 T1000,500" />
+        </svg>
     </div>
+    
+    <!-- LIQUID WRAPPER -->
+    <div class="liquid-wrapper" id="liquidWrapper">
+        <div class="depth-container" id="depthContainer">
+            
+            <!-- SECTION 1: HERO -->
+            <div class="section active" data-section="0">
+                <div class="depth-layer layer-1">
+                    <div class="text-path-container" style="font-size: 20vw; opacity: 0.1;">
+                        <span class="outline">02</span>
+                    </div>
+                </div>
+                <div class="depth-layer layer-3">
+                    <div class="explode-text velocity-blur" id="heroText">
+                        <span class="explode-char" style="--i:0">F</span><span class="explode-char" style="--i:1">I</span><span class="explode-char" style="--i:2">S</span><span class="explode-char" style="--i:3">K</span><span class="explode-char" style="--i:4">E</span><span class="explode-char" style="--i:5">N</span>
+                    </div>
+                </div>
+                <div class="depth-layer layer-5">
+                    <div style="font-size: 0.875rem; letter-spacing: 0.3em; color: #444; position: absolute; bottom: 10vh; right: 10vw;">
+                        KATALOG 02 — VÅREN 2026
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECTION 2: PRODUCT 1 -->
+            <div class="section" data-section="1">
+                <div class="depth-layer layer-2">
+                    <div style="font-size: 30vw; font-weight: 900; color: var(--muted); opacity: 0.3;">001</div>
+                </div>
+                <div class="depth-layer layer-3">
+                    <div class="product-card">
+                        <div class="product-number">ARTIKEL 001</div>
+                        <h2 class="product-title fragmented" data-fragment>
+                            <span>CHRONO</span><span>SWEEP</span>
+                        </h2>
+                        <div class="product-price">2 499 kr</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECTION 3: TEXT BREAK -->
+            <div class="section" data-section="2">
+                <div class="depth-layer layer-4">
+                    <div class="explode-text" style="text-align: center;">
+                        <div class="explode-char" style="--i:0">A</div>
+                        <div class="explode-char" style="--i:1">L</div>
+                        <div class="explode-char" style="--i:2">L</div>
+                        <div class="explode-char" style="--i:3">T</div>
+                        <div class="explode-char" style="--i:4">I</div>
+                        <div class="explode-char" style="--i:5">N</div>
+                        <div class="explode-char" style="--i:6">G</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECTION 4: PRODUCT 2 -->
+            <div class="section" data-section="3">
+                <div class="depth-layer layer-2">
+                    <div style="font-size: 30vw; font-weight: 900; color: var(--muted); opacity: 0.3;">002</div>
+                </div>
+                <div class="depth-layer layer-3">
+                    <div class="product-card">
+                        <div class="product-number">ARTIKEL 002</div>
+                        <h2 class="product-title fragmented" data-fragment>
+                            <span>SLIDE</span><span>DON</span>
+                        </h2>
+                        <div class="product-price">1 899 kr</div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // Scroll state
+        let scrollY = 0;
+        let lastScrollY = 0;
+        let velocity = 0;
+        let ticking = false;
+        
+        // Elements
+        const liquidWrapper = document.getElementById('liquidWrapper');
+        const depthContainer = document.getElementById('depthContainer');
+        const displacementMap = document.getElementById('displacement-map');
+        const sections = document.querySelectorAll('.section');
+        
+        // Update on scroll
+        function updateScroll() {
+            scrollY = window.scrollY;
+            velocity = Math.abs(scrollY - lastScrollY);
+            lastScrollY = scrollY;
+            
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const progress = scrollY / maxScroll;
+            
+            // Update CSS variables
+            document.documentElement.style.setProperty('--scroll-y', scrollY);
+            document.documentElement.style.setProperty('--scroll-progress', progress);
+            document.documentElement.style.setProperty('--velocity', Math.min(velocity, 50));
+            
+            // Liquid displacement based on velocity
+            const displacementScale = Math.min(velocity * 0.5, 30);
+            if (displacementMap) {
+                displacementMap.setAttribute('scale', displacementScale);
+            }
+            
+            // Chromatic aberration based on velocity
+            const chromaticOffset = Math.min(velocity * 0.2, 10);
+            liquidWrapper.style.filter = `url(#liquid-filter)`;
+            
+            // 3D depth rotation based on scroll
+            const rotateX = (progress - 0.5) * 20;
+            depthContainer.style.transform = `rotateX(${rotateX}deg)`;
+            
+            // Section visibility
+            const sectionHeight = window.innerHeight;
+            const currentSection = Math.floor(scrollY / sectionHeight);
+            
+            sections.forEach((section, i) => {
+                const sectionProgress = (scrollY - (i * sectionHeight)) / sectionHeight;
+                const isActive = sectionProgress >= -0.5 && sectionProgress <= 1.5;
+                
+                section.classList.toggle('active', isActive);
+                
+                // Exploding characters
+                const chars = section.querySelectorAll('.explode-char');
+                chars.forEach((char, idx) => {
+                    const charProgress = sectionProgress - (idx * 0.05);
+                    const explodeX = Math.sin(charProgress * Math.PI) * 100;
+                    const explodeY = Math.cos(charProgress * Math.PI) * 50;
+                    const explodeRotate = charProgress * 30;
+                    
+                    if (isActive) {
+                        char.style.transform = `translate(${explodeX}px, ${explodeY}px) rotate(${explodeRotate}deg)`;
+                        char.style.opacity = 1 - Math.abs(charProgress * 0.5);
+                    }
+                });
+                
+                // Fragmented text
+                const fragments = section.querySelectorAll('[data-fragment] span');
+                fragments.forEach((frag, idx) => {
+                    const fragProgress = sectionProgress - (idx * 0.1);
+                    const randomX = Math.sin(fragProgress * Math.PI * 2 + idx) * 50;
+                    const randomY = Math.cos(fragProgress * Math.PI * 2 + idx) * 30;
+                    
+                    if (isActive) {
+                        frag.style.setProperty('--random-x', randomX / 100);
+                        frag.style.setProperty('--random-speed', 1 + idx * 0.2);
+                        frag.style.setProperty('--random-rotate', Math.sin(fragProgress * Math.PI) * 2);
+                    }
+                });
+            });
+            
+            ticking = false;
+        }
+        
+        // Mouse movement for 3D tilt
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            document.documentElement.style.setProperty('--mouse-x', mouseX);
+            document.documentElement.style.setProperty('--mouse-y', mouseY);
+        });
+        
+        // Scroll listener
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+        
+        // Initial
+        updateScroll();
+        
+        // Random initialization for fragmented text
+        document.querySelectorAll('[data-fragment] span').forEach(span => {
+            span.style.setProperty('--random-x', (Math.random() - 0.5) * 2);
+            span.style.setProperty('--random-speed', 0.5 + Math.random());
+            span.style.setProperty('--random-rotate', (Math.random() - 0.5) * 2);
+        });
+    </script>
 </body>
 </html>
