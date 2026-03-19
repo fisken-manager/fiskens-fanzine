@@ -9,220 +9,228 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --bg: #0a0a0a;
-            --surface: #141414;
+            --bg: #050505;
+            --surface: #0a0a0a;
             --text: #fff;
-            --muted: #555;
+            --muted: #333;
             --accent: #ff3b30;
         }
         
-        body {
+        html, body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
             overflow-x: hidden;
         }
         
-        /* HERO — SPLIT SCREEN */
-        .hero {
-            height: 100vh;
-            display: grid;
-            grid-template-columns: 60% 40%;
-        }
-        
-        .hero-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 4vh 4vw;
+        /* CONTAINER FOR PINNED SECTIONS */
+        .pinned-container {
             position: relative;
         }
         
-        .hero-top {
+        /* PINNED SECTION - EACH IS FULL VIEWPORT */
+        .section {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100vw;
             display: flex;
+            overflow: hidden;
+            background: var(--bg);
+        }
+        
+        /* SPACER TO ALLOW SCROLLING BETWEEN SECTIONS */
+        .section-spacer {
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* SECTION 1: HERO - SPLIT */
+        .hero-section {
+            z-index: 10;
+        }
+        
+        .hero-left {
+            width: 55%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
+            padding: 6vh 4vw;
+        }
+        
+        .hero-meta {
             font-size: 0.7rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--muted);
+            display: flex;
+            justify-content: space-between;
         }
         
         .hero-title {
-            font-size: clamp(4rem, 12vw, 14rem);
+            font-size: clamp(5rem, 14vw, 16rem);
             font-weight: 900;
             line-height: 0.8;
             letter-spacing: -0.06em;
         }
         
-        .hero-title span {
+        .hero-title .outline {
+            -webkit-text-stroke: 3px var(--text);
+            color: transparent;
             display: block;
         }
         
-        .hero-title .outline {
-            -webkit-text-stroke: 2px var(--text);
-            color: transparent;
-        }
-        
         .hero-right {
+            width: 45%;
+            height: 100%;
             background: var(--surface);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
         }
         
         .hero-image {
-            width: 80%;
-            height: 80%;
+            width: 70%;
+            height: 70%;
             object-fit: contain;
-            filter: grayscale(100%) contrast(1.2);
+            filter: grayscale(100%);
         }
         
         .hero-year {
             position: absolute;
-            font-size: 20vw;
+            font-size: 25vw;
             font-weight: 900;
             color: var(--bg);
-            opacity: 0.5;
-            bottom: -5vw;
+            opacity: 0.6;
+            bottom: -5vh;
             right: -2vw;
         }
         
-        /* WIDE INTRO */
-        .wide-intro {
-            width: 100vw;
-            padding: 15vh 4vw;
-            border-top: 1px solid var(--surface);
-            border-bottom: 1px solid var(--surface);
+        /* SECTION 2: PRODUCT REVEAL */
+        .product-section {
+            z-index: 20;
+            background: var(--surface);
         }
         
-        .wide-text {
-            font-size: clamp(2rem, 5vw, 5rem);
-            font-weight: 300;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            max-width: 90vw;
-        }
-        
-        .wide-text .highlight {
-            color: var(--accent);
-            font-weight: 700;
-        }
-        
-        /* PRODUCTS — WIDE GRID */
-        .products {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            border-top: 1px solid var(--surface);
-        }
-        
-        .product {
-            border-right: 1px solid var(--surface);
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .product:last-child {
-            border-right: none;
-        }
-        
-        .product-image {
-            flex: 1;
+        .product-image-area {
+            width: 50%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4vw;
+            position: relative;
         }
         
-        .product-image img {
-            max-width: 100%;
-            max-height: 50vh;
+        .product-image-area img {
+            max-width: 80%;
+            max-height: 80%;
             object-fit: contain;
             filter: grayscale(100%);
-            transition: filter 0.5s ease;
         }
         
-        .product:hover .product-image img {
-            filter: grayscale(0%);
+        .product-giant-number {
+            position: absolute;
+            font-size: 40vw;
+            font-weight: 900;
+            color: var(--bg);
+            opacity: 0.5;
+            z-index: 0;
         }
         
-        .product-info {
-            padding: 2vw;
-            border-top: 1px solid var(--surface);
+        .product-info-area {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 6vw;
         }
         
-        .product-number {
+        .product-category {
             font-size: 0.7rem;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 1vh;
-        }
-        
-        .product-name {
-            font-size: clamp(1.5rem, 2.5vw, 3rem);
-            font-weight: 700;
-            line-height: 1;
             margin-bottom: 2vh;
         }
         
-        .product-price {
-            font-size: 1.2rem;
-            color: var(--muted);
+        .product-name {
+            font-size: clamp(3rem, 6vw, 7rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 4vh;
         }
         
-        /* FULL BLEED TEXT */
-        .full-bleed {
-            width: 100vw;
-            height: 60vh;
-            display: flex;
+        .product-desc {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #888;
+            max-width: 400px;
+            margin-bottom: 4vh;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        
+        /* SECTION 3: FULL BLEED TEXT */
+        .text-section {
+            z-index: 30;
+            background: var(--bg);
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .full-bleed-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.3;
-            filter: grayscale(100%);
-        }
-        
-        .full-bleed-text {
-            position: relative;
-            z-index: 10;
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 900;
             text-align: center;
-            line-height: 0.9;
-            letter-spacing: -0.05em;
-            mix-blend-mode: difference;
         }
         
-        /* STORIES — HORIZONTAL */
-        .stories {
+        .text-section h2 {
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+        }
+        
+        /* SECTION 4: HORIZONTAL SCROLL STORIES */
+        .stories-section {
+            z-index: 40;
+            background: var(--surface);
+            flex-direction: column;
+        }
+        
+        .stories-header {
+            height: 20vh;
             display: flex;
-            border-top: 1px solid var(--surface);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4vw;
+            border-bottom: 1px solid var(--bg);
+        }
+        
+        .stories-header h2 {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+        }
+        
+        .stories-track {
+            height: 80vh;
+            display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scrollbar-width: none;
         }
         
-        .stories::-webkit-scrollbar {
+        .stories-track::-webkit-scrollbar {
             display: none;
         }
         
-        .story {
+        .story-card {
             flex: 0 0 50vw;
-            min-height: 70vh;
-            padding: 4vw;
-            border-right: 1px solid var(--surface);
+            height: 100%;
+            padding: 6vh 4vw;
+            border-right: 1px solid var(--bg);
             scroll-snap-align: start;
             display: flex;
             flex-direction: column;
@@ -230,66 +238,67 @@
         }
         
         .story-number {
-            font-size: 8rem;
+            font-size: 12rem;
             font-weight: 900;
-            color: var(--surface);
+            color: var(--bg);
             line-height: 1;
         }
         
         .story-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin: 2vh 0;
+            margin-bottom: 2vh;
         }
         
         .story-text {
             font-size: 1rem;
-            line-height: 1.6;
-            color: var(--muted);
-            max-width: 40vw;
+            line-height: 1.7;
+            color: #888;
         }
         
-        /* CARS — SPLIT */
-        .cars {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border-top: 1px solid var(--surface);
+        /* SECTION 5: SPLIT CARS */
+        .cars-section {
+            z-index: 50;
+            background: var(--bg);
         }
         
-        .car {
+        .car-half {
+            width: 50%;
+            height: 100%;
             position: relative;
-            min-height: 80vh;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
-        .car:first-child {
+        .car-half:first-child {
             border-right: 1px solid var(--surface);
         }
         
-        .car-image {
-            width: 100%;
-            height: 70%;
-            object-fit: cover;
-            filter: grayscale(100%);
-            transition: transform 0.5s ease, filter 0.5s ease;
+        .car-image-wrap {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
         }
         
-        .car:hover .car-image {
-            transform: scale(1.05);
-            filter: grayscale(50%);
+        .car-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
         }
         
         .car-year {
             position: absolute;
-            top: 2vw;
+            top: 2vh;
             right: 2vw;
-            font-size: 6rem;
+            font-size: 8rem;
             font-weight: 900;
             color: var(--surface);
         }
         
         .car-info {
-            padding: 2vw;
+            height: 25vh;
+            padding: 4vh 4vw;
             border-top: 1px solid var(--surface);
         }
         
@@ -297,27 +306,26 @@
             display: inline-block;
             background: var(--accent);
             color: var(--bg);
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 1rem;
             font-size: 0.6rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            margin-bottom: 1vh;
+            margin-bottom: 2vh;
         }
         
         .car-model {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 900;
         }
         
-        /* CONTACT — CENTERED */
-        .contact {
-            min-height: 80vh;
-            display: flex;
+        /* SECTION 6: CONTACT */
+        .contact-section {
+            z-index: 60;
+            background: var(--surface);
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            border-top: 1px solid var(--surface);
         }
         
         .contact-label {
@@ -329,7 +337,7 @@
         }
         
         .contact-number {
-            font-size: clamp(2rem, 8vw, 6rem);
+            font-size: clamp(3rem, 10vw, 8rem);
             font-weight: 100;
             letter-spacing: -0.03em;
             margin-bottom: 4vh;
@@ -340,188 +348,147 @@
             filter: invert(1);
         }
         
-        /* FOOTER — WIDE */
-        .footer {
-            padding: 4vh 4vw;
-            border-top: 1px solid var(--surface);
-            display: flex;
+        /* FOOTER */
+        .footer-section {
+            z-index: 70;
+            background: var(--bg);
+            height: 30vh;
+            align-items: center;
             justify-content: space-between;
+            padding: 0 4vw;
             font-size: 0.7rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--muted);
         }
-        
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .hero {
-                grid-template-columns: 1fr;
-                min-height: auto;
-            }
-            
-            .hero-right {
-                min-height: 50vh;
-            }
-            
-            .products {
-                grid-template-columns: 1fr;
-            }
-            
-            .product {
-                border-right: none;
-                border-bottom: 1px solid var(--surface);
-            }
-            
-            .cars {
-                grid-template-columns: 1fr;
-            }
-            
-            .car:first-child {
-                border-right: none;
-                border-bottom: 1px solid var(--surface);
-            }
-            
-            .story {
-                flex: 0 0 80vw;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- HERO — SPLIT -->
-    <section class="hero">
-        <div class="hero-left">
-            <div class="hero-top">
-                <span>Katalog 02</span>
-                <span>Våren 2026</span>
+    <div class="pinned-container">
+        <!-- SECTION 1: HERO -->
+        <section class="section hero-section">
+            <div class="hero-left">
+                <div class="hero-meta">
+                    <span>Katalog 02</span>
+                    <span>Våren 2026</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="outline">FISKEN</span>
+                    <span>KATALOG</span>
+                </h1>
+                <div class="hero-meta">
+                    <span></span>
+                    <span>Tryckt i Mörkrets Dal</span>
+                </div>
             </div>
-            <h1 class="hero-title">
-                <span class="outline">FISKEN</span>
-                <span>KATALOG</span>
-            </h1>
-            <div class="hero-top">
-                <span></span>
-                <span>Tryckt i Mörkrets Dal</span>
+            <div class="hero-right">
+                <div class="hero-year">02</div>
+                <img src="assets/images/chronosweep.jpg" alt="" class="hero-image">
             </div>
-        </div>
-        <div class="hero-right">
-            <div class="hero-year">02</div>
-            <img src="assets/images/chronosweep.jpg" alt="" class="hero-image">
-        </div>
-    </section>
-    
-    <!-- WIDE INTRO -->
-    <section class="wide-intro">
-        <p class="wide-text">
-            En katalog över <span class="highlight">ting du inte visste att du behövde</span>. Verktyg för den som förstått att curling inte är en sport—det är en existensform.
-        </p>
-    </section>
-    
-    <!-- PRODUCTS — WIDE GRID -->
-    <section class="products">
-        <article class="product">
-            <div class="product-image">
+        </section>
+        
+        <div class="section-spacer"></div>
+        
+        <!-- SECTION 2: PRODUCT -->
+        <section class="section product-section">
+            <div class="product-image-area">
+                <div class="product-giant-number">001</div>
                 <img src="assets/images/chronosweep.jpg" alt="">
             </div>
-            <div class="product-info">
-                <div class="product-number">Art. 001</div>
+            <div class="product-info-area">
+                <div class="product-category">Artikel 001 — Tidmätning</div>
                 <h2 class="product-name">Chronosweep<br>3000</h2>
+                <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence"—den tid det tar för en skip att inse att matchen är förlorad.</p>
                 <div class="product-price">2 499 kr</div>
             </div>
-        </article>
+        </section>
         
-        <article class="product">
-            <div class="product-image">
-                <img src="assets/images/slide-don.jpg" alt="">
-            </div>
-            <div class="product-info">
-                <div class="product-number">Art. 002</div>
-                <h2 class="product-name">Slide-Don™<br>Grävling</h2>
-                <div class="product-price">1 899 kr</div>
-            </div>
-        </article>
+        <div class="section-spacer"></div>
         
-        <article class="product">
-            <div class="product-image">
-                <img src="assets/images/elvdal-regler.jpg" alt="">
-            </div>
-            <div class="product-info">
-                <div class="product-number">Art. 003</div>
-                <h2 class="product-name">Älvdalsk<br>Regelbok</h2>
-                <div class="product-price">449 kr</div>
-            </div>
-        </article>
-    </section>
-    
-    <!-- FULL BLEED -->
-    <section class="full-bleed">
-        <img src="assets/images/ice-texture.jpg" alt="" class="full-bleed-bg">
-        <h2 class="full-bleed-text">ALLTING<br>ÄR ATT<br>VÄNTA</h2>
-    </section>
-    
-    <!-- STORIES — HORIZONTAL -->
-    <section class="stories">
-        <article class="story">
-            <div class="story-number">I</div>
-            <div>
-                <h3 class="story-title">Om att vänta på isen</h3>
-                <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen. Isen sträcker sig framför mig som en frusen sjö.</p>
-            </div>
-        </article>
+        <!-- SECTION 3: TEXT -->
+        <section class="section text-section">
+            <h2>ALLTING<br>ÄR ATT<br>VÄNTA</h2>
+        </section>
         
-        <article class="story">
-            <div class="story-number">II</div>
-            <div>
-                <h3 class="story-title">Sömnlöshetens Dikt</h3>
-                <p class="story-text">Att förlora en match är att födas på nytt. Man kommer ut blöt, frusen, skrikande. Ingen applåderar.</p>
-            </div>
-        </article>
+        <div class="section-spacer"></div>
         
-        <article class="story">
-            <div class="story-number">III</div>
-            <div>
-                <h3 class="story-title">Mjölnarens Berättelse</h3>
-                <p class="story-text">Han hette inte Mjölnaren. Han hette något annat, något som glömdes bort när han köpte sin första curling-kvast 1978.</p>
+        <!-- SECTION 4: STORIES -->
+        <section class="section stories-section">
+            <div class="stories-header">
+                <h2>Fragment från Mörkrets Dal</h2>
+                <span style="color: var(--muted);">03</span>
             </div>
-        </article>
-    </section>
-    
-    <!-- CARS — SPLIT -->
-    <section class="cars">
-        <article class="car">
-            <div class="car-year">2012</div>
-            <img src="assets/images/car-saab.jpg" alt="" class="car-image">
-            <div class="car-info">
-                <div class="car-badge">Till Salu</div>
-                <h3 class="car-model">Citroën C5</h3>
-                <p style="color: var(--muted);">39 000 kr</p>
+            <div class="stories-track">
+                <article class="story-card">
+                    <div class="story-number">I</div>
+                    <div>
+                        <h3 class="story-title">Om att vänta på isen</h3>
+                        <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen. Isen sträcker sig framför mig.</p>
+                    </div>
+                </article>
+                <article class="story-card">
+                    <div class="story-number">II</div>
+                    <div>
+                        <h3 class="story-title">Sömnlöshetens Dikt</h3>
+                        <p class="story-text">Att förlora en match är att födas på nytt. Man kommer ut blöt, frusen, skrikande.</p>
+                    </div>
+                </article>
+                <article class="story-card">
+                    <div class="story-number">III</div>
+                    <div>
+                        <h3 class="story-title">Mjölnarens Berättelse</h3>
+                        <p class="story-text">Han hette inte Mjölnaren. Han hette något annat, något som glömdes bort 1978.</p>
+                    </div>
+                </article>
             </div>
-        </article>
+        </section>
         
-        <article class="car">
-            <div class="car-year">2008</div>
-            <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
-            <div class="car-info">
-                <div class="car-badge">Till Salu</div>
-                <h3 class="car-model">Saab 9-5</h3>
-                <p style="color: var(--muted);">24 500 kr</p>
+        <div class="section-spacer"></div>
+        
+        <!-- SECTION 5: CARS -->
+        <section class="section cars-section">
+            <div class="car-half">
+                <div class="car-image-wrap">
+                    <div class="car-year">2012</div>
+                    <img src="assets/images/car-saab.jpg" alt="">
+                </div>
+                <div class="car-info">
+                    <div class="car-badge">Till Salu</div>
+                    <h3 class="car-model">Citroën C5</h3>
+                    <p style="color: #666; margin-top: 1vh;">39 000 kr</p>
+                </div>
             </div>
-        </article>
-    </section>
-    
-    <!-- CONTACT -->
-    <section class="contact">
-        <div class="contact-label">Ring Isvaktaren</div>
-        <div class="contact-number">070-287 54 64</div>
-        <audio controls>
-            <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
-        </audio>
-    </section>
-    
-    <!-- FOOTER -->
-    <footer class="footer">
-        <span>Fisken Fanzine — Katalog 02</span>
-        <span>© 2026 Mörkrets Dal</span>
-    </footer>
+            <div class="car-half">
+                <div class="car-image-wrap">
+                    <div class="car-year">2008</div>
+                    <img src="assets/images/car-citroen.jpg" alt="">
+                </div>
+                <div class="car-info">
+                    <div class="car-badge">Till Salu</div>
+                    <h3 class="car-model">Saab 9-5</h3>
+                    <p style="color: #666; margin-top: 1vh;">24 500 kr</p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="section-spacer"></div>
+        
+        <!-- SECTION 6: CONTACT -->
+        <section class="section contact-section">
+            <div class="contact-label">Ring Isvaktaren</div>
+            <div class="contact-number">070-287 54 64</div>
+            <audio controls>
+                <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
+            </audio>
+        </section>
+        
+        <div class="section-spacer"></div>
+        
+        <!-- FOOTER -->
+        <section class="footer-section">
+            <span>Fisken Fanzine — Katalog 02</span>
+            <span>© 2026 Mörkrets Dal</span>
+        </section>
+    </div>
 </body>
 </html>
