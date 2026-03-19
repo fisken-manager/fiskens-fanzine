@@ -20,45 +20,48 @@
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
-        }
-        
-        /* CONTAINER FOR PINNED SECTIONS */
-        .pinned-container {
-            position: relative;
-        }
-        
-        /* PINNED SECTION - EACH IS FULL VIEWPORT */
-        .section {
-            position: sticky;
-            top: 0;
+            overflow: hidden;
             height: 100vh;
             width: 100vw;
-            display: flex;
-            overflow: hidden;
-            background: var(--bg);
         }
         
-        /* SPACER TO ALLOW SCROLLING BETWEEN SECTIONS */
-        .section-spacer {
-            height: 100vh;
+        /* SECTIONS CONTAINER */
+        .sections {
             position: relative;
+            height: 100vh;
+            width: 100vw;
         }
         
-        /* SECTION 1: HERO - SPLIT */
-        .hero-section {
-            z-index: 10;
+        /* EACH SECTION - FULL SCREEN, ABSOLUTE */
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        visibility 0.8s;
+            background: var(--bg);
+            overflow: hidden;
         }
         
+        .section.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* HERO */
+        .hero { z-index: 10; }
         .hero-left {
             width: 55%;
-            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 6vh 4vw;
         }
-        
         .hero-meta {
             font-size: 0.7rem;
             letter-spacing: 0.2em;
@@ -67,37 +70,31 @@
             display: flex;
             justify-content: space-between;
         }
-        
         .hero-title {
             font-size: clamp(5rem, 14vw, 16rem);
             font-weight: 900;
             line-height: 0.8;
             letter-spacing: -0.06em;
         }
-        
         .hero-title .outline {
             -webkit-text-stroke: 3px var(--text);
             color: transparent;
             display: block;
         }
-        
         .hero-right {
             width: 45%;
-            height: 100%;
             background: var(--surface);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
         }
-        
         .hero-image {
             width: 70%;
             height: 70%;
             object-fit: contain;
             filter: grayscale(100%);
         }
-        
         .hero-year {
             position: absolute;
             font-size: 25vw;
@@ -108,46 +105,35 @@
             right: -2vw;
         }
         
-        /* SECTION 2: PRODUCT REVEAL */
-        .product-section {
-            z-index: 20;
-            background: var(--surface);
-        }
-        
-        .product-image-area {
+        /* PRODUCT */
+        .product { z-index: 20; background: var(--surface); }
+        .product-image-side {
             width: 50%;
-            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
         }
-        
-        .product-image-area img {
+        .product-image-side img {
             max-width: 80%;
             max-height: 80%;
             object-fit: contain;
             filter: grayscale(100%);
         }
-        
         .product-giant-number {
             position: absolute;
             font-size: 40vw;
             font-weight: 900;
             color: var(--bg);
             opacity: 0.5;
-            z-index: 0;
         }
-        
-        .product-info-area {
+        .product-info-side {
             width: 50%;
-            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             padding: 0 6vw;
         }
-        
         .product-category {
             font-size: 0.7rem;
             letter-spacing: 0.3em;
@@ -155,7 +141,6 @@
             color: var(--accent);
             margin-bottom: 2vh;
         }
-        
         .product-name {
             font-size: clamp(3rem, 6vw, 7rem);
             font-weight: 900;
@@ -163,7 +148,6 @@
             letter-spacing: -0.04em;
             margin-bottom: 4vh;
         }
-        
         .product-desc {
             font-size: 1.1rem;
             line-height: 1.7;
@@ -171,21 +155,19 @@
             max-width: 400px;
             margin-bottom: 4vh;
         }
-        
         .product-price {
             font-size: 2rem;
             font-weight: 300;
         }
         
-        /* SECTION 3: FULL BLEED TEXT */
-        .text-section {
-            z-index: 30;
+        /* TEXT */
+        .text-section { 
+            z-index: 30; 
             background: var(--bg);
             align-items: center;
             justify-content: center;
             text-align: center;
         }
-        
         .text-section h2 {
             font-size: clamp(4rem, 12vw, 10rem);
             font-weight: 900;
@@ -193,13 +175,12 @@
             letter-spacing: -0.05em;
         }
         
-        /* SECTION 4: HORIZONTAL SCROLL STORIES */
-        .stories-section {
-            z-index: 40;
+        /* STORIES */
+        .stories { 
+            z-index: 40; 
             background: var(--surface);
             flex-direction: column;
         }
-        
         .stories-header {
             height: 20vh;
             display: flex;
@@ -208,12 +189,10 @@
             padding: 0 4vw;
             border-bottom: 1px solid var(--bg);
         }
-        
         .stories-header h2 {
             font-size: clamp(1.5rem, 3vw, 2.5rem);
             font-weight: 700;
         }
-        
         .stories-track {
             height: 80vh;
             display: flex;
@@ -221,11 +200,7 @@
             scroll-snap-type: x mandatory;
             scrollbar-width: none;
         }
-        
-        .stories-track::-webkit-scrollbar {
-            display: none;
-        }
-        
+        .stories-track::-webkit-scrollbar { display: none; }
         .story-card {
             flex: 0 0 50vw;
             height: 100%;
@@ -236,57 +211,43 @@
             flex-direction: column;
             justify-content: space-between;
         }
-        
         .story-number {
             font-size: 12rem;
             font-weight: 900;
             color: var(--bg);
             line-height: 1;
         }
-        
         .story-title {
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 2vh;
         }
-        
         .story-text {
             font-size: 1rem;
             line-height: 1.7;
             color: #888;
         }
         
-        /* SECTION 5: SPLIT CARS */
-        .cars-section {
-            z-index: 50;
-            background: var(--bg);
-        }
-        
+        /* CARS */
+        .cars { z-index: 50; background: var(--bg); }
         .car-half {
             width: 50%;
-            height: 100%;
             position: relative;
             display: flex;
             flex-direction: column;
         }
-        
-        .car-half:first-child {
-            border-right: 1px solid var(--surface);
-        }
-        
+        .car-half:first-child { border-right: 1px solid var(--surface); }
         .car-image-wrap {
             flex: 1;
             overflow: hidden;
             position: relative;
         }
-        
         .car-image-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             filter: grayscale(100%);
         }
-        
         .car-year {
             position: absolute;
             top: 2vh;
@@ -295,13 +256,11 @@
             font-weight: 900;
             color: var(--surface);
         }
-        
         .car-info {
             height: 25vh;
             padding: 4vh 4vw;
             border-top: 1px solid var(--surface);
         }
-        
         .car-badge {
             display: inline-block;
             background: var(--accent);
@@ -312,22 +271,20 @@
             text-transform: uppercase;
             margin-bottom: 2vh;
         }
-        
         .car-model {
             font-size: 2rem;
             font-weight: 900;
         }
         
-        /* SECTION 6: CONTACT */
-        .contact-section {
-            z-index: 60;
+        /* CONTACT */
+        .contact { 
+            z-index: 60; 
             background: var(--surface);
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
         }
-        
         .contact-label {
             font-size: 0.7rem;
             letter-spacing: 0.3em;
@@ -335,22 +292,20 @@
             color: var(--muted);
             margin-bottom: 4vh;
         }
-        
         .contact-number {
             font-size: clamp(3rem, 10vw, 8rem);
             font-weight: 100;
             letter-spacing: -0.03em;
             margin-bottom: 4vh;
         }
-        
         .contact audio {
             width: 300px;
             filter: invert(1);
         }
         
         /* FOOTER */
-        .footer-section {
-            z-index: 70;
+        .footer { 
+            z-index: 70; 
             background: var(--bg);
             height: 30vh;
             align-items: center;
@@ -361,12 +316,33 @@
             text-transform: uppercase;
             color: var(--muted);
         }
+        
+        /* SCROLL INDICATOR */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 4vh;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+        .scroll-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+            transition: background 0.3s;
+        }
+        .scroll-dot.active {
+            background: var(--accent);
+        }
     </style>
 </head>
 <body>
-    <div class="pinned-container">
+    <div class="sections">
         <!-- SECTION 1: HERO -->
-        <section class="section hero-section">
+        <section class="section hero active" data-section="0">
             <div class="hero-left">
                 <div class="hero-meta">
                     <span>Katalog 02</span>
@@ -387,15 +363,13 @@
             </div>
         </section>
         
-        <div class="section-spacer"></div>
-        
-        <!-- SECTION 2: PRODUCT -->
-        <section class="section product-section">
-            <div class="product-image-area">
+        <!-- SECTION 2: PRODUCT 1 -->
+        <section class="section product" data-section="1">
+            <div class="product-image-side">
                 <div class="product-giant-number">001</div>
                 <img src="assets/images/chronosweep.jpg" alt="">
             </div>
-            <div class="product-info-area">
+            <div class="product-info-side">
                 <div class="product-category">Artikel 001 — Tidmätning</div>
                 <h2 class="product-name">Chronosweep<br>3000</h2>
                 <p class="product-desc">Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence"—den tid det tar för en skip att inse att matchen är förlorad.</p>
@@ -403,17 +377,13 @@
             </div>
         </section>
         
-        <div class="section-spacer"></div>
-        
         <!-- SECTION 3: TEXT -->
-        <section class="section text-section">
+        <section class="section text-section" data-section="2">
             <h2>ALLTING<br>ÄR ATT<br>VÄNTA</h2>
         </section>
         
-        <div class="section-spacer"></div>
-        
         <!-- SECTION 4: STORIES -->
-        <section class="section stories-section">
+        <section class="section stories" data-section="3">
             <div class="stories-header">
                 <h2>Fragment från Mörkrets Dal</h2>
                 <span style="color: var(--muted);">03</span>
@@ -443,10 +413,8 @@
             </div>
         </section>
         
-        <div class="section-spacer"></div>
-        
         <!-- SECTION 5: CARS -->
-        <section class="section cars-section">
+        <section class="section cars" data-section="4">
             <div class="car-half">
                 <div class="car-image-wrap">
                     <div class="car-year">2012</div>
@@ -471,10 +439,8 @@
             </div>
         </section>
         
-        <div class="section-spacer"></div>
-        
         <!-- SECTION 6: CONTACT -->
-        <section class="section contact-section">
+        <section class="section contact" data-section="5">
             <div class="contact-label">Ring Isvaktaren</div>
             <div class="contact-number">070-287 54 64</div>
             <audio controls>
@@ -482,13 +448,114 @@
             </audio>
         </section>
         
-        <div class="section-spacer"></div>
-        
-        <!-- FOOTER -->
-        <section class="footer-section">
+        <!-- SECTION 7: FOOTER -->
+        <section class="section footer" data-section="6">
             <span>Fisken Fanzine — Katalog 02</span>
             <span>© 2026 Mörkrets Dal</span>
         </section>
     </div>
+    
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator">
+        <div class="scroll-dot active"></div>
+        <div class="scroll-dot"></div>
+        <div class="scroll-dot"></div>
+        <div class="scroll-dot"></div>
+        <div class="scroll-dot"></div>
+        <div class="scroll-dot"></div>
+        <div class="scroll-dot"></div>
+    </div>
+
+    <script>
+        // Section management
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.section');
+        const dots = document.querySelectorAll('.scroll-dot');
+        const totalSections = sections.length;
+        let isScrolling = false;
+        let scrollTimeout;
+        
+        function showSection(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSections) index = totalSections - 1;
+            
+            currentSection = index;
+            
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+        
+        // Wheel event for section switching
+        window.addEventListener('wheel', (e) => {
+            if (isScrolling) return;
+            
+            // Check if inside stories horizontal scroll
+            const storiesSection = document.querySelector('.stories.active');
+            if (storiesSection) {
+                const track = storiesSection.querySelector('.stories-track');
+                const canScrollLeft = track.scrollLeft > 0;
+                const canScrollRight = track.scrollLeft < track.scrollWidth - track.clientWidth;
+                
+                if ((e.deltaY > 0 && canScrollRight) || (e.deltaY < 0 && canScrollLeft)) {
+                    // Let horizontal scroll happen
+                    track.scrollLeft += e.deltaY;
+                    return;
+                }
+            }
+            
+            isScrolling = true;
+            
+            if (e.deltaY > 0) {
+                showSection(currentSection + 1);
+            } else {
+                showSection(currentSection - 1);
+            }
+            
+            setTimeout(() => {
+                isScrolling = false;
+            }, 800);
+        }, { passive: true });
+        
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                showSection(currentSection + 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                showSection(currentSection - 1);
+            }
+        });
+        
+        // Touch/swipe support
+        let touchStartY = 0;
+        let touchEndY = 0;
+        
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+        
+        window.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const diff = touchStartY - touchEndY;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    showSection(currentSection + 1);
+                } else {
+                    showSection(currentSection - 1);
+                }
+            }
+        }
+        
+        // Initial
+        showSection(0);
+    </script>
 </body>
 </html>
