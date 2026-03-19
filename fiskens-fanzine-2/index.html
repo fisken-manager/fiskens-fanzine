@@ -3,26 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FISKEN — Katalog 02</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>FISKEN — 02</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --bg: #050505;
-            --surface: #0a0a0a;
-            --text: #ffffff;
-            --muted: #444;
-            --accent: #ff3300;
-        }
-        
-        html {
-            scroll-behavior: auto;
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --text: #fff;
+            --muted: #555;
+            --accent: #ff3b30;
         }
         
         body {
@@ -32,251 +23,214 @@
             overflow-x: hidden;
         }
         
-        /* SMOOTH SCROLL CONTAINER */
-        .smooth-wrapper {
-            will-change: transform;
-        }
-        
-        /* SECTION BASE */
-        section {
-            position: relative;
-            width: 100%;
-        }
-        
-        /* HERO - SCROLL TRANSFORM */
+        /* HERO — SPLIT SCREEN */
         .hero {
-            height: 200vh;
-            position: relative;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 60% 40%;
         }
         
-        .hero-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
+        .hero-left {
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            padding: 4vh 4vw;
+            position: relative;
+        }
+        
+        .hero-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 14rem);
+            font-weight: 900;
+            line-height: 0.8;
+            letter-spacing: -0.06em;
+        }
+        
+        .hero-title span {
+            display: block;
+        }
+        
+        .hero-title .outline {
+            -webkit-text-stroke: 2px var(--text);
+            color: transparent;
+        }
+        
+        .hero-right {
+            background: var(--surface);
+            display: flex;
+            align-items: center;
             justify-content: center;
-            padding: 2rem;
+            position: relative;
             overflow: hidden;
+        }
+        
+        .hero-image {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            filter: grayscale(100%) contrast(1.2);
         }
         
         .hero-year {
             position: absolute;
-            font-size: 50vw;
+            font-size: 20vw;
             font-weight: 900;
-            color: var(--surface);
-            z-index: 0;
-            line-height: 0.8;
-            transform: translateY(var(--scroll-y, 0));
-            will-change: transform;
+            color: var(--bg);
+            opacity: 0.5;
+            bottom: -5vw;
+            right: -2vw;
         }
         
-        .hero-title {
-            position: relative;
-            z-index: 10;
-            font-size: clamp(3rem, 12vw, 10rem);
-            font-weight: 900;
-            line-height: 0.85;
-            letter-spacing: -0.06em;
-            transform: scale(calc(1 + var(--scroll-scale, 0) * 0.5)) 
-                       translateY(calc(var(--scroll-y, 0) * -0.5));
-            will-change: transform;
+        /* WIDE INTRO */
+        .wide-intro {
+            width: 100vw;
+            padding: 15vh 4vw;
+            border-top: 1px solid var(--surface);
+            border-bottom: 1px solid var(--surface);
         }
         
-        .hero-title .outline {
-            -webkit-text-stroke: 3px var(--text);
-            color: transparent;
-            display: block;
-        }
-        
-        .hero-meta {
-            position: absolute;
-            bottom: 2rem;
-            left: 2rem;
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--muted);
-            transform: translateY(calc(var(--scroll-y, 0) * -2));
-        }
-        
-        /* KINETIC TEXT SECTION */
-        .kinetic-section {
-            height: 300vh;
-            position: relative;
-        }
-        
-        .kinetic-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .kinetic-text {
-            font-size: clamp(2rem, 8vw, 6rem);
-            font-weight: 100;
-            text-align: center;
-            line-height: 1;
+        .wide-text {
+            font-size: clamp(2rem, 5vw, 5rem);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
             max-width: 90vw;
         }
         
-        .kinetic-text .word {
-            display: inline-block;
-            margin: 0 0.2em;
-            transition: font-weight 0.1s linear;
+        .wide-text .highlight {
+            color: var(--accent);
+            font-weight: 700;
         }
         
-        /* PRODUCT PINNED */
-        .product-pin {
-            height: 400vh;
-            position: relative;
-        }
-        
-        .product-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
+        /* PRODUCTS — WIDE GRID */
+        .products {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--surface);
+        }
+        
+        .product {
+            border-right: 1px solid var(--surface);
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
             overflow: hidden;
         }
         
-        .product-image-side {
-            position: relative;
-            overflow: hidden;
+        .product:last-child {
+            border-right: none;
         }
         
         .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(1.2);
-            transform: scale(calc(1.2 - var(--product-scroll, 0) * 0.2));
-            will-change: transform;
-        }
-        
-        .product-number {
-            position: absolute;
-            font-size: 30vw;
-            font-weight: 900;
-            color: var(--accent);
-            opacity: 0.1;
-            z-index: 1;
-            line-height: 0.8;
-            transform: translateX(calc(var(--product-scroll, 0) * 20vw));
-            will-change: transform;
-        }
-        
-        .product-info-side {
-            padding: 4rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: var(--bg);
-        }
-        
-        .product-category {
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-        }
-        
-        .product-name {
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 700;
-            line-height: 1;
-            letter-spacing: -0.04em;
-            transform: translateY(calc(var(--product-scroll, 0) * 50px));
-            will-change: transform;
-        }
-        
-        .product-desc {
-            font-size: 1.125rem;
-            line-height: 1.6;
-            color: var(--muted);
-            max-width: 400px;
-            opacity: calc(0.3 + var(--product-scroll, 0) * 0.7);
-            transform: translateY(calc((1 - var(--product-scroll, 0)) * 50px));
-            will-change: transform, opacity;
-        }
-        
-        .product-footer {
-            border-top: 1px solid var(--surface);
-            padding-top: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-        
-        .product-price {
-            font-size: 2.5rem;
-            font-weight: 300;
-        }
-        
-        /* TEXT MORPH SECTION */
-        .morph-section {
-            height: 200vh;
-            position: relative;
-        }
-        
-        .morph-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 4vw;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 50vh;
+            object-fit: contain;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+        
+        .product:hover .product-image img {
+            filter: grayscale(0%);
+        }
+        
+        .product-info {
+            padding: 2vw;
+            border-top: 1px solid var(--surface);
+        }
+        
+        .product-number {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 1vh;
+        }
+        
+        .product-name {
+            font-size: clamp(1.5rem, 2.5vw, 3rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 2vh;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            color: var(--muted);
+        }
+        
+        /* FULL BLEED TEXT */
+        .full-bleed {
+            width: 100vw;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
             overflow: hidden;
         }
         
-        .morph-text {
-            font-size: clamp(2rem, 6vw, 5rem);
+        .full-bleed-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+        
+        .full-bleed-text {
+            position: relative;
+            z-index: 10;
+            font-size: clamp(3rem, 10vw, 8rem);
             font-weight: 900;
             text-align: center;
-            line-height: 1;
-            max-width: 80vw;
-            letter-spacing: -0.04em;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            mix-blend-mode: difference;
         }
         
-        .morph-text .line {
-            display: block;
-            overflow: hidden;
-        }
-        
-        .morph-text .line span {
-            display: block;
-            transform: translateY(var(--morph-y, 100%));
-            will-change: transform;
-        }
-        
-        /* STORIES - VELOCITY SCROLL */
-        .stories-section {
-            padding: 10vh 0;
-        }
-        
-        .story-item {
-            padding: 4rem 2rem;
+        /* STORIES — HORIZONTAL */
+        .stories {
+            display: flex;
             border-top: 1px solid var(--surface);
-            display: grid;
-            grid-template-columns: 100px 1fr 2fr;
-            gap: 4rem;
-            align-items: start;
-            transform: skewY(calc(var(--velocity, 0) * 2deg));
-            will-change: transform;
-            transition: background 0.3s ease;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
         }
         
-        .story-item:hover {
-            background: var(--surface);
+        .stories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .story {
+            flex: 0 0 50vw;
+            min-height: 70vh;
+            padding: 4vw;
+            border-right: 1px solid var(--surface);
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .story-number {
-            font-size: 4rem;
+            font-size: 8rem;
             font-weight: 900;
             color: var(--surface);
             line-height: 1;
@@ -285,365 +239,289 @@
         .story-title {
             font-size: 1.5rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
+            margin: 2vh 0;
         }
         
         .story-text {
             font-size: 1rem;
-            line-height: 1.7;
+            line-height: 1.6;
             color: var(--muted);
+            max-width: 40vw;
         }
         
-        /* CARS - HORIZONTAL VELOCITY */
-        .cars-section {
-            height: 300vh;
+        /* CARS — SPLIT */
+        .cars {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-top: 1px solid var(--surface);
+        }
+        
+        .car {
             position: relative;
-        }
-        
-        .cars-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
+            min-height: 80vh;
             overflow: hidden;
         }
         
-        .cars-track {
-            display: flex;
-            gap: 4rem;
-            padding: 0 4rem;
-            transform: translateX(calc(var(--cars-scroll, 0) * -50vw));
-            will-change: transform;
-        }
-        
-        .car-card {
-            flex-shrink: 0;
-            width: 60vw;
-            position: relative;
+        .car:first-child {
+            border-right: 1px solid var(--surface);
         }
         
         .car-image {
             width: 100%;
-            aspect-ratio: 16/10;
+            height: 70%;
             object-fit: cover;
             filter: grayscale(100%);
-            transform: scale(calc(1 + var(--velocity, 0) * 0.02));
-            will-change: transform;
+            transition: transform 0.5s ease, filter 0.5s ease;
+        }
+        
+        .car:hover .car-image {
+            transform: scale(1.05);
+            filter: grayscale(50%);
         }
         
         .car-year {
             position: absolute;
-            top: -1rem;
-            right: 0;
-            font-size: 8rem;
+            top: 2vw;
+            right: 2vw;
+            font-size: 6rem;
             font-weight: 900;
             color: var(--surface);
-            z-index: -1;
         }
         
         .car-info {
-            padding: 2rem 0;
+            padding: 2vw;
+            border-top: 1px solid var(--surface);
         }
         
         .car-badge {
             display: inline-block;
             background: var(--accent);
             color: var(--bg);
-            padding: 0.5rem 1rem;
-            font-size: 0.625rem;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.6rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            margin-bottom: 1rem;
+            margin-bottom: 1vh;
         }
         
         .car-model {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
         }
         
-        /* PHONE - SCALE ON SCROLL */
-        .phone-section {
-            height: 150vh;
-            position: relative;
-        }
-        
-        .phone-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
+        /* CONTACT — CENTERED */
+        .contact {
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
+            border-top: 1px solid var(--surface);
         }
         
-        .phone-label {
-            font-size: 0.75rem;
+        .contact-label {
+            font-size: 0.7rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--muted);
-            margin-bottom: 2rem;
+            margin-bottom: 4vh;
         }
         
-        .phone-number {
-            font-size: clamp(3rem, 12vw, 8rem);
+        .contact-number {
+            font-size: clamp(2rem, 8vw, 6rem);
             font-weight: 100;
-            letter-spacing: -0.05em;
-            transform: scale(calc(0.8 + var(--phone-scroll, 0) * 0.4))
-                       translateY(calc((1 - var(--phone-scroll, 0)) * 100px));
-            will-change: transform;
-            opacity: calc(0.5 + var(--phone-scroll, 0) * 0.5);
+            letter-spacing: -0.03em;
+            margin-bottom: 4vh;
         }
         
-        /* VELOCITY SKEW ON ALL TEXT */
-        .velocity-text {
-            transform: skewY(calc(var(--velocity, 0) * 1deg));
-            will-change: transform;
+        .contact audio {
+            width: 300px;
+            filter: invert(1);
         }
         
-        /* FOOTER */
-        footer {
-            padding: 4rem 2rem;
+        /* FOOTER — WIDE */
+        .footer {
+            padding: 4vh 4vw;
             border-top: 1px solid var(--surface);
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--muted);
-            text-transform: uppercase;
+            font-size: 0.7rem;
             letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            
+            .hero-right {
+                min-height: 50vh;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;
+            }
+            
+            .product {
+                border-right: none;
+                border-bottom: 1px solid var(--surface);
+            }
+            
+            .cars {
+                grid-template-columns: 1fr;
+            }
+            
+            .car:first-child {
+                border-right: none;
+                border-bottom: 1px solid var(--surface);
+            }
+            
+            .story {
+                flex: 0 0 80vw;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="smooth-wrapper">
-        <!-- HERO -->
-        <section class="hero" data-scroll-section>
-            <div class="hero-sticky">
-                <div class="hero-year">02</div>
-                <h1 class="hero-title velocity-text">
-                    <span class="outline">FISKEN</span>
-                    <span>KATALOG</span>
-                </h1>
-                <div class="hero-meta">Utgiven i Mörkrets Dal — Våren 2026</div>
+    <!-- HERO — SPLIT -->
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-top">
+                <span>Katalog 02</span>
+                <span>Våren 2026</span>
             </div>
-        </section>
-
-        <!-- KINETIC TEXT -->
-        <section class="kinetic-section" data-scroll-section>
-            <div class="kinetic-sticky">
-                <p class="kinetic-text" data-kinetic>
-                    <span class="word">En</span>
-                    <span class="word">katalog</span>
-                    <span class="word">över</span>
-                    <span class="word">ting</span>
-                    <span class="word">du</span>
-                    <span class="word">inte</span>
-                    <span class="word">visste</span>
-                    <span class="word">att</span>
-                    <span class="word">du</span>
-                    <span class="word">behövde</span>
-                </p>
+            <h1 class="hero-title">
+                <span class="outline">FISKEN</span>
+                <span>KATALOG</span>
+            </h1>
+            <div class="hero-top">
+                <span></span>
+                <span>Tryckt i Mörkrets Dal</span>
             </div>
-        </section>
-
-        <!-- PRODUCT 1: CHRONOSWEEP -->
-        <section class="product-pin" data-product="1">
-            <div class="product-sticky">
-                <div class="product-image-side">
-                    <div class="product-number">001</div>
-                    <img src="assets/images/chronosweep.jpg" alt="" class="product-image">
-                </div>
-                <div class="product-info-side">
-                    <div>
-                        <div class="product-category">Artikel 001 — Tidmätning</div>
-                        <h2 class="product-name velocity-text">Chronosweep<br>3000</h2>
-                    </div>
-                    <p class="product-desc">
-                        Ett tidtagarur som inte mäter sekunder. Det mäter istället "soul-crushing silence"—den tid det tar för en skip att inse att matchen är förlorad.
-                    </p>
-                    <div class="product-footer">
-                        <span class="product-price">2 499 kr</span>
-                        <span style="color: var(--muted);">Mässing / Ek</span>
-                    </div>
-                </div>
+        </div>
+        <div class="hero-right">
+            <div class="hero-year">02</div>
+            <img src="assets/images/chronosweep.jpg" alt="" class="hero-image">
+        </div>
+    </section>
+    
+    <!-- WIDE INTRO -->
+    <section class="wide-intro">
+        <p class="wide-text">
+            En katalog över <span class="highlight">ting du inte visste att du behövde</span>. Verktyg för den som förstått att curling inte är en sport—det är en existensform.
+        </p>
+    </section>
+    
+    <!-- PRODUCTS — WIDE GRID -->
+    <section class="products">
+        <article class="product">
+            <div class="product-image">
+                <img src="assets/images/chronosweep.jpg" alt="">
             </div>
-        </section>
-
-        <!-- MORPH TEXT -->
-        <section class="morph-section" data-scroll-section>
-            <div class="morph-sticky">
-                <h2 class="morph-text" data-morph>
-                    <span class="line"><span>ALLTING</span></span>
-                    <span class="line"><span>ÄR ATT</span></span>
-                    <span class="line"><span>VÄNTA</span></span>
-                </h2>
+            <div class="product-info">
+                <div class="product-number">Art. 001</div>
+                <h2 class="product-name">Chronosweep<br>3000</h2>
+                <div class="product-price">2 499 kr</div>
             </div>
-        </section>
-
-        <!-- PRODUCT 2: SLIDE-DON -->
-        <section class="product-pin" data-product="2">
-            <div class="product-sticky">
-                <div class="product-info-side">
-                    <div>
-                        <div class="product-category">Artikel 002 — Redskap</div>
-                        <h2 class="product-name velocity-text">Slide-Don™<br>Grävling</h2>
-                    </div>
-                    <p class="product-desc">
-                        Varför hålla i en kvast när du kan hålla i en uppstoppad grävling? Handgjord i Mörkrets Dal av lokala taxidermister med curling-licens.
-                    </p>
-                    <div class="product-footer">
-                        <span class="product-price">1 899 kr</span>
-                        <span style="color: var(--muted);">Meles meles</span>
-                    </div>
-                </div>
-                <div class="product-image-side">
-                    <div class="product-number">002</div>
-                    <img src="assets/images/slide-don.jpg" alt="" class="product-image">
-                </div>
+        </article>
+        
+        <article class="product">
+            <div class="product-image">
+                <img src="assets/images/slide-don.jpg" alt="">
             </div>
-        </section>
-
-        <!-- STORIES -->
-        <section class="stories-section" data-scroll-section>
-            <article class="story-item velocity-text">
-                <div class="story-number">I</div>
+            <div class="product-info">
+                <div class="product-number">Art. 002</div>
+                <h2 class="product-name">Slide-Don™<br>Grävling</h2>
+                <div class="product-price">1 899 kr</div>
+            </div>
+        </article>
+        
+        <article class="product">
+            <div class="product-image">
+                <img src="assets/images/elvdal-regler.jpg" alt="">
+            </div>
+            <div class="product-info">
+                <div class="product-number">Art. 003</div>
+                <h2 class="product-name">Älvdalsk<br>Regelbok</h2>
+                <div class="product-price">449 kr</div>
+            </div>
+        </article>
+    </section>
+    
+    <!-- FULL BLEED -->
+    <section class="full-bleed">
+        <img src="assets/images/ice-texture.jpg" alt="" class="full-bleed-bg">
+        <h2 class="full-bleed-text">ALLTING<br>ÄR ATT<br>VÄNTA</h2>
+    </section>
+    
+    <!-- STORIES — HORIZONTAL -->
+    <section class="stories">
+        <article class="story">
+            <div class="story-number">I</div>
+            <div>
                 <h3 class="story-title">Om att vänta på isen</h3>
                 <p class="story-text">Klockan är fem på morgonen. Jag står ensam i curlinghallen. Isen sträcker sig framför mig som en frusen sjö.</p>
-            </article>
-            <article class="story-item velocity-text">
-                <div class="story-number">II</div>
+            </div>
+        </article>
+        
+        <article class="story">
+            <div class="story-number">II</div>
+            <div>
                 <h3 class="story-title">Sömnlöshetens Dikt</h3>
                 <p class="story-text">Att förlora en match är att födas på nytt. Man kommer ut blöt, frusen, skrikande. Ingen applåderar.</p>
-            </article>
-            <article class="story-item velocity-text">
-                <div class="story-number">III</div>
+            </div>
+        </article>
+        
+        <article class="story">
+            <div class="story-number">III</div>
+            <div>
                 <h3 class="story-title">Mjölnarens Berättelse</h3>
                 <p class="story-text">Han hette inte Mjölnaren. Han hette något annat, något som glömdes bort när han köpte sin första curling-kvast 1978.</p>
-            </article>
-        </section>
-
-        <!-- CARS -->
-        <section class="cars-section" data-cars>
-            <div class="cars-sticky">
-                <div class="cars-track">
-                    <div class="car-card">
-                        <span class="car-year">2012</span>
-                        <img src="assets/images/car-saab.jpg" alt="" class="car-image">
-                        <div class="car-info">
-                            <span class="car-badge">Till Salu</span>
-                            <h3 class="car-model">Citroën C5</h3>
-                            <p style="color: var(--muted); margin-top: 0.5rem;">39 000 kr</p>
-                        </div>
-                    </div>
-                    <div class="car-card">
-                        <span class="car-year">2008</span>
-                        <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
-                        <div class="car-info">
-                            <span class="car-badge">Till Salu</span>
-                            <h3 class="car-model">Saab 9-5</h3>
-                            <p style="color: var(--muted); margin-top: 0.5rem;">24 500 kr</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
-
-        <!-- PHONE -->
-        <section class="phone-section" data-phone>
-            <div class="phone-sticky">
-                <div class="phone-label">Ring Isvaktaren</div>
-                <div class="phone-number">070-287 54 64</div>
-                <p style="color: var(--muted); max-width: 400px; margin-top: 2rem;">
-                    Vet du inte vad du ska göra? Förlorade du matchen? Behöver du curling-facts vid 04:00?
-                </p>
+        </article>
+    </section>
+    
+    <!-- CARS — SPLIT -->
+    <section class="cars">
+        <article class="car">
+            <div class="car-year">2012</div>
+            <img src="assets/images/car-saab.jpg" alt="" class="car-image">
+            <div class="car-info">
+                <div class="car-badge">Till Salu</div>
+                <h3 class="car-model">Citroën C5</h3>
+                <p style="color: var(--muted);">39 000 kr</p>
             </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer>
-            <span>Fisken Fanzine — Katalog 02</span>
-            <span>Tryckt i Mörkrets Dal © 2026</span>
-        </footer>
-    </div>
-
-    <!-- SCROLL ENGINE -->
-    <script>
-        // Scroll state
-        let scrollY = 0;
-        let velocity = 0;
-        let lastScrollY = 0;
-        let ticking = false;
-
-        // Update scroll position
-        function updateScroll() {
-            scrollY = window.scrollY;
-            velocity = scrollY - lastScrollY;
-            lastScrollY = scrollY;
-            
-            // Update CSS variables
-            document.documentElement.style.setProperty('--scroll-y', scrollY + 'px');
-            document.documentElement.style.setProperty('--velocity', velocity * 0.1);
-            
-            // Hero transforms
-            const heroSection = document.querySelector('.hero');
-            if (heroSection) {
-                const heroRect = heroSection.getBoundingClientRect();
-                const heroProgress = Math.max(0, Math.min(1, -heroRect.top / heroRect.height));
-                document.documentElement.style.setProperty('--scroll-scale', heroProgress);
-            }
-            
-            // Product sections
-            document.querySelectorAll('[data-product]').forEach(section => {
-                const rect = section.getBoundingClientRect();
-                const progress = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
-                document.documentElement.style.setProperty('--product-scroll', progress);
-                
-                // Kinetic text weight
-                const kineticWords = section.querySelectorAll('.kinetic-text .word');
-                kineticWords.forEach((word, i) => {
-                    const wordProgress = Math.max(0, Math.min(1, (progress * 3) - (i * 0.1)));
-                    word.style.fontWeight = 100 + (wordProgress * 800);
-                });
-            });
-            
-            // Cars horizontal scroll
-            const carsSection = document.querySelector('[data-cars]');
-            if (carsSection) {
-                const rect = carsSection.getBoundingClientRect();
-                const progress = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
-                document.documentElement.style.setProperty('--cars-scroll', progress);
-            }
-            
-            // Phone scale
-            const phoneSection = document.querySelector('[data-phone]');
-            if (phoneSection) {
-                const rect = phoneSection.getBoundingClientRect();
-                const progress = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
-                document.documentElement.style.setProperty('--phone-scroll', progress);
-            }
-            
-            // Morph text
-            const morphSection = document.querySelector('[data-morph]');
-            if (morphSection) {
-                const rect = morphSection.closest('section').getBoundingClientRect();
-                const progress = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
-                document.documentElement.style.setProperty('--morph-y', ((1 - progress) * 100) + '%');
-            }
-            
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateScroll);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        // Initial call
-        updateScroll();
-    </script>
+        </article>
+        
+        <article class="car">
+            <div class="car-year">2008</div>
+            <img src="assets/images/car-citroen.jpg" alt="" class="car-image">
+            <div class="car-info">
+                <div class="car-badge">Till Salu</div>
+                <h3 class="car-model">Saab 9-5</h3>
+                <p style="color: var(--muted);">24 500 kr</p>
+            </div>
+        </article>
+    </section>
+    
+    <!-- CONTACT -->
+    <section class="contact">
+        <div class="contact-label">Ring Isvaktaren</div>
+        <div class="contact-number">070-287 54 64</div>
+        <audio controls>
+            <source src="assets/audio/isvaktaren.mp3" type="audio/mpeg">
+        </audio>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer class="footer">
+        <span>Fisken Fanzine — Katalog 02</span>
+        <span>© 2026 Mörkrets Dal</span>
+    </footer>
 </body>
 </html>
